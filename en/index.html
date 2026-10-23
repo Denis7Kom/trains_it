@@ -689,7 +689,7 @@ function atlas(s,L,cab,loco,kind){
   ctx.restore();
  }
  const texture=new T.CanvasTexture(c);texture.colorSpace=T.SRGBColorSpace;texture.anisotropy=Math.min(4,renderer.capabilities.getMaxAnisotropy());
- const m=new T.MeshStandardMaterial({map:texture,metalness:kind==='evo'||kind==='agv'?.28:.38,roughness:.27});
+ const m=new T.MeshPhysicalMaterial({map:texture,metalness:kind==='evo'||kind==='agv'?.22:.34,roughness:.3,clearcoat:.48,clearcoatRoughness:.23});
  textureCache.set(key,m);return m;
 }
 function widen(s,kind){return kind==='rock'?1.13:1.18}
@@ -726,6 +726,7 @@ function pantograph(g,x,y){
 }
 // Panels are projected onto the actual hull, rather than floating rectangular glass.
 function upperPoint(s,L,d,z,lift=.025){
+ const half=profile(s,d,true)[0]*s.width/2;z=Math.max(-half*.9999,Math.min(half*.9999,z));
  let lo=0,hi=Math.PI;
  for(let i=0;i<24;i++){
   const mid=(lo+hi)/2;
@@ -733,109 +734,188 @@ function upperPoint(s,L,d,z,lift=.025){
  }
  return surface(s,L,d,(lo+hi)/2,true,lift);
 }
+
 function cabPanel(g,s,L,d0,d1,w0,w1,m,lift=.025,bow=0,centerZ=0){
- const key=['cabPanel',s.width,s.nose,s.noseRound,L,d0,d1,w0,w1,lift,bow,centerZ].join('/');
+ const key=['cabPanel-v2',s.width,s.height,s.nose,s.noseRound,L,d0,d1,w0,w1,lift,bow,centerZ].join('/');
  if(geometryCache.has(key)){m.side=T.DoubleSide;return mesh(g,geometryCache.get(key),m)}
- const positions=[],indices=[],rows=16,cols=24;
+ const positions=[],indices=[],uv=[],rows=quality==='eco'?12:20,cols=quality==='eco'?16:28;
  for(let i=0;i<=rows;i++)for(let j=0;j<=cols;j++){
   const v=i/rows,q=j/cols*2-1;
-  const corner=Math.pow(Math.abs(q),12)*.045*Math.cos((v-.5)*Math.PI);
-  const d=lerp(d0,d1,v)+bow*(1-q*q)+corner;
-  positions.push(...upperPoint(s,L,d,centerZ+q*lerp(w0,w1,v),lift));
+  const end=Math.max(0,Math.abs(v-.5)*2-.77)/.23;
+  const edge=1-.095*(1-Math.sqrt(Math.max(0,1-end*end)));
+  const d=lerp(d0,d1,v)+bow*(1-q*q);
+  positions.push(...upperPoint(s,L,d,centerZ+q*lerp(w0,w1,v)*edge,lift));
+  uv.push(j/cols,v);
  }
  for(let i=0;i<rows;i++)for(let j=0;j<cols;j++){
   const a=i*(cols+1)+j,b=a+cols+1;indices.push(a,b,a+1,b,b+1,a+1);
  }
- const geo=new T.BufferGeometry();geo.setAttribute('position',new T.Float32BufferAttribute(positions,3));geo.setIndex(indices);geo.computeVertexNormals();ownedGeometries.add(geo);
+ const geo=new T.BufferGeometry();geo.setAttribute('position',new T.Float32BufferAttribute(positions,3));geo.setAttribute('uv',new T.Float32BufferAttribute(uv,2));geo.setIndex(indices);geo.computeVertexNormals();ownedGeometries.add(geo);
  geometryCache.set(key,geo);m.side=T.DoubleSide;return mesh(g,geo,m);
 }
+
+function cabSideGlass(g,s,L,kind){
+ const N=s.nose,seal=material('#080f14',.08,.68);
+ const lead=kind==='ic'?.60:kind==='rock'?.62:.71,back=N+(kind==='ic'?1.12:.94);
+ for(const side of [-1,1])for(const inset of [0,1]){
+  const key=['quarterlight',kind,L,s.height,inset,side].join('/');
+  let geo=geometryCache.get(key);
+  if(!geo){
+   const positions=[],indices=[],uv=[],rows=6,cols=8;
+   for(let i=0;i<=rows;i++)for(let j=0;j<=cols;j++){
+    const v=i/rows,u=j/cols;
+    const d0=N*lead+(1-v)*.27+inset*.045,d1=back-inset*.055;
+    const d=lerp(d0,d1,u);
+    const a=lerp(.055+inset*.022,.43-inset*.025,v);
+    positions.push(...surface(s,L,d,side===1?a:Math.PI-a,true,inset?.036:.018));
+    uv.push(u,v);
+   }
+   for(let i=0;i<rows;i++)for(let j=0;j<cols;j++){
+    const a=i*(cols+1)+j,b=a+cols+1;indices.push(a,b,a+1,b,b+1,a+1);
+   }
+   geo=new T.BufferGeometry();geo.setAttribute('position',new T.Float32BufferAttribute(positions,3));geo.setAttribute('uv',new T.Float32BufferAttribute(uv,2));geo.setIndex(indices);geo.computeVertexNormals();
+   geometryCache.set(key,geo);ownedGeometries.add(geo);
+  }
+  const m=inset?glass:seal;m.side=T.DoubleSide;mesh(g,geo,m);
+ }
+}
+function bodyWindows(g,s,L,cab,loco,kind){
+ if(loco)return;
+ const begin=cab?s.nose+.45:.55,end=L-.6,doorW=kind==='rock'?1.45:.93;
+ const doors=kind==='rock'?[begin+1,end-2.5]:[begin+.25,end-1.2];
+ function pane(x,y,w,h,side){
+  const key=['glazing',kind,s.width,s.height,s.bodyBottom,s.round,y,w,h].join('/');
+  let geo=geometryCache.get(key);
+  if(!geo){
+   const p=[],uv=[],idx=[],rows=8,cols=4,r=.075;
+   for(let i=0;i<=rows;i++){
+    const localY=-h/2+i*h/rows;
+    const corner=Math.max(0,Math.abs(localY)-(h/2-r));
+    const half=w/2-r+Math.sqrt(Math.max(0,r*r-corner*corner));
+    const yy=y+localY,normalized=Math.max(-.999,Math.min(.999,(yy-(s.height+s.bodyBottom)/2)/((s.height-s.bodyBottom)/2)));
+    const a=Math.asin(Math.sign(normalized)*Math.pow(Math.abs(normalized),1/s.round));
+    const z=Math.pow(Math.cos(a),s.round)*s.width/2+.014;
+    for(let j=0;j<=cols;j++){p.push(-half+j*2*half/cols,localY,z);uv.push(j/cols,i/rows)}
+   }
+   for(let i=0;i<rows;i++)for(let j=0;j<cols;j++){const a=i*(cols+1)+j,b=a+cols+1;idx.push(a,a+1,b,b,a+1,b+1)}
+   geo=new T.BufferGeometry();geo.setAttribute('position',new T.Float32BufferAttribute(p,3));geo.setAttribute('uv',new T.Float32BufferAttribute(uv,2));geo.setIndex(idx);geo.computeVertexNormals();geometryCache.set(key,geo);ownedGeometries.add(geo);
+  }
+  const o=mesh(g,geo,glass,x-L/2+w/2,y,0);if(side===-1)o.rotation.y=Math.PI;
+ }
+ for(let x=begin+2;x<end-1.5;x+=s.spacing){
+  if(doors.some(d=>x+widen(s,kind)>d-.1&&x<d+doorW+.1))continue;
+  for(const side of [-1,1]){
+   pane(x,s.window,kind==='rock'?1.13:1.18,s.windowH,side);
+   if(kind==='rock')pane(x,1.5,1.13,.5,side);
+  }
+ }
+}
+function cabBadge(g,s,L,kind){
+ const key='cab-badge/'+kind;let m=textureCache.get(key);
+ if(!m){
+  const c=document.createElement('canvas');c.width=512;c.height=128;const ctx=c.getContext('2d');
+  ctx.clearRect(0,0,512,128);ctx.textAlign='center';ctx.textBaseline='middle';
+  const italo=kind==='evo'||kind==='agv';
+  ctx.fillStyle=italo?'#e0bd7c':kind==='rock'?'#e7edf0':'#f7f4ee';
+  ctx.font=italo?'italic 700 72px Arial':'italic 700 39px Arial';
+  ctx.fillText(italo?'.italo':kind==='rock'?'TRENITALIA':kind==='ic'?'FS':kind==='fr500'?'FRECCIAROSSA':'FRECCIAROSSA 1000',256,55,480);
+  ctx.font='500 22px Arial';ctx.fillText(kind==='ic'?'E.401':kind==='rock'?'ROCK':kind==='fr500'?'ETR 500':italo?'ntv':'TRENITALIA',256,106);
+  const map=new T.CanvasTexture(c);map.colorSpace=T.SRGBColorSpace;map.anisotropy=2;
+  m=new T.MeshStandardMaterial({map,transparent:true,depthWrite:false,roughness:.36,metalness:.15,polygonOffset:true,polygonOffsetFactor:-1,side:T.DoubleSide});textureCache.set(key,m);
+ }
+ const cfg={fr1000:[.27,.34,.49],evo:[.19,.27,.52],agv:[.15,.24,.61],fr500:[.12,.20,.58],rock:[.08,.17,.51],ic:[.003,.055,.65]}[kind];
+ cabPanel(g,s,L,s.nose*cfg[0],s.nose*cfg[1],cfg[2],cfg[2],m,.04);
+}
+function hullLens(g,s,L,d,z,r,lit){
+ const p=new T.Vector3(...upperPoint(s,L,d,z,.037));
+ const along=new T.Vector3(...upperPoint(s,L,d+.015,z,.037)).sub(p);
+ const across=new T.Vector3(...upperPoint(s,L,d,z+.015,.037)).sub(p);
+ const normal=across.cross(along).normalize();
+ for(const [radius,depth,offset,m]of [[r*1.23,.034,.012,chrome],[r,.018,.036,lit]]){
+  const q=p.clone().addScaledVector(normal,offset),o=mesh(g,cylinderGeometry,m,q.x,q.y,q.z,radius,depth,radius);
+  o.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),normal);
+ }
+}
 function cabDetails(g,s,L,kind,tail,part){
- const N=s.nose,black=material('#101921',.35,.27),seal=material('#070c11',.05,.65);
- const paint=material(kind==='evo'?'#b2192f':kind==='agv'?'#8f1429':kind==='rock'?'#244b70':kind==='ic'?'#286578':s.accent,.48,.3);
- const configs={fr1000:[.43,.73,.89,.86],evo:[.36,.66,.94,.84],agv:[.33,.70,1.02,.91],fr500:[.26,.63,1.10,1.02],rock:[.17,.63,.89,.82],ic:[.07,.51,1.17,1.11]};
- const [bottom,top,wb,wt]=configs[kind];
- // Different mask outlines: EVO's domed cap, AGV's long black face, Rock's tall shield.
- if(kind==='evo'||kind==='agv'||kind==='rock'){
-  const a=kind==='agv'?.035:kind==='evo'?.08:.04,b=kind==='rock'?.84:kind==='agv'?.81:.76;
-  cabPanel(g,s,L,N*a,N*b,kind==='rock'?.96:1.03,kind==='rock'?.81:.88,black,.026,kind==='agv'?.14:0);
+ const N=s.nose,seal=material('#080e14',.1,.65),mask=material('#101b24',.26,.25);
+ const cfg={
+  fr1000:{wind:[.43,.735,.89,.85],lamp:[.22,.76,.36]},
+  evo:{wind:[.37,.68,.94,.83],lamp:[.255,.91,.29],mask:[.29,.79,1.02,.88]},
+  agv:{wind:[.34,.70,1.02,.90],lamp:[.25,1.01,.27],mask:[.25,.85,1.13,.94]},
+  fr500:{wind:[.32,.69,1.07,.98],lamp:[.19,.94,.32]},
+  rock:{wind:[.27,.71,.94,.81],mask:[.035,.88,1.08,.87]},
+  ic:{wind:[.10,.67,1.17,1.08]}
+ }[kind];
+ if(kind==='rock')cabPanel(g,s,L,N*.026,N*.90,1.12,.91,material('#d9ae37',.22,.36),.012);
+ if(cfg.mask)cabPanel(g,s,L,N*cfg.mask[0],N*cfg.mask[1],cfg.mask[2],cfg.mask[3],mask,.026,kind==='agv'?.08:0);
+ const [a,b,w0,w1]=cfg.wind;
+ cabPanel(g,s,L,N*a-.035,N*b+.04,w0+.045,w1+.045,seal,.037);
+ cabPanel(g,s,L,N*a,N*b,w0,w1,glass,.052);
+ const split=kind==='fr500'||kind==='ic';
+ if(split)rod(g,upperPoint(s,L,N*a,0,.074),upperPoint(s,L,N*b,0,.074),kind==='ic'?.036:.018,seal);
+ // Separate parked wiper arms and blades, fitted to the glass rather than the air.
+ for(const side of split?[-1,1]:[1]){
+  const z=split?side*.49:.20,base=upperPoint(s,L,N*(a+.025),z,.075);
+  const elbow=upperPoint(s,L,N*lerp(a,b,.32),z-side*.22,.078),tip=upperPoint(s,L,N*lerp(a,b,.79),z-side*.31,.079);
+  rod(g,base,elbow,.012,darkMetal);rod(g,elbow,tip,.019,seal);
  }
- cabPanel(g,s,L,N*bottom-.045,N*top+.045,wb+.055,wt+.045,seal,.042);
- cabPanel(g,s,L,N*bottom,N*top,wb,wt,glass,.057);
- // A real centre mullion belongs to E.401 and ETR 500; the other cabs have continuous glass.
- if(kind==='ic'||kind==='fr500')rod(g,upperPoint(s,L,N*bottom,0,.085),upperPoint(s,L,N*top,0,.085),kind==='ic'?.047:.024,kind==='ic'?paint:seal);
- for(const sign of kind==='ic'||kind==='fr500'?[-1,1]:[1]){
-  const a=upperPoint(s,L,N*(bottom+.025),sign*.43,.10),b=upperPoint(s,L,N*lerp(bottom,top,.70),sign*-.14,.10);
-  rod(g,a,b,.016,darkMetal);
-  const c=upperPoint(s,L,N*lerp(bottom,top,.38),sign*-.24,.115),d=upperPoint(s,L,N*lerp(bottom,top,.83),sign*-.02,.115);
-  rod(g,c,d,.024,seal);
- }
- // Cab quarter lights are separate polygonal glazing, with a substantial painted pillar.
- for(const sign of [-1,1]){
-  const low=kind==='ic'?.10:.08,high=kind==='ic'?.48:.43;
-  const a=sign===1?low:Math.PI-high,b=sign===1?high:Math.PI-low;
-  patch(g,s,L,true,N*.79,N+.75,a,b,seal,.029);
-  patch(g,s,L,true,N*.82,N+.66,a+.025,b-.025,glass,.047);
-  if(kind==='ic'||kind==='rock'){
-   const x=-L/2-.35,y=kind==='ic'?1.90:1.66,z=sign*(kind==='ic'?1.02:.89);
-   box(g,x,y,z,.10,.24,kind==='ic'?.46:.33,seal);
-   for(const delta of [-.09,.09]){
-    const lens=mesh(g,cylinderGeometry,delta>0?tailLamp:tail?tailLamp:lamp,x-.07,y,z+delta,.064,.045,.064);
-    lens.rotation.z=Math.PI/2;
+ cabSideGlass(g,s,L,kind);
+ const markerD=N*(kind==='ic'?.79:kind==='rock'?.81:a-.065);
+ cabPanel(g,s,L,markerD-.045,markerD+.075,.105,.095,seal,.04);
+ hullLens(g,s,L,markerD,0,.055,tail?tailLamp:lamp);
+ if(cfg.lamp)for(const side of [-1,1]){
+  const [d,z,len]=cfg.lamp;
+  const lateral=side*z;
+  const half=kind==='fr1000'?.17:kind==='agv'?.145:.15;
+  cabPanel(g,s,L,N*d-.12,N*d+len,half,.11,seal,.031,0,lateral);
+  if(kind==='fr1000'||kind==='evo'){
+   for(let i=0;i<6;i++){
+    const t=i/5;
+    hullLens(g,s,L,N*d-.04+t*len*.72,lateral-side*.08*t,.027,tail?tailLamp:lamp);
    }
-   continue;
-  }
-  // Recessed, family-specific optical clusters on the curved front shoulders.
-  const ld=N*(kind==='fr1000'?.17:kind==='evo'?.20:kind==='agv'?.19:kind==='fr500'?.13:kind==='rock'?.065:.014);
-  const lateral=kind==='ic'?1.03:kind==='rock'?.88:kind==='fr1000'?.83:.81;
-  const p=upperPoint(s,L,ld,sign*lateral,.052);
-  cabPanel(g,s,L,ld-.17,ld+(kind==='fr1000'?.58:.32),kind==='fr1000'?.23:.16,.14,seal,.036,0,sign*lateral);
-  if(kind==='fr1000'||kind==='evo'||kind==='rock'){
-   const q=upperPoint(s,L,ld+.08,sign*(lateral+.15),.064),r=upperPoint(s,L,ld+.40,sign*(lateral-.08),.064);
-   rod(g,q,r,.032,tail?tailLamp:lamp);
-   mesh(g,sphereGeometry,tail?tailLamp:lamp,p[0]-.055,p[1]+.035,p[2],.085,.045,.075);
+   hullLens(g,s,L,N*d+len*.75,lateral-side*.08,.063,tail?tailLamp:lamp);
   }else{
-   for(const delta of [-.095,.095]){
-    const q=upperPoint(s,L,ld+delta,sign*lateral,.12);
-    mesh(g,sphereGeometry,chrome,q[0],q[1],q[2],.075,.052,.076);
-    mesh(g,sphereGeometry,tail||delta>0?tailLamp:lamp,q[0]-.013,q[1]+.028,q[2],.055,.035,.055);
-   }
+   for(const dz of [-.07,.07])hullLens(g,s,L,N*d+.05,lateral+dz,.059,tail||dz>0?tailLamp:lamp);
   }
  }
- if(kind==='rock'){
-  cabPanel(g,s,L,N*.51,N*.61,.65,.61,seal,.055);
-  for(let i=0;i<10;i++){
-   const p=upperPoint(s,L,N*.56,(i-4.5)*.085,.08);box(g,p[0],p[1],p[2],.035,.025,.045,material('#e2b64b',.05,.6));
+ if(kind==='rock'||kind==='ic'){
+  // The front cap is an ellipsoid. Place lamp clusters directly on that cap.
+  for(const side of [-1,1])for(const delta of [-.075,.075]){
+   const radius=kind==='ic'?.77:.76,angle=side===1?0:Math.PI;
+   const d=-(s.capDepth||.12)*Math.sqrt(1-radius*radius);
+   const p=surface(s,L,d,angle,true,.012);
+   p[2]+=delta;
+   const housing=mesh(g,boxGeometry,seal,p[0]-.012,p[1],p[2],.045,.18,.16);
+   const o=mesh(g,cylinderGeometry,tail||delta>0?tailLamp:lamp,p[0]-.039,p[1],p[2],.056,.018,.056);o.rotation.z=Math.PI/2;
   }
-  const red=material('#b52b3d',.3,.4);
-  for(const sign of [-1,1])rod(g,upperPoint(s,L,.12,sign*.3,.08),upperPoint(s,L,.26,sign*.98,.08),.075,red);
- }else if(kind!=='ic'){
-  const p=upperPoint(s,L,N*(bottom-.065),0,.065);
-  mesh(g,sphereGeometry,seal,p[0],p[1],p[2],.10,.045,.10);
-  mesh(g,sphereGeometry,tail?tailLamp:lamp,p[0]-.01,p[1]+.026,p[2],.064,.032,.064);
- }
- // Coupling doors and their panel joints follow the lower hood instead of colour blocks.
- if(kind==='fr1000'||kind==='evo'||kind==='agv'||kind==='fr500'){
-  for(const sign of [-1,1]){
-   let previous;
-   for(let i=0;i<=9;i++){
-    const d=.05+i*N*.026,z=sign*lerp(.28,.42,i/9),p=upperPoint(s,L,d,z,.012);
-    if(previous)rod(g,previous,p,.006,material('#482c35',.2,.6));previous=p;
+  const x=-L/2-.28;
+  box(g,x,1.01,0,.43,.22,.27,darkMetal);box(g,x-.22,1.01,0,.12,.28,.45,darkMetal);
+  if(kind==='ic')for(const side of [-1,1]){
+   rod(g,[x+.14,1.05,side*.91],[x-.24,1.05,side*.91],.10,darkMetal);
+   box(g,x-.28,1.05,side*.91,.08,.31,.45,darkMetal);
+   rod(g,[x+.13,1.17,side*.34],[x-.07,.77,side*.33],.028,rubber);
+   for(let y=.91;y<1.64;y+=.22)box(g,-L/2+N+.62,y,side*(s.width/2+.055),.46,.026,.13,metal);
+  }
+  if(kind==='rock'){
+   cabPanel(g,s,L,N*.51,N*.61,.61,.57,seal,.07);
+   for(let i=0;i<12;i++){
+    const p=upperPoint(s,L,N*.56,(i-5.5)*.072,.095);box(g,p[0],p[1],p[2],.028,.018,.035,material('#dfb54a',.08,.6));
    }
   }
  }else{
-  const x=-L/2-.43;
-  box(g,x,1.02,0,.48,.21,.29,darkMetal);
-  box(g,x-.24,1.02,0,.13,.28,.49,darkMetal);
-  if(kind==='ic'||part==='pilot')for(const sign of [-1,1]){
-   rod(g,[x+.17,1.05,sign*.91],[x-.23,1.05,sign*.91],.105,darkMetal);
-   box(g,x-.26,1.05,sign*.91,.09,.32,.47,darkMetal);
-   rod(g,[x+.14,1.22,sign*.35],[x-.05,.75,sign*.32],.035,rubber);
+  // Flush curved joints of the retractable coupler cover.
+  const m=material('#542936',.18,.6),front=.025,back=N*.22,width=kind==='fr1000'?.32:.39;
+  for(const side of [-1,1]){
+   let prev;
+   for(let i=0;i<=10;i++){
+    const t=i/10,p=upperPoint(s,L,lerp(front,back,t),side*width*(.74+.26*t),.012);
+    if(prev)rod(g,prev,p,.0045,m);prev=p;
+   }
   }
-  if(kind==='rock')for(const sign of [-1,1]){
-   box(g,x+.06,1.00,sign*.81,.35,.46,.52,darkMetal);
-   for(let i=0;i<4;i++)box(g,x-.13,.84+i*.105,sign*.81,.035,.025,.55,metal);
-  }
+  let prev;
+  for(let i=0;i<=12;i++){const p=upperPoint(s,L,back,-width+i*width/6,.013);if(prev)rod(g,prev,p,.0045,m);prev=p}
  }
+ cabBadge(g,s,L,kind);
 }
 function passengerDoors(g,s,L,cab,kind,tail){
  const width=kind==='rock'?1.45:.93,height=2.01;
@@ -883,6 +963,7 @@ function car(kind,index,count,part='coach',tail=false){
  const g=new T.Group();g.userData.length=L;
  mesh(g,shellGeometry(shape,L,cab,kind+part),atlas(shape,L,cab,loco,kind));
  if(!loco)passengerDoors(g,shape,L,cab,kind,tail);
+ bodyWindows(g,shape,L,cab,loco,kind);
  const bodyStart=cab?shape.nose:0;
  const bodyLength=L-bodyStart-.8,bodyCenter=bodyStart/2+.1;
  // Sills hide only the upper wheel area, not the wheel/rail contact.
