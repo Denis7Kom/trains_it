@@ -7,8 +7,15 @@
 <meta name="description" content="Поезда Италии без путаницы: интерактивные 3D-модели, категории, классы, маршруты, билеты и правила поездок. Подробный гид на русском.">
 <title>BINARIO — Италия на рельсах</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23101614'/%3E%3Cpath d='M21 12h22v31H21zM19 53l8-12m18 12L37 41M25 22h14' fill='none' stroke='%23d6fa76' stroke-width='5'/%3E%3C/svg%3E">
+<link rel="canonical" href="https://denis7kom.github.io/trains_it/">
+<meta property="og:title" content="BINARIO — Италия на рельсах">
+<meta property="og:description" content="Шесть интерактивных 3D-поездов. Категории, конструкция, комфорт, маршруты и памятка туриста.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap');
 :root{--bg:#101614;--panel:#18201d;--line:#ffffff17;--text:#f0f0e7;--muted:#a6b2a9;--green:#d6fa76;--red:#ef554b;--gold:#dfb971;--radius:22px;--font:'Golos Text',sans-serif;--heading:'Manrope','Golos Text',sans-serif}
 *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:90px}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.65 var(--font);overflow-x:hidden}::selection{background:var(--green);color:var(--bg)}a{color:inherit;text-decoration:none}button,input,select{font:inherit}button,select{cursor:pointer}button{color:inherit}button:disabled{opacity:.4;cursor:default}button,a,input,select,summary,canvas{outline-offset:5px}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible,canvas:focus-visible{outline:2px solid var(--green)}button{border:1px solid var(--line);background:transparent}p{margin:0 0 18px}h1,h2,h3,h4{font-family:var(--heading);line-height:1.12;letter-spacing:-.045em;margin:0}h2{font-size:clamp(34px,4.7vw,68px);font-weight:700}h3{font-size:25px;font-weight:700}h4{font-size:18px;letter-spacing:-.02em}small{font-size:12px}svg{display:block;max-width:100%}.wrap{width:min(1320px,calc(100% - 80px));margin:auto}.mono,.eyebrow{font:11px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.14em;text-transform:uppercase}.eyebrow{color:var(--green);display:flex;gap:12px;align-items:center;margin-bottom:20px}.eyebrow:before{content:'';width:24px;height:1px;background:currentColor}.muted{color:var(--muted)}.accent{color:var(--green)}.pill{display:inline-flex;gap:8px;align-items:center;padding:6px 11px;border:1px solid var(--line);border-radius:30px;font-size:11px;line-height:1.4}.dot{width:6px;height:6px;background:var(--green);border-radius:100%;box-shadow:0 0 13px #d6fa7655}.arrow{font-size:20px;line-height:1}.button{display:inline-flex;align-items:center;justify-content:center;gap:20px;border-radius:40px;padding:13px 21px;line-height:1.4;font-size:13px;transition:.2s}.button.primary{background:var(--green);border-color:var(--green);color:#172018;font-weight:600}.button:hover{transform:translateY(-2px);border-color:#d6fa7699}.skip{position:fixed;top:-100px;left:15px;z-index:999;background:var(--green);color:#000;padding:10px}.skip:focus{top:10px}
 header{position:sticky;top:0;z-index:50;border-bottom:1px solid var(--line);background:#101614ed;backdrop-filter:blur(20px)}.nav{display:flex;align-items:center;justify-content:space-between;min-height:78px;gap:30px}.brand{display:flex;align-items:center;gap:11px;font:800 23px var(--heading);letter-spacing:-.05em}.brand-mark{height:25px;width:26px;display:flex;gap:5px;transform:skew(-15deg)}.brand-mark i{height:100%;width:7px;border-top:5px solid var(--green);border-bottom:5px solid var(--green);background:linear-gradient(transparent 40%,var(--green) 40% 58%,transparent 58%)}.nav-links{display:flex;gap:25px;font-size:12px;color:#c2ccc4}.nav-links a:hover{color:var(--green)}.nav-end{display:flex;gap:12px;align-items:center}.progress{height:2px;background:var(--green);position:absolute;bottom:-1px;left:0;width:0}.menu{display:none;padding:6px 11px;border-radius:8px}
@@ -26,6 +33,62 @@ section.chapter{padding:105px 0 0}.section-head{display:flex;justify-content:spa
 @media(max-width:740px){.wrap{width:calc(100% - 32px)}.nav{min-height:63px;gap:15px}.brand{font-size:21px}.nav-links{display:none;position:absolute;left:0;right:0;top:63px;background:#151e18;padding:20px;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line)}.nav-links.open{display:grid}.menu{display:block}.nav-end{gap:0}.hero{padding-top:25px}.hero-top .mono{font-size:8px;letter-spacing:.08em}.hero-top .pill{font-size:9px}.hero-intro{grid-template-columns:1fr;gap:20px;margin-top:32px}.hero h1{font-size:clamp(44px,11.8vw,77px)}.hero-desc{font-size:13px;max-width:100%}.hero-desc p{margin-bottom:15px}.hero-ticker{font-size:10px;gap:10px;flex-wrap:wrap}.depot-tabs{padding:12px;gap:6px}.depot-tabs>span{display:none}.depot-tabs button{padding:8px 11px;font-size:10px}.viewport{height:350px}.viewer-label{top:18px;left:18px}.viewer-label h2{font-size:24px}.viewer-label .mono{font-size:8px}.viewer-label .pill{font-size:9px;margin-top:8px}.viewer-index{font-size:60px;right:20px}.viewer-help{font-size:8px;left:18px;bottom:16px}.viewer-status{right:16px;bottom:16px;font-size:8px}.viewer-controls{padding:12px;gap:10px}.control-group{gap:5px}.control-group button{padding:8px;font-size:10px}.zoom{width:100%;justify-content:flex-end}.zoom input{flex:1;max-width:160px}.model-note{font-size:9px;padding:9px 12px}.model-stats{gap:20px;padding:20px 0}.stat strong{font-size:28px}.stat .stat-text{font-size:13px}.stat p{font-size:11px}.model-details{grid-template-columns:1fr;gap:15px;font-size:12px}.model-details p{margin:0}.section-head{display:block;margin-bottom:28px}.section-head p{margin-top:20px;font-size:13px;max-width:100%}section.chapter{padding-top:72px}.quick-grid,.train-grid,.tech-grid,.network-grid,.dispatch,.planner,.ticket-panel,.faq-grid{grid-template-columns:1fr}.quick-card{padding:25px}.quick-card .num{margin-bottom:20px}.quick-card h3{max-width:none}.quick-card p{font-size:12px}.train-body>p{min-height:0}.train-art{height:120px}.train-body h3{font-size:27px}.tech-card{padding:25px 0}.network-grid{gap:0}.map-box{padding:12px;min-height:420px}.rail-map{height:420px}.map-info{padding:0 25px 30px}.dispatch{padding:25px;gap:20px}.dispatch h3{font-size:27px}.overtake{padding:22px}.overtake h3{font-size:22px}.planner{padding:25px;gap:20px}.planner-output{padding:22px 0 0;border-left:0;border-top:1px solid var(--line)}.planner-output .big-choice{font-size:31px}.journey{gap:20px}.journey h3{font-size:17px}.ticket-card{padding:25px}.glossary{gap:20px}.sources{padding:22px}.sources-grid{grid-template-columns:1fr}.sources summary{font-size:14px}.ending{padding-top:75px}.ending-line{gap:15px}.back-top{width:50px;height:50px}.footer{flex-wrap:wrap;align-items:flex-start;gap:12px}.section-head h2 br{display:none}.faq-grid summary{font-size:14px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}.js .reveal{opacity:1;transform:none}}
 @media print{header,.viewer-controls,.viewer-help,.viewer-status,.filters,.a11y-motion,.back-top,.sim-frame{display:none!important}body{background:#fff;color:#111;font-size:11px}.wrap{width:100%}.muted,p,td,dd{color:#333!important}.train-grid,.quick-grid{grid-template-columns:1fr 1fr}.depot,.train-card,.quick-card,.ticket-card,.planner,.network-grid{background:#fff!important;color:#111;break-inside:avoid;border-color:#ccc}.chapter{padding-top:30px!important}h2{font-size:27px}h1{font-size:44px!important}.reveal{opacity:1!important;transform:none!important}a{text-decoration:underline}.sources{display:block}.viewport{height:240px}.footer{color:#333}}
+
+/* Depot v2: responsive technical showroom, keyboard and touch controls. */
+.viewer-canvas{touch-action:none}
+.viewport{height:510px;background:radial-gradient(ellipse at 50% 68%,#66757b26,transparent 66%)}
+.viewer-label{max-width:calc(100% - 110px);pointer-events:none}
+.viewer-label h2{text-shadow:0 2px 20px #17211c}
+.viewer-label .pill{background:#19231ecc;backdrop-filter:blur(8px)}
+.viewer-help{background:#14201ac9;border:1px solid #ffffff14;border-radius:6px;padding:5px 9px;left:20px;bottom:14px}
+.viewer-status{bottom:21px}
+.viewer-controls select{font-size:11px;max-width:155px;background:#202a24;color:var(--text);border:1px solid #ffffff25;border-radius:7px;padding:7px 8px}
+.viewer-controls option{background:#18221b}
+.viewer-controls .control-label{display:flex;gap:6px;align-items:center;font-size:10px;color:var(--muted)}
+.viewer-toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:11px 22px;background:#151d18;border-top:1px solid var(--line)}
+.viewer-toolbar label{font-size:10px;color:var(--muted)}
+.viewer-toolbar select{color:var(--text);background:#1e2921;border:1px solid var(--line);border-radius:6px;padding:6px;font-size:11px}
+.viewer-toolbar button{font-size:10px;padding:6px 10px;border-radius:6px}
+.viewer-toolbar .spacer{flex:1}
+.recognition{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border-top:1px solid var(--line)}
+.recognition>div{display:flex;gap:10px;align-items:center;background:#17221b;padding:14px 20px;font-size:11px;color:#d0d9d0}
+.recognition span{font:10px ui-monospace,monospace;color:var(--green)}
+.reference-row{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:10px 22px;background:#131b16;color:var(--muted);font-size:10px}
+.reference-row a{color:var(--green);white-space:nowrap}
+.model-note{font-size:10px;line-height:1.7}
+.render-metrics{position:absolute;z-index:4;right:20px;bottom:48px;max-width:calc(100% - 40px);padding:7px 9px;background:#101b17e8;border:1px solid #ffffff22;border-radius:6px;font:9px/1.6 ui-monospace,monospace;color:#d1e4c4;pointer-events:none}
+.render-metrics[hidden]{display:none}
+.depot.expanded{position:fixed;inset:12px;z-index:1000;overflow:auto;display:flex;flex-direction:column;background:#19221d}
+.depot.expanded #fleet-panel{display:flex;flex-direction:column;flex:1;min-height:0}
+.depot.expanded .viewport{height:auto;min-height:280px;flex:1}
+.depot.expanded .model-note,.depot.expanded .reference-row,.depot.expanded .recognition{display:none}
+.viewer-open{overflow:hidden}
+.finder{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+.search-field{flex:1;min-width:220px;position:relative}
+.search-field label{display:block;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.search-field input{width:100%;border:1px solid #ffffff2a;color:var(--text);background:#19221c;border-radius:10px;padding:13px 40px 13px 14px;font-size:13px}
+.search-field input::placeholder{color:#a1afa3}
+.search-hint{font:10px ui-monospace,monospace;color:var(--muted)}
+.search-empty{padding:24px;background:var(--panel);border:1px dashed #ffffff33;border-radius:12px;color:var(--muted);font-size:13px}
+.search-empty button{color:var(--green);border-bottom:1px solid currentColor;padding:0 0 2px}
+.checklist-panel{padding:25px;border:1px solid var(--line);border-radius:17px;background:linear-gradient(120deg,#1b2a20,#141d18);margin:28px 0}
+.checklist-head{display:flex;align-items:center;gap:15px;margin-bottom:17px;justify-content:space-between}
+.checklist-head h3{font-size:21px;margin:0}
+.checklist-head output{font:11px ui-monospace,monospace;color:var(--green);white-space:nowrap}
+.trip-checklist{display:grid;grid-template-columns:1fr 1fr;gap:12px 25px}
+.trip-checklist label{display:flex;gap:10px;align-items:flex-start;font-size:12px;color:#d2dcd1;cursor:pointer}
+.trip-checklist input{accent-color:var(--green);width:17px;height:17px;flex-shrink:0;margin:2px 0 0}
+.trip-checklist label:has(input:checked){color:#91a591}
+.checklist-foot{display:flex;gap:15px;align-items:center;justify-content:space-between;margin-top:18px;color:var(--muted);font-size:10px}
+.checklist-foot button{padding:5px 9px;font-size:10px;border-radius:6px}
+.nav-links a[aria-current=location]{color:var(--green)}
+:target{scroll-margin-top:95px}
+button,a,input,select,summary{-webkit-tap-highlight-color:transparent}
+@media(hover:hover){.train-card:hover{transform:translateY(-3px);border-color:#d6fa7644;box-shadow:0 15px 45px #00000020}.train-card{transition:transform .2s,border-color .2s,box-shadow .2s}.reference-row a:hover{text-decoration:underline}}
+@media(max-width:740px){.viewport{height:425px}.viewer-toolbar{padding:10px 12px;gap:8px}.viewer-toolbar .spacer{display:none}.viewer-label h2{font-size:24px}.viewer-help{font-size:8px;left:12px;bottom:12px;max-width:65%}.viewer-status{bottom:18px;right:12px}.recognition{grid-template-columns:1fr}.recognition>div{padding:10px 14px;font-size:10px}.reference-row{padding:12px;align-items:flex-start;flex-wrap:wrap}.render-metrics{right:12px;bottom:50px;font-size:8px}.trip-checklist{grid-template-columns:1fr}.checklist-panel{padding:20px}.checklist-head h3{font-size:19px}.checklist-foot{align-items:flex-start}.depot.expanded{inset:0;border-radius:0}.depot.expanded .viewport{min-height:220px}.finder{gap:8px}.search-hint{width:100%;font-size:9px}}
+@media(prefers-reduced-motion:reduce){.train-card{transition:none!important}.train-card:hover{transform:none}}
+@media print{.viewer-toolbar,.recognition,.reference-row,.finder,.search-empty,.checklist-foot button{display:none!important}.checklist-panel{background:#fff;color:#111}.trip-checklist label{color:#222}.model-note{color:#333}}
+
 </style>
 <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -49,9 +112,16 @@ section.chapter{padding:105px 0 0}.section-head{display:flex;justify-content:spa
 <div class="viewport" id="viewport"><div class="viewer-label"><div class="mono" id="model-code">TRENITALIA / ETR 1000</div><h2 id="model-title">Frecciarossa 1000</h2><span class="pill" id="model-type">Распределённая тяга · 8 вагонов</span></div><span class="viewer-index" id="model-index" aria-hidden="true">01</span>
 <div class="model-fallback" id="model-fallback" aria-label="Схематичный силуэт Frecciarossa 1000"><svg viewBox="0 0 900 150" aria-hidden="true"><path d="M20 112 Q32 80 85 60 L125 45 H840 Q868 45 878 75 L887 112Z" fill="#d8dedc"/><path d="M20 112 Q32 80 85 60 L125 45H210V112Z" fill="#d12637"/><path d="M74 72L125 51H165L148 75Z" fill="#18292f"/><path d="M200 65H850V86H200Z" fill="#183038"/><path d="M190 98H880V107H190Z" fill="#c72538"/><path d="M55 119H850" stroke="#687b6a" stroke-width="3"/><g fill="#111b1c"><circle cx="136" cy="113" r="12"/><circle cx="176" cy="113" r="12"/><circle cx="380" cy="113" r="12"/><circle cx="420" cy="113" r="12"/><circle cx="650" cy="113" r="12"/><circle cx="690" cy="113" r="12"/></g></svg></div>
 <canvas class="viewer-canvas" id="train-canvas" tabindex="0" aria-label="3D-модель поезда. Перетаскивайте для вращения. Масштаб меняется ползунком. Клавиши: стрелки — вращение, плюс и минус — приближение, R — сброс."></canvas>
-<span class="viewer-help">Потяните, чтобы повернуть · колесо / щипок — масштаб</span><span class="viewer-status" id="viewer-status" role="status">Загрузка 3D…</span></div>
-<div class="viewer-controls"><div class="control-group"><button id="auto" aria-pressed="true">Ⅱ Автовращение</button><button id="full-train" aria-pressed="false">Весь состав</button><button id="wire" aria-pressed="false">Каркас</button><button id="reset-view">↺ Сброс</button></div><label class="zoom">Масштаб <input id="zoom" type="range" min="65" max="220" value="100" aria-label="Приближение модели"><output id="zoom-value">100%</output></label></div>
-<div class="model-note">Авторские схематичные 3D-модели. По умолчанию показан фрагмент состава; «Весь состав» показывает его компоновку. Геометрия и окраска упрощены.</div></div></div>
+<span class="viewer-help">Поворот: перетаскивание / стрелки · масштаб: щипок / + −</span><output class="render-metrics" id="render-metrics" hidden aria-label="Показатели текущей 3D-сцены"></output><span class="viewer-status" id="viewer-status" role="status">Загрузка 3D…</span></div>
+<div class="viewer-controls"><div class="control-group"><button id="auto" aria-pressed="true">Ⅱ Автовращение</button><button id="head-view" aria-pressed="true">✓ Крупный план</button><button id="full-train" aria-pressed="false">Весь состав</button><button id="wire" aria-pressed="false">Каркас</button><button id="reset-view">↺ Сброс</button></div><label class="zoom">Масштаб <input id="zoom" type="range" min="65" max="300" value="100" aria-label="Приближение модели"><output id="zoom-value">100%</output></label></div>
+<div class="viewer-toolbar">
+<label>Ракурс <select id="camera-view" aria-label="Ракурс модели"><option value="perspective">Три четверти</option><option value="side">Сбоку</option><option value="front">Спереди</option><option value="roof">Крыша</option><option value="undercarriage">Тележки снизу</option></select></label>
+<label>Графика <select id="quality" aria-label="Качество графики"><option value="auto">Адаптивная</option><option value="detail">Детальная</option><option value="eco">Экономичная</option></select></label><span class="spacer"></span>
+<button id="show-metrics" aria-pressed="false">Статистика</button><button id="share-model">Ссылка на модель</button><button id="viewer-expand" aria-pressed="false">⤢ Развернуть</button>
+<input id="share-link" hidden readonly aria-label="Ссылка для копирования" style="width:100%;background:#18221c;color:#e8efdf;border:1px solid #ffffff44;padding:8px;font-size:11px">
+</div><div class="recognition" id="model-recognition" aria-label="Как узнать этот поезд"></div>
+<div class="reference-row"><span>Узнавайте семейство по форме, а не только по цвету.</span><a id="photo-reference" href="https://www.trenitalia.com/it/frecciarossa/la-flotta.html" target="_blank" rel="noopener noreferrer">Фотографии и данные оператора ↗</a></div>
+<div class="model-note">Авторские 3D-реконструкции по визуальным референсам. Геометрия, маркировка и размещение оборудования приближённые: это не заводские CAD-модели. «Крупный план» — головной вагон (у локомотивного состава с вагоном), «Весь состав» — пример компоновки. В экономичном режиме снижены детализация поверхностей и разрешение.</div></div></div>
 <div class="model-stats" id="model-stats" aria-live="polite"></div>
 <div class="model-details"><p id="model-engineering"></p><div><strong style="font-size:12px">Пассажирские пространства</strong><div class="coach-plan" id="coach-plan"></div><div class="plan-legend" id="plan-legend"></div></div></div>
 <div class="hero-ticker"><span><b>06</b> интерактивных моделей</span><span><b>10</b> категорий и семейств</span><span><b>300 км/ч</b> максимум в обычном сообщении</span><button class="a11y-motion" id="motion-toggle" aria-pressed="false">Отключить анимации</button></div>
@@ -60,7 +130,7 @@ section.chapter{padding:105px 0 0}.section-head{display:flex;justify-content:spa
 <div class="quick-grid"><article class="quick-card reveal"><span class="big-icon" aria-hidden="true">01</span><div class="num">КАКОЙ СЕРВИС?</div><h3>Категория</h3><p>Frecciarossa, Intercity, Regionale — тип поездки: какие города соединяет поезд, где останавливается и как продаётся билет. Italo — отдельный оператор скоростных поездов.</p></article><article class="quick-card reveal"><span class="big-icon" aria-hidden="true">02</span><div class="num">КАКАЯ МАШИНА?</div><h3>Подвижной состав</h3><p>ETR 1000, ETR 500, AGV, EVO, Rock — физические поезда. Они различаются двигателями, вагонами, формой кузова и предельной скоростью. Модель на конкретном рейсе может быть заменена.</p></article><article class="quick-card reveal"><span class="big-icon" aria-hidden="true">03</span><div class="num">КАКОЕ МЕСТО?</div><h3>Уровень комфорта</h3><p>Standard, Business, Executive или Smart, Prima Business, Club Executive — пространства внутри поезда. Класс влияет на кресло и сервис. Возврат и обмен определяет ещё и выбранный тариф.</p></article></div>
 <div class="callout reveal"><strong>Пример:</strong> Frecciarossa 1000 · Business · Economy. Здесь Frecciarossa — сервис, 1000 — модель, Business — комфорт, Economy — условия цены. Дорогой класс сам по себе не делает билет возвратным.</div></section>
 <section class="chapter wrap" id="categories"><div class="section-head reveal"><div><div class="eyebrow">02 / Найдите свой поезд</div><h2>От больших скоростей<br>до маленьких станций.</h2></div><p>Это иерархия назначения, а не рейтинг качества. Для деревни у озера региональный поезд бывает полезнее самого быстрого Frecciarossa.</p></div>
-<div class="filters" role="group" aria-label="Фильтр категорий"><button data-filter="all" aria-pressed="true">Все поезда</button><button data-filter="fast" aria-pressed="false">Скоростные</button><button data-filter="long" aria-pressed="false">Дальние</button><button data-filter="local" aria-pressed="false">Региональные</button><button data-filter="freight" aria-pressed="false">Грузовые</button></div><div class="train-grid" id="train-grid"></div>
+<div class="finder"><div class="search-field"><label for="train-search">Найти поезд или услугу</label><input id="train-search" type="search" placeholder="Например: ночь, велосипед, Roma, 300…" autocomplete="off" spellcheck="false"></div><span class="search-hint" id="search-count" role="status">Найдено: 10 / 10</span><span class="search-hint">/ — поиск · Esc — очистить</span></div><div class="filters" role="group" aria-label="Фильтр категорий"><button data-filter="all" aria-pressed="true">Все поезда</button><button data-filter="fast" aria-pressed="false">Скоростные</button><button data-filter="long" aria-pressed="false">Дальние</button><button data-filter="local" aria-pressed="false">Региональные</button><button data-filter="freight" aria-pressed="false">Грузовые</button></div><div class="train-grid" id="train-grid"></div><p class="search-empty" id="search-empty" hidden>По этому запросу поездов нет. <button id="clear-search">Сбросить поиск и фильтр</button></p>
 <noscript><p>Для 3D-моделей и карточек включите JavaScript. Основные сведения о поездах, билеты, правила и ссылки на источники доступны ниже в таблице и памятке.</p></noscript>
 <div class="callout reveal"><strong>Состояние категорий меняется.</strong> Часть ETR 600 и ETR 700 перешла в семейство Frecciarossa: они рассчитаны на 250 км/ч. Актуальная страница Trenitalia указывает для Frecciargento ETR 485, для Frecciabianca — ETR 460. Поэтому старые схемы «красный 300, серебряный 250, белый 200» уже недостаточны. Смотрите рейс и состав при покупке.</div></section>
 <section class="chapter wrap" id="compare"><div class="section-head reveal"><div><div class="eyebrow">03 / Быстрое сравнение</div><h2>Что вы покупаете<br>вместе с билетом.</h2></div><p>Скорость ниже — предел техники или категории, не средняя скорость поездки. Рельеф, остановки и линия часто важнее цифры на носу.</p></div>
@@ -110,6 +180,14 @@ section.chapter{padding:105px 0 0}.section-head{display:flex;justify-content:spa
 <div class="planner reveal"><div><span class="mono accent">ПОДБОР КАТЕГОРИИ</span><h3>Как вы путешествуете?</h3><div class="choice-group"><label for="trip-type">Маршрут</label><select id="trip-type"><option value="cities">Между крупными городами</option><option value="coast">Побережье и средние города</option><option value="local">Небольшой город / пригород</option><option value="night">Далеко, с ночёвкой в дороге</option></select></div><div class="choice-group"><label for="trip-goal">Что важнее?</label><select id="trip-goal"><option value="time">Сэкономить время</option><option value="budget">Снизить бюджет</option><option value="comfort">Больше личного пространства</option></select></div></div><div class="planner-output" aria-live="polite"><span class="mono accent">ВАШ ОРИЕНТИР</span><div class="big-choice" id="trip-choice">Frecciarossa<br>или Italo</div><p id="trip-explanation">Для пары крупных городов сначала сравните прямые скоростные рейсы. Проверяйте фактическое время в пути, вокзал прибытия и условия тарифа.</p><a class="button" href="#categories">Сравнить категории <span>↗</span></a></div></div>
 </section>
 <section class="chapter wrap" id="tickets"><div class="section-head reveal"><div><div class="eyebrow">08 / Практика пассажира</div><h2>От покупки<br>до своего места.</h2></div><p>Большинство неприятностей начинается с неправильного вокзала, билета на другой поезд или слишком короткой пересадки.</p></div>
+<aside class="checklist-panel" aria-labelledby="checklist-heading"><div class="checklist-head"><h3 id="checklist-heading">Проверка перед посадкой</h3><output id="check-progress" aria-label="Выполненные пункты">0 / 6</output></div><div class="trip-checklist">
+<label><input type="checkbox" data-trip-check>Проверил точное название вокзала и дату.</label>
+<label><input type="checkbox" data-trip-check>Сверил номер поезда, время и свой участок маршрута.</label>
+<label><input type="checkbox" data-trip-check>Проверил условия билета и необходимость компостирования.</label>
+<label><input type="checkbox" data-trip-check>Сохранил билет и документ, если он нужен по тарифу.</label>
+<label><input type="checkbox" data-trip-check>Проверил путь на табло Partenze и объявления.</label>
+<label><input type="checkbox" data-trip-check>Знаю номер вагона и места либо правила свободной рассадки.</label>
+</div><div class="checklist-foot"><span>Отметки хранятся только в вашем браузере. Для новой поездки сбросьте список.</span><button id="reset-checklist">Сбросить</button></div></aside>
 <div class="journey"><article class="reveal"><h3>Выберите вокзал</h3><p>Roma Termini ≠ Tiburtina. Milano Centrale ≠ Porta Garibaldi. Firenze S. M. Novella ≠ Campo di Marte. Venezia S. Lucia — островная часть, Mestre — материк. Napoli Centrale ≠ Afragola.</p></article><article class="reveal"><h3>Проверьте тариф</h3><p>Сравнивайте полное время, пересадки, класс, обмен и возврат. Динамическая цена скоростного может оказаться ниже Intercity при ранней покупке. Фиксированных универсальных цен нет.</p></article><article class="reveal"><h3>Смотрите номер</h3><p>На табло Partenze ищите номер поезда и время. Конечная станция может быть дальше вашей. Binario — путь. Его могут назначить поздно или изменить перед отправлением.</p></article><article class="reveal"><h3>Садитесь в свой вагон</h3><p>Carrozza — вагон, posto — место. Подготовьте билет и документ. Дайте выйти пассажирам, затем заходите. В региональном без брони выбирайте свободное место своего класса.</p></article></div>
 <div class="ticket-panel"><article class="ticket-card reveal"><div class="mono">FRECCE / ITALO / INTERCITY</div><h3>Билет на конкретный рейс</h3><ul><li><strong>Вагон и место обычно включены в бронирование.</strong> Выбор конкретного кресла на схеме может стоить отдельно.</li><li>Электронный билет Frecce / IC не нужно компостировать. Сохраните QR-код / PNR и доступ к билету.</li><li>На Italo действуют его собственные тарифы и правила. Билет Trenitalia не становится билетом Italo.</li><li>Если опоздали, не садитесь в следующий поезд автоматически: сначала проверьте право обмена по тарифу.</li></ul><p class="ticket-rule">Класс комфорта и гибкость тарифа — две разные покупки.</p></article>
 <article class="ticket-card reveal"><div class="mono">REGIONALE / REGIONALE VELOCE</div><h3>Сначала определите тип билета</h3><ul><li><strong>BDR — цифровой региональный билет Trenitalia.</strong> Валидируется автоматически в плановое время отправления. Ручной check-in не нужен.</li><li>При обычной поездке BDR относится к указанному поезду. Меняйте время <strong>до его планового отправления</strong>; правила при задержке или отмене отличаются.</li><li><strong>Бумажный билет</strong> с требованием convalida прокомпостируйте до посадки. Срок действия и исключения смотрите на билете.</li><li>Обычно номер места не назначают. Покупка билета не гарантирует, что вы всю дорогу будете сидеть.</li></ul><p class="ticket-rule">Правила BDR ≠ правила всех билетов всех региональных операторов.</p></article></div>
@@ -202,7 +280,7 @@ if(rebuild)rebuild();
 }
 updateFleet(current);
 $$('[data-model]').forEach(b=>{b.addEventListener('click',()=>updateFleet(b.dataset.model));b.addEventListener('keydown',e=>{const tabs=$$('[data-model]'),i=tabs.indexOf(b);let n;if(e.key==='ArrowRight')n=(i+1)%tabs.length;if(e.key==='ArrowLeft')n=(i+tabs.length-1)%tabs.length;if(e.key==='Home')n=0;if(e.key==='End')n=tabs.length-1;if(n!==undefined){e.preventDefault();updateFleet(tabs[n].dataset.model);tabs[n].focus()}})});
-$$('[data-filter]').forEach(b=>b.addEventListener('click',()=>{$$('[data-filter]').forEach(x=>x.setAttribute('aria-pressed',x===b));$$('[data-category]').forEach(c=>{c.hidden=b.dataset.filter!=='all'&&c.dataset.category!==b.dataset.filter;if(!c.hidden)c.classList.add('visible')})}));
+// Search and category filters share one predicate below.
 const layers={
 all:{title:'Соберите поездку<br>из правильных частей.',routes:[['Torino — Milano — Bologna — Firenze — Roma — Napoli','Основная скоростная ось, с продолжениями'],['Milano — Verona — Venezia','Скоростные сервисы, участки линий разного типа'],['Побережья и небольшие города','Intercity и региональные по обычным линиям']],note:'Схема показывает примеры связей, не расписание. Один маршрут может сочетать AV и обычные линии.'},
 av:{title:'Большие города.<br>Короткое время в пути.',routes:[['Torino / Milano — Roma — Napoli / Salerno','Frecciarossa и Italo, модель зависит от рейса'],['Milano — Verona — Venezia','Трасса включает участки с разными ограничениями'],['Продолжения к другим регионам','Высокоскоростной сервис может выходить на обычную сеть']],note:'Красная линия — схема направлений скоростных сервисов, а не карта инфраструктуры, на которой везде разрешены 300 км/ч.'},
@@ -243,144 +321,576 @@ $('#wire').addEventListener('click',()=>{wire=!wire;$('#wire').setAttribute('ari
 $('#reset-view').addEventListener('click',()=>{if(resetCamera)resetCamera()});
 $('#zoom').addEventListener('input',()=>{$('#zoom-value').value=$('#zoom').value+'%';if(setZoom)setZoom(Number($('#zoom').value))});
 
+
+/* Practical guide tools work independently of WebGL and external modules. */
+let activeCategory='all';
+function normalized(value){return value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ё/g,'е')}
+function filterTrains(){
+ const words=normalized($('#train-search').value.trim()).split(/\s+/).filter(Boolean);
+ let count=0;
+ $$('#train-grid .train-card').forEach((card,i)=>{
+  const d=cardData[i],haystack=normalized([d.title,d.code,d.eyebrow,d.desc,d.tech,d.pass,d.route].join(' '));
+  const show=(activeCategory==='all'||activeCategory===d.tag)&&words.every(w=>haystack.includes(w));
+  card.hidden=!show;if(show){count++;card.classList.add('visible')}
+ });
+ $('#search-count').textContent='Найдено: '+count+' / '+cardData.length;
+ $('#search-empty').hidden=count>0;
+}
+$('#train-search').addEventListener('input',filterTrains);
+$$('[data-filter]').forEach(b=>b.addEventListener('click',()=>{
+ activeCategory=b.dataset.filter;$$('[data-filter]').forEach(x=>x.setAttribute('aria-pressed',x===b));filterTrains();
+}));
+$('#clear-search').addEventListener('click',()=>{
+ $('#train-search').value='';activeCategory='all';$$('[data-filter]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.filter==='all'));filterTrains();$('#train-search').focus();
+});
+document.addEventListener('keydown',e=>{
+ const editing=/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)||document.activeElement.isContentEditable;
+ if(e.key==='/'&&!editing){e.preventDefault();$('#train-search').focus();$('#train-search').scrollIntoView({block:'center',behavior:noMotion?'instant':'smooth'})}
+ if(e.key==='Escape'&&document.activeElement===$('#train-search')){$('#train-search').value='';filterTrains()}
+});
+filterTrains();
+const checklistKey='binario-trip-checklist-v1';
+function checkProgress(){
+ const checks=$$('[data-trip-check]'),done=checks.filter(c=>c.checked).length;
+ $('#check-progress').value=done+' / '+checks.length;
+ try{localStorage.setItem(checklistKey,JSON.stringify(checks.map(c=>c.checked)))}catch{}
+}
+try{
+ const saved=JSON.parse(localStorage.getItem(checklistKey)||'null');
+ if(Array.isArray(saved))$$('[data-trip-check]').forEach((c,i)=>c.checked=saved[i]===true);
+}catch{}
+$$('[data-trip-check]').forEach(c=>c.addEventListener('change',checkProgress));
+$('#reset-checklist').addEventListener('click',()=>{$$('[data-trip-check]').forEach(c=>c.checked=false);checkProgress()});
+checkProgress();
+$('#share-model').addEventListener('click',async()=>{
+ const url=new URL(location.href);url.searchParams.set('train',current);url.hash='depot';
+ try{await navigator.clipboard.writeText(url.href);$('#share-model').textContent='✓ Ссылка скопирована'}
+ catch{const field=$('#share-link');field.hidden=false;field.value=url.href;field.focus();field.select();$('#share-model').textContent='Скопируйте ссылку'}
+});
+const initialModel=new URLSearchParams(location.search).get('train');if(initialModel&&fleet[initialModel])updateFleet(initialModel);
+if('IntersectionObserver'in window){
+ const navObserver=new IntersectionObserver(entries=>{
+  const entry=entries.find(e=>e.isIntersecting);if(!entry)return;
+  $$('#nav-links a').forEach(a=>{if(a.hash==='#'+entry.target.id)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current')});
+ },{rootMargin:'-15% 0px -65% 0px'});
+ $$('#nav-links a').forEach(a=>{const target=document.getElementById(a.hash.slice(1));if(target)navObserver.observe(target)});
+}
+
 try{
 const T=await import('https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js');
-const canvas=$('#train-canvas'),host=$('#viewport');
-const renderer=new T.WebGLRenderer({canvas,antialias:true,alpha:true,powerPreference:'low-power'});
-renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));renderer.setClearColor(0x000000,0);renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.35;
-const scene=new T.Scene(),camera=new T.PerspectiveCamera(35,1,.1,250);
-scene.add(new T.HemisphereLight(0xeaf7ff,0x424b37,3.1));
-const key=new T.DirectionalLight(0xfff4db,4.2);key.position.set(-15,30,20);scene.add(key);
-const rim=new T.DirectionalLight(0xb6ddff,2.8);rim.position.set(15,10,-15);scene.add(rim);
-const fillLight=new T.DirectionalLight(0xd3eab0,1.7);fillLight.position.set(15,5,22);scene.add(fillLight);
-let model=new T.Group(),base=new T.Group();scene.add(model,base);
-let yaw=-.62,pitch=.29,radius=32,targetY=1.3,baseRadius=32,dirty=true,visible=true,lastRender=0;
-const matCache=new Map();
-function mat(color,metal=.35,rough=.37){const key=color+'_'+metal+'_'+rough;if(!matCache.has(key))matCache.set(key,new T.MeshStandardMaterial({color,metalness:metal,roughness:rough}));return matCache.get(key)}
-const navy=mat('#142630',.55,.23),rubber=mat('#111815',.1,.75),steel=mat('#75827d',.8,.32),darkSteel=mat('#39423f',.65,.45),white=mat('#eef0df',.15,.45),lampMat=new T.MeshStandardMaterial({color:'#fff5bc',emissive:'#ffdf92',emissiveIntensity:1.3,roughness:.2});
-const boxGeo=new T.BoxGeometry(1,1,1),wheelGeo=new T.CylinderGeometry(.3,.3,.15,12),axleGeo=new T.CylinderGeometry(.07,.07,1.55,8),diskGeo=new T.CylinderGeometry(.19,.19,.157,12),lampGeo=new T.SphereGeometry(.095,10,8);
-function box(g,x,y,z,l,h,w,m){const o=new T.Mesh(boxGeo,m);o.position.set(x,y,z);o.scale.set(l,h,w);g.add(o);return o}
-function rod(g,a,b,r,m){const av=new T.Vector3(...a),bv=new T.Vector3(...b),v=bv.clone().sub(av);const o=new T.Mesh(new T.CylinderGeometry(r,r,v.length(),6),m);o.position.copy(av.add(bv).multiplyScalar(.5));o.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),v.normalize());g.add(o);return o}
-function bogie(g,x){box(g,x,.43,0,1.45,.22,1.5,darkSteel);for(const dx of [-.48,.48]){const ax=new T.Mesh(axleGeo,steel);ax.rotation.x=Math.PI/2;ax.position.set(x+dx,.31,0);g.add(ax);for(const z of [-.88,.88]){const w=new T.Mesh(wheelGeo,darkSteel);w.rotation.x=Math.PI/2;w.position.set(x+dx,.31,z);g.add(w);const disk=new T.Mesh(diskGeo,steel);disk.rotation.x=Math.PI/2;disk.position.copy(w.position);g.add(disk)}}}
-function panto(g,x,h){box(g,x,h+.04,0,1.3,.13,.8,darkSteel);rod(g,[x-.45,h+.12,0],[x+.35,h+.95,0],.035,steel);rod(g,[x+.35,h+.95,0],[x-.25,h+1.5,0],.035,steel);rod(g,[x-.45,h+.12,.22],[x+.35,h+.95,.22],.035,steel);rod(g,[x+.35,h+.95,.22],[x-.25,h+1.5,.22],.035,steel);box(g,x-.25,h+1.51,0,.16,.05,1.65,steel)}
-function surface(L,W,H,N,d,a,kind,offset=0){
-const t=Math.max(0,Math.min(1,d/Math.max(.01,N)));let width=1,top=H,bottom=.7;
-if(N>0&&d<N){const curve=Math.pow(t,kind==='agv'?.66:kind==='rock'?.42:.72);width=(kind==='ic'?.5:.07)+(kind==='ic'?.5:.93)*Math.sin(t*Math.PI/2);top=(kind==='rock'?1.65:kind==='fr500'?1.2:.93)+(H-(kind==='rock'?1.65:kind==='fr500'?1.2:.93))*curve;bottom=.72}
-const sy=Math.sign(Math.sin(a))*Math.pow(Math.abs(Math.sin(a)),.65);
-const sz=Math.sign(Math.cos(a))*Math.pow(Math.abs(Math.cos(a)),.65);
-return [-L/2+d, (bottom+top)/2+sy*(top-bottom)/2+Math.sin(a)*offset,sz*W/2*width+Math.cos(a)*offset];
+const canvas=$('#train-canvas'),host=$('#viewport'),depot=$('#depot');
+const renderer=new T.WebGLRenderer({canvas,antialias:true,alpha:true,powerPreference:'low-power',stencil:false});
+renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.08;
+const scene=new T.Scene(),camera=new T.PerspectiveCamera(33,1,.1,1500);
+scene.add(new T.HemisphereLight(0xe5efff,0x34352c,1.8));
+const sun=new T.DirectionalLight(0xfff3df,3.0);sun.position.set(-30,45,30);scene.add(sun);
+const rim=new T.DirectionalLight(0xc9dcff,2.4);rim.position.set(20,16,-25);scene.add(rim);
+const studio=new T.Scene();studio.background=new T.Color('#56616e');
+const panelGeo=new T.PlaneGeometry(1,1),panelMat=new T.MeshBasicMaterial({color:0xffffff,side:T.DoubleSide});
+for(const [x,y,z,w,h] of [[0,15,0,30,12],[0,4,-12,40,5],[-20,6,4,8,12]]){
+ const p=new T.Mesh(panelGeo,panelMat);p.position.set(x,y,z);p.scale.set(w,h,1);p.lookAt(0,0,0);studio.add(p);
 }
-function shell(g,L,W,H,N,kind,bodyM,frontM){
-const rows=38,cols=24,vs=[],ns=[],idx=[];for(let i=0;i<=rows;i++)for(let j=0;j<=cols;j++){const p=surface(L,W,H,N,i/rows*L,j/cols*Math.PI*2,kind);vs.push(...p)}
-const geo=new T.BufferGeometry();for(let i=0;i<rows;i++){const start=idx.length;for(let j=0;j<cols;j++){const a=i*(cols+1)+j,b=a+cols+1;idx.push(a,b,a+1,b,b+1,a+1)}geo.addGroup(start,cols*6,(N&&i/rows*L<N+.3)?1:0)}
-geo.setAttribute('position',new T.Float32BufferAttribute(vs,3));geo.setIndex(idx);geo.computeVertexNormals();
-const o=new T.Mesh(geo,[bodyM,frontM]);g.add(o);
-// End bulkheads keep the shell closed when the view rotates.
-for(const d of [0,L]){const verts=[],indices=[];for(let j=0;j<cols;j++)verts.push(...surface(L,W,H,N,d,j/cols*Math.PI*2,kind));const mid=surface(L,W,H,N,d,0,kind);verts.push(-L/2+d,d===0&&N?.9:(H+.7)/2,0);for(let j=0;j<cols;j++)indices.push(cols,j,(j+1)%cols);const cg=new T.BufferGeometry();cg.setAttribute('position',new T.Float32BufferAttribute(verts,3));cg.setIndex(indices);cg.computeVertexNormals();const mm=(d===0?frontM:bodyM).clone();mm.side=T.DoubleSide;const cap=new T.Mesh(cg,mm);g.add(cap)}
-return o;
+const pmrem=new T.PMREMGenerator(renderer),env=pmrem.fromScene(studio,.05,.1,100);
+scene.environment=env.texture;scene.environmentIntensity=.65;pmrem.dispose();panelGeo.dispose();panelMat.dispose();
+let assembly=new T.Group(),model=new T.Group(),track=new T.Group();scene.add(assembly);assembly.add(model,track);
+let yaw=-.78,pitch=.23,distance=60,fitDistance=60,aim=new T.Vector3(),dirty=true,visible=true,contextLost=false;
+let quality='auto',headView=true,dragging=false,raf=0,lastTime=0,lastPaint=0,buildMs=0;
+let geometryCache=new Map(),materialCache=new Map(),textureCache=new Map(),ownedGeometries=new Set();
+const boxGeometry=new T.BoxGeometry(1,1,1),cylinderGeometry=new T.CylinderGeometry(1,1,1,16);
+const sphereGeometry=new T.SphereGeometry(1,12,8);
+const sharedGeometry=new Set([boxGeometry,cylinderGeometry,sphereGeometry]);
+function material(color,metalness=.3,roughness=.45){
+ const k=color+'/'+metalness+'/'+roughness;
+ if(!materialCache.has(k))materialCache.set(k,new T.MeshStandardMaterial({color,metalness,roughness}));
+ return materialCache.get(k);
 }
-function windscreen(g,L,W,H,N,kind){
-const rows=10,cols=14,vs=[],idx=[];
-const min=kind==='rock'?.42:.55,max=kind==='ic'?.93:.97;
-for(let i=0;i<=rows;i++)for(let j=0;j<=cols;j++)vs.push(...surface(L,W,H,N,N*(min+(max-min)*i/rows),Math.PI*(.19+.62*j/cols),kind,.028));
-for(let i=0;i<rows;i++)for(let j=0;j<cols;j++){const a=i*(cols+1)+j,b=a+cols+1;idx.push(a,a+1,b,b,a+1,b+1)}
-const geo=new T.BufferGeometry();geo.setAttribute('position',new T.Float32BufferAttribute(vs,3));geo.setIndex(idx);geo.computeVertexNormals();const glass=new T.Mesh(geo,navy);glass.material.side=T.DoubleSide;g.add(glass);
+const metal=material('#808992',.78,.3),darkMetal=material('#252d34',.65,.49),rubber=material('#121719',.04,.92);
+const glass=material('#111c27',.7,.13),chrome=material('#d2dbe2',.85,.2);
+const lamp=new T.MeshStandardMaterial({color:'#fff1c4',emissive:'#ffdc97',emissiveIntensity:1.4,roughness:.22});
+const tailLamp=new T.MeshStandardMaterial({color:'#aa1726',emissive:'#ed1727',emissiveIntensity:.8});
+const fixedMaterials=new Set([...materialCache.values(),lamp,tailLamp]);
+function mesh(g,geo,m,x=0,y=0,z=0,sx=1,sy=1,sz=1){
+ const o=new T.Mesh(geo,m);o.position.set(x,y,z);o.scale.set(sx,sy,sz);g.add(o);return o;
 }
-function textLabel(g,txt,x,y,z,width,color){
-const c=document.createElement('canvas');c.width=512;c.height=100;const cx=c.getContext('2d');cx.clearRect(0,0,512,100);cx.fillStyle=color;cx.font='italic 600 65px Arial';cx.textAlign='center';cx.textBaseline='middle';cx.fillText(txt,256,52);
-const texture=new T.CanvasTexture(c);texture.colorSpace=T.SRGBColorSpace;const material=new T.MeshBasicMaterial({map:texture,transparent:true,depthWrite:false,side:T.DoubleSide});const label=new T.Mesh(new T.PlaneGeometry(width,width/5.12),material);label.position.set(x,y,z);if(z<0)label.rotation.y=Math.PI;g.add(label);
+function box(g,x,y,z,l,h,w,m){return mesh(g,boxGeometry,m,x,y,z,l,h,w)}
+function cylinder(g,x,y,z,r,l,m){const o=mesh(g,cylinderGeometry,m,x,y,z,r,l,r);o.rotation.x=Math.PI/2;return o}
+function rod(g,a,b,r=.025,m=metal){
+ const av=new T.Vector3(...a),bv=new T.Vector3(...b),v=bv.clone().sub(av);
+ const o=mesh(g,cylinderGeometry,m);o.position.copy(av.add(bv).multiplyScalar(.5));
+ o.scale.set(r,v.length(),r);o.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),v.normalize());return o;
 }
-function car(kind,index,count,L){
-const f=kind==='fr1000',evo=kind==='evo',agv=kind==='agv',rock=kind==='rock',ic=kind==='ic',fr500=kind==='fr500';
-const loco=(ic&&index===0)||(fr500&&(index===0||(full&&index===count-1)));
-const cab=index===0||(full&&!ic&&index===count-1);
-const g=new T.Group();const W=2.05,H=rock?3.65:loco?2.95:2.6;
-const N=cab?(f?3.6:agv?3.1:evo?2.65:rock?2.1:ic?1.9:2.25):0;
-let bodyColor=f?'#d3d8d5':evo?'#bd1730':agv?'#8d152a':rock?'#e0e6dc':ic?'#d9dfde':fr500&&loco?'#c7283f':'#c9d1d0';
-let frontColor=f?'#ce2739':rock?'#243343':ic?'#c9d9da':bodyColor;
-const bodyM=mat(bodyColor,.43,.29),frontM=mat(frontColor,.42,.31);shell(g,L,W,H,N,kind,bodyM,frontM);
-box(g,N*.35,.67,0,L-N*.85-.4,.35,1.7,mat(rock?'#233b4b':'#303a37',.55,.46));
-box(g,.2,.84,0,L-N-.8,.27,1.6,darkSteel);
-if(cab){windscreen(g,L,W,H,N,kind);for(const s of [-1,1]){const lamp=new T.Mesh(lampGeo,lampMat);lamp.scale.set(.5,.6,1.8);lamp.position.set(-L/2+.85,1.05,s*(rock?.65:.48));g.add(lamp)}
-box(g,-L/2+.07,.79,0,.12,.12,.4,darkSteel)}
-const start=-L/2+(cab?N+.15:.4),end=L/2-.45;
-for(const s of [-1,1]){
-const z=s*(W/2+.012);
-const stripeColor=rock?'#acd557':ic?'#268998':(agv||evo)?'#d9b569':'#c1263b';
-box(g,(start+end)/2,rock?1.65:1.08,z,end-start,.11,.022,mat(stripeColor,.4,.35));
-if(rock){box(g,(start+end)/2,3.28,z,end-start,.14,.025,mat('#b9d96c',.3,.4));box(g,(start+end)/2,1.02,z,end-start,.25,.027,mat('#253b4c',.4,.35))}
-if(ic){box(g,(start+end)/2,1.24,z,end-start,.19,.023,mat('#263e54',.4,.35))}
-if(!loco){
-const gap=agv?.68:.85;
-for(let x=start+.35;x<end-.2;x+=gap){if(rock&&(Math.abs(x-(start+.8))<.7||Math.abs(x-(end-1))<.7))continue;
-box(g,x,rock?2.81:1.93,z,.55,rock?.43:.48,.034,navy);
-if(rock)box(g,x,1.8,z,.55,.37,.034,navy)}
-for(const x of [start+.2,end-.25]){const door=box(g,x,rock?1.74:1.57,z,.48,rock?1.85:1.56,.032,mat(rock?'#83ad3f':bodyColor,.3,.42));
-box(g,x,rock?2.13:1.9,z+s*.022,.3,.5,.025,navy);box(g,x+.14,1.5,z+s*.04,.035,.09,.035,steel);if(rock)box(g,x,1.09,z+s*.04,.49,.065,.07,mat('#e2cd61'))}
-if(L>7){textLabel(g,f||fr500?'FRECCIAROSSA':evo||agv?'italo':rock?'Regionale':'Intercity',.6,rock?2.32:1.29,s*(W/2+.04),agv||evo?2.1:2.7,agv||evo?'#f3dfaf':rock?'#364d3d':ic?'#315b67':'#a31e33')}
-}else{
-for(let x=start+.3;x<end-.3;x+=.22)box(g,x,1.92,z,.055,.6,.025,darkSteel);
-textLabel(g,ic?'INTERCITY':'FRECCIAROSSA',.4,1.31,z+s*.02,2.4,ic?'#1b6875':'#fff2da')
+const specs={
+fr1000:{width:2.924,height:4.08,head:26.5,coach:24.25,nose:7.1,color:'#c9cdd0',accent:'#c82136',window:2.75,windowH:.72,spacing:1.8,roof:'#9aa2a8',bodyBottom:1.06,round:.44,
+ rings:[[0,.08,1.03,1.43],[.12,.23,.99,1.54],[.3,.48,.98,1.98],[.47,.74,1.0,2.6],[.64,.91,1.02,3.57],[.8,.98,1.04,3.98],[1,1,1.06,4.08]],
+ note:['Длинный клиновидный нос','Серебристый кузов и красная маска','Раздельные тележки под вагонами'],
+ ref:'https://www.trenitalia.com/it/frecciarossa/la-flotta.html'},
+evo:{width:2.83,height:4.1,head:28.2,coach:25.52,nose:5.8,color:'#b2192f',accent:'#d7b569',window:2.75,windowH:.68,spacing:1.75,roof:'#635c61',bodyBottom:1.13,round:.49,
+ rings:[[0,.25,1.15,1.7],[.14,.51,1.1,2.0],[.32,.77,1.1,2.57],[.52,.94,1.12,3.45],[.75,1,1.13,4.02],[1,1,1.13,4.1]],
+ note:['Высокая округлая кабина','Короткий выпуклый нос EVO','Отдельные тележки; не AGV'],
+ ref:'https://italospa.italotreno.it/en/ntvs-fleet/trains/italo-evo.html'},
+agv:{width:2.985,height:3.6,head:26.1,coach:16.08888889,nose:7.2,color:'#8f1429',accent:'#d6b15d',window:2.6,windowH:.61,spacing:1.69,roof:'#514c50',bodyBottom:1.0,round:.54,
+ rings:[[0,.08,.95,1.26],[.14,.27,.95,1.42],[.32,.55,.97,1.94],[.53,.83,.98,2.9],[.73,.98,1,3.47],[1,1,1,3.6]],
+ note:['Низкий вытянутый нос AGV','Короткие промежуточные вагоны','Общие тележки между вагонами'],
+ ref:'https://italospa.italotreno.it/en/ntvs-fleet/trains/agv-575.html'},
+ic:{width:3.0,height:4.1,head:19.42,coach:26.4,nose:2.2,color:'#e0e1df',accent:'#307f89',window:2.78,windowH:.75,spacing:1.95,roof:'#aeb4b5',bodyBottom:1.16,round:.2,
+ rings:[[0,.82,1.1,2.85],[.35,.92,1.12,3.45],[.78,1,1.15,4.06],[1,1,1.16,4.1]],
+ note:['Угловатая однокабинная E.401','Локомотив короче пассажирских вагонов','Обычные вагоны и кабина управления в хвосте'],
+ ref:'https://www.trenitalia.com/it/intercity.html'},
+rock:{width:2.8,height:4.3,head:27.0,coach:26.0,nose:3.8,color:'#d5d9da',accent:'#e5b52f',window:3.46,windowH:.48,spacing:1.59,roof:'#5c6870',bodyBottom:.63,round:.26,
+ rings:[[0,.5,.72,2.1],[.2,.77,.65,2.75],[.43,.94,.63,3.8],[.7,1,.63,4.24],[1,1,.63,4.3]],
+ note:['Высокая двухэтажная секция','Два уровня окон и широкие двери','Короткая маска кабины Rock'],
+ ref:'https://www.trenitalia.com/it/regionale/regionale-rebel-revolution.html'},
+fr500:{width:2.95,height:4.05,head:20.5,coach:26.1,nose:4.5,color:'#cbd0d2',accent:'#bd2337',window:2.72,windowH:.74,spacing:1.82,roof:'#7e898f',bodyBottom:1.12,round:.33,
+ rings:[[0,.22,.96,1.65],[.15,.5,1.0,2.0],[.35,.79,1.06,2.92],[.58,.95,1.1,3.75],[.83,1,1.12,4.04],[1,1,1.12,4.05]],
+ note:['Массивная моторная голова E.404','Решётки вместо пассажирских окон','Две головы и длинная цепочка вагонов'],
+ ref:'https://www.trenitalia.com/en/connections/frecciarossa-etr-500.html'}
+};
+
+const perimeterCache=new Map();
+function uvForAngle(s,angle){
+ const key=[s.width,s.height,s.bodyBottom,s.round].join('/');
+ if(!perimeterCache.has(key)){
+  const values=[0];let previous=null,total=0;
+  for(let i=0;i<=2048;i++){
+   const a=-Math.PI/2+i/2048*Math.PI*2,c=Math.cos(a),v=Math.sin(a);
+   const p=[Math.sign(c)*Math.pow(Math.abs(c),s.round)*s.width/2,Math.sign(v)*Math.pow(Math.abs(v),s.round)*(s.height-s.bodyBottom)/2];
+   if(previous)total+=Math.hypot(p[0]-previous[0],p[1]-previous[1]);
+   values[i]=total;previous=p;
+  }
+  perimeterCache.set(key,values.map(v=>v/total));
+ }
+ const u=Math.max(0,Math.min(2048,(angle+Math.PI/2)/(Math.PI*2)*2048)),i=Math.floor(u),f=u-i,table=perimeterCache.get(key);
+ return table[i]*(1-f)+table[Math.min(2048,i+1)]*f;
 }
+
+function lerp(a,b,t){return a+(b-a)*t}
+function profile(s,d,cab){
+ if(!cab||d>=s.nose)return [1,s.bodyBottom,s.height];
+ const t=Math.max(0,d/s.nose),r=s.rings;
+ let i=1;while(i<r.length-1&&r[i][0]<t)i++;
+ const a=r[i-1],b=r[i],u=Math.max(0,Math.min(1,(t-a[0])/(b[0]-a[0])));
+ const prev=r[Math.max(0,i-2)],next=r[Math.min(r.length-1,i+1)],dt=b[0]-a[0];
+ const interpolate=k=>{
+  const m0=i===1?(b[k]-a[k])/dt:(b[k]-prev[k])/(b[0]-prev[0]);
+  const m1=i===r.length-1?0:(next[k]-a[k])/(next[0]-a[0]);
+  return (2*u*u*u-3*u*u+1)*a[k]+(u*u*u-2*u*u+u)*dt*m0+(-2*u*u*u+3*u*u)*b[k]+(u*u*u-u*u)*dt*m1;
+ };
+ return [Math.max(.03,Math.min(1,interpolate(1))),interpolate(2),interpolate(3)];
 }
-// Rooftop machinery is deliberately sparse to keep all six models responsive.
-if(loco){panto(g,L*.13,H);box(g,-.1,H+.13,0,2.1,.21,1.1,steel);for(let i=0;i<5;i++)box(g,L*.23+i*.18,H+.22,0,.07,.12,.85,darkSteel)}
-else{for(const x of [L*.08,L*.32])box(g,x,H+.07,0,rock?1.35:1.05,.15,.88,mat('#66746d',.55,.5));if(index===1||(!full&&index===0&&evo))panto(g,L*.26,H)}
-if(!agv){bogie(g,-L/2+(cab?N+.35:1.35));bogie(g,L/2-1.28)}else{bogie(g,L/2-.05);if(index===0)bogie(g,-L/2+N+.2)}
-if(full&&cab&&index===count-1&&count>1&&!ic)g.rotation.y=Math.PI;
-return g;
+function surface(s,L,d,a,cab,offset=0){
+ const [w,lo,hi]=profile(s,d,cab),c=Math.cos(a),v=Math.sin(a);
+ return [d-L/2,(lo+hi)/2+Math.sign(v)*Math.pow(Math.abs(v),s.round)*(hi-lo)/2+v*offset,Math.sign(c)*Math.pow(Math.abs(c),s.round)*s.width*w/2+c*offset];
 }
-function disposeModel(group){
-group.traverse(o=>{if(o.isInstancedMesh)o.dispose();if(o.geometry&&![boxGeo,wheelGeo,axleGeo,diskGeo,lampGeo].includes(o.geometry))o.geometry.dispose();if(o.material){const materials=Array.isArray(o.material)?o.material:[o.material];for(const m of materials){if(m.map){m.map.dispose();m.dispose()}else if(!Array.from(matCache.values()).includes(m)&&m!==lampMat)m.dispose()}}});
-scene.remove(group);
+function shellGeometry(s,L,cab,key){
+ const cacheKey='shell/'+key+'/'+L+'/'+cab;
+ if(geometryCache.has(cacheKey))return geometryCache.get(cacheKey);
+ const columns=quality==='eco'?24:40,distances=[];
+ if(cab){for(let i=0;i<=32;i++)distances.push(s.nose*i/32);distances.push(Math.min(L-.08,s.nose+.3));}
+ else distances.push(0,.06,.22);
+ for(let d=(cab?s.nose+.8:1);d<L-.2;d+=1.5)distances.push(d);
+ distances.push(L-.15,L);distances.sort((a,b)=>a-b);
+ const positions=[],uv=[],indices=[];
+ for(const d of distances)for(let j=0;j<=columns;j++){
+  positions.push(...surface(s,L,d,-Math.PI/2+j/columns*Math.PI*2,cab));
+  uv.push(d/L,1-uvForAngle(s,-Math.PI/2+j/columns*Math.PI*2));
+ }
+ for(let i=0;i<distances.length-1;i++)for(let j=0;j<columns;j++){
+  const a=i*(columns+1)+j,b=a+columns+1;indices.push(a,b,a+1,b,b+1,a+1);
+ }
+ // A single indexed surface; cap centers have dedicated vertices.
+ for(const [row,reverse] of [[0,true],[distances.length-1,false]]){
+  const p=profile(s,distances[row],cab),center=positions.length/3;
+  positions.push(distances[row]-L/2,(p[1]+p[2])/2,0);uv.push(distances[row]/L,.5);
+  for(let j=0;j<columns;j++){const a=row*(columns+1)+j,b=a+1;indices.push(...(reverse?[center,a,b]:[center,b,a]));}
+ }
+ const geo=new T.BufferGeometry();geo.setAttribute('position',new T.Float32BufferAttribute(positions,3));geo.setAttribute('uv',new T.Float32BufferAttribute(uv,2));geo.setIndex(indices);geo.computeVertexNormals();geo.computeBoundingSphere();
+ geometryCache.set(cacheKey,geo);ownedGeometries.add(geo);return geo;
 }
-function batchParts(root){
-root.updateMatrixWorld(true);const inverse=new T.Matrix4().copy(root.matrixWorld).invert(),groups=new Map();
-root.traverse(o=>{if(o.isMesh&&[boxGeo,wheelGeo,axleGeo,diskGeo,lampGeo].includes(o.geometry)&&!Array.isArray(o.material)){const k=o.geometry.uuid+o.material.uuid;if(!groups.has(k))groups.set(k,[]);groups.get(k).push(o)}});
-for(const parts of groups.values()){if(parts.length<3)continue;const batch=new T.InstancedMesh(parts[0].geometry,parts[0].material,parts.length);parts.forEach((p,i)=>{batch.setMatrixAt(i,new T.Matrix4().multiplyMatrices(inverse,p.matrixWorld));p.parent.remove(p)});batch.instanceMatrix.needsUpdate=true;batch.computeBoundingSphere();root.add(batch)}
+function patch(g,s,L,cab,d0,d1,a0,a1,m,bulge=.018){
+ const positions=[],indices=[],rows=12,cols=16;
+ for(let i=0;i<=rows;i++)for(let j=0;j<=cols;j++)positions.push(...surface(s,L,lerp(d0,d1,i/rows),lerp(a0,a1,j/cols),cab,bulge));
+ for(let i=0;i<rows;i++)for(let j=0;j<cols;j++){const a=i*(cols+1)+j,b=a+cols+1;indices.push(a,b,a+1,b,b+1,a+1);}
+ const geo=new T.BufferGeometry();geo.setAttribute('position',new T.Float32BufferAttribute(positions,3));geo.setIndex(indices);geo.computeVertexNormals();ownedGeometries.add(geo);
+ const o=mesh(g,geo,m);m.side=T.DoubleSide;return o;
+}
+function rounded(ctx,x,y,w,h,r){ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fill()}
+function atlas(s,L,cab,loco,kind){
+ const key=kind+'/'+L+'/'+cab+'/'+loco;if(textureCache.has(key))return textureCache.get(key);
+ const c=document.createElement('canvas');c.width=quality==='eco'?1024:2048;c.height=512;
+ const ctx=c.getContext('2d'),W=c.width,H=c.height,sx=W/L;
+ ctx.fillStyle=s.color;ctx.fillRect(0,0,W,H);
+ // Longitudinal studio shading is baked into one small body atlas.
+ const shade=ctx.createLinearGradient(0,0,0,H);
+ for(const [p,v] of [[0,'#172027'],[.12,s.color],[.25,s.color],[.42,s.roof],[.5,s.roof],[.58,s.roof],[.75,s.color],[.88,s.color],[1,'#172027']])shade.addColorStop(p,v);
+ ctx.fillStyle=shade;ctx.fillRect(0,0,W,H);
+ if(cab&&(kind==='fr1000'||kind==='fr500')){ctx.fillStyle=s.accent;ctx.fillRect(0,0,s.nose*.83*sx,H);}
+ for(const side of [1,-1]){
+  const center=side===1?.25:.75;
+  function row(y){const mid=(s.bodyBottom+s.height)/2,half=(s.height-s.bodyBottom)/2,v=Math.max(-.995,Math.min(.995,(y-mid)/half));const a=Math.asin(Math.sign(v)*Math.pow(Math.abs(v),1/s.round));return uvForAngle(s,side===1?a:Math.PI-a)*H}
+  function rect(x,y,l,h,color,r=0){const ya=row(y+h/2),yb=row(y-h/2);ctx.fillStyle=color;rounded(ctx,x*sx,Math.min(ya,yb),l*sx,Math.max(1,Math.abs(yb-ya)),r)}
+  const begin=cab?s.nose+.45:.55,end=L-.6;
+  // Body livery differs by family, rather than changing only its base colour.
+  if(kind==='fr1000'){
+   rect(0,1.45,L,.68,'#a3162c');rect(0,1.15,L,.17,'#555d64');
+   if(cab){ctx.fillStyle=s.accent;ctx.beginPath();ctx.moveTo(0,center*H-H*.16);ctx.lineTo((s.nose+1.8)*sx,center*H-H*.1);ctx.lineTo((s.nose+4.2)*sx,center*H+H*.05);ctx.lineTo(0,center*H+H*.15);ctx.fill();}
+  }else if(kind==='evo'||kind==='agv'){
+   rect(0,1.25,L,.3,'#29282d');rect(begin,1.83,end-begin,.055,s.accent);
+   rect(begin,3.17,end-begin,.025,'#ce5358');
+  }else if(kind==='rock'){
+   rect(0,1.35,L,.72,'#244b70');rect(0,2.48,L,.64,'#1a3e60');rect(0,3.45,L,.72,'#263b4f');
+   rect(0,1.95,L,.16,s.accent);
+  }else if(kind==='ic'){
+   rect(0,2.75,L,1.0,'#353f4b');rect(0,1.38,L,.3,'#286578');rect(0,1.7,L,.12,'#55a0a4');
+  }else if(kind==='fr500'){
+   rect(0,1.32,L,.56,'#b11c31');rect(0,1.72,L,.065,'#fcfcf8');
+   if(loco)rect(0,2.8,L,1.8,'#b92238');
+  }
+  function pane(x,y,w,h){
+   rect(x-.04,y,w+.08,h+.08,'#343b43',3);
+   const ya=row(y+h/2),yb=row(y-h/2),gr=ctx.createLinearGradient(0,Math.min(ya,yb),0,Math.max(ya,yb));
+   gr.addColorStop(0,'#455d6d');gr.addColorStop(.34,'#172934');gr.addColorStop(1,'#08111b');
+   rect(x,y,w,h,gr,3);rect(x+.04,y+h*.33,w-.08,.018,'#a9bfcc77');
+  }
+  const doorW=kind==='rock'?1.45:.93,doors=kind==='rock'?[begin+1.0,end-2.5]:[begin+.25,end-1.2];
+  if(!loco){
+   const spacing=s.spacing;
+   for(let x=begin+2.0;x<end-1.5;x+=spacing){
+    if(doors.some(d=>x+widen(s,kind)>d-.1&&x<d+doorW+.1))continue;
+    pane(x,s.window,kind==='rock'?1.13:1.18,s.windowH);
+    if(kind==='rock')pane(x,1.5,1.13,.5);
+   }
+   for(const x of doors){
+    rect(x-.035,2.2,doorW+.07,2.08,'#303a42',2);
+    rect(x,2.2,doorW,2.01,kind==='rock'?'#e9b732':s.color,2);
+    pane(x+.18,2.61,doorW-.36,.64);
+    rect(x+doorW-.16,1.94,.045,.18,'#2e353d');
+    rect(x,1.22,doorW,.045,'#c9cfd0');
+    if(kind==='rock')rect(x+doorW/2,2.2,.018,1.95,'#665a3a');
+   }
+  }else{
+   for(let x=begin+.8;x<L-1.8;x+=.22)rect(x,2.77,.08,kind==='ic'?1.12:.85,'#3b3b42');
+   if(cab)pane(s.nose+.15,3.04,1.0,.63);
+   rect(L-1.45,2.1,.8,1.85,s.color);
+  }
+  const text=kind==='evo'||kind==='agv'?'italo':kind==='rock'?'ROCK':kind==='ic'?'INTERCITY':'FRECCIAROSSA';
+  const tx=(begin+end)/2*sx,ty=row(kind==='rock'?2.55:kind==='ic'?1.99:2.02);
+  ctx.save();ctx.translate(tx,ty);if(side===-1)ctx.scale(-1,1);
+  ctx.fillStyle=kind==='evo'||kind==='agv'?'#e7c17b':kind==='fr500'&&loco?'#f9f7ee':kind==='rock'?'#e6eced':kind==='ic'?'#245d6b':'#a92035';
+  ctx.textAlign='center';ctx.textBaseline='middle';ctx.font=(kind==='evo'||kind==='agv'?'italic 600 ':'italic 700 ')+(kind==='evo'||kind==='agv'?31:18)+'px Arial';ctx.fillText(text,0,0,Math.min(W*.35,6.3*sx));
+  ctx.font='10px Arial';ctx.fillStyle=kind==='evo'||kind==='agv'?'#e7c17b':'#37444d';ctx.fillText(kind==='fr1000'?'ETR 1000':kind==='evo'?'EVO · ETR 675':kind==='agv'?'AGV · ETR 575':kind==='ic'&&loco?'E.401':kind==='fr500'&&loco?'E.404':'TRENITALIA',0,15);
+  ctx.restore();
+ }
+ const texture=new T.CanvasTexture(c);texture.colorSpace=T.SRGBColorSpace;texture.anisotropy=Math.min(4,renderer.capabilities.getMaxAnisotropy());
+ const m=new T.MeshStandardMaterial({map:texture,metalness:kind==='evo'||kind==='agv'?.4:.52,roughness:.32});
+ textureCache.set(key,m);return m;
+}
+function widen(s,kind){return kind==='rock'?1.13:1.18}
+
+function bogie(g,x,kind='standard'){
+ box(g,x,.73,0,2.6,.26,1.72,darkMetal);
+ for(const s of [-1,1]){
+  box(g,x,.62,s*.98,2.55,.17,.14,darkMetal);
+  for(const dx of [-.93,.93]){
+   cylinder(g,x+dx,.46,s*.77,.46,.19,darkMetal);
+   cylinder(g,x+dx,.46,s*.88,.39,.026,metal);
+   cylinder(g,x+dx,.46,s*.9,.2,.034,darkMetal);
+   cylinder(g,x+dx,.46,s*.93,.09,.06,chrome);
+   box(g,x+dx,.52,s*1.02,.32,.3,.16,metal);
+   box(g,x+dx+.27,.53,s*.79,.15,.3,.12,darkMetal);
+  }
+  for(const dx of [-.49,.49]){
+   cylinder(g,x+dx,.86,s*.72,.19,.28,rubber);
+   box(g,x+dx,.9,s*.92,.21,.24,.12,darkMetal);
+  }
+ }
+ for(const dx of [-.93,.93])cylinder(g,x+dx,.46,0,.1,1.55,metal);
+}
+function pantograph(g,x,y){
+ box(g,x,y+.08,0,1.6,.16,1.0,darkMetal);
+ for(const z of [-.37,.37]){
+  const i=mesh(g,cylinderGeometry,material('#c5b4a1',.1,.65),x-.55,y+.24,z,.1,.25,.1);
+  rod(g,[x-.65,y+.38,z],[x+.65,y+.95,z],.032,darkMetal);
+  rod(g,[x+.65,y+.95,z],[x-.35,y+1.5,z],.027,metal);
+  rod(g,[x-.35,y+1.5,z],[x-.53,y+1.6,z],.018,darkMetal);
+ }
+ box(g,x-.45,y+1.61,0,.22,.045,1.85,darkMetal);
+ box(g,x-.45,y+1.65,0,.08,.025,1.68,chrome);
+}
+function car(kind,index,count,part='coach',tail=false){
+ const s=specs[kind],loco=part==='loco',cab=part==='cab'||loco||part==='pilot';
+ let L=cab?s.head:s.coach;
+ if(part==='pilot')L=26.4;
+ const shape=part==='pilot'?{...s,nose:2.7,height:4.0}:s;
+ const g=new T.Group();g.userData.length=L;
+ mesh(g,shellGeometry(shape,L,cab,kind+part),atlas(shape,L,cab,loco,kind));
+ const bodyStart=cab?shape.nose:0;
+ const bodyLength=L-bodyStart-.8,bodyCenter=bodyStart/2+.1;
+ // Sills hide only the upper wheel area, not the wheel/rail contact.
+ if(kind!=='rock'){
+  box(g,bodyCenter,1.07,0,bodyLength,.27,2.39,darkMetal);
+  for(const sign of [-1,1])box(g,bodyCenter,1.2,sign*(s.width/2-.09),bodyLength,.38,.14,material(kind==='evo'||kind==='agv'?'#612333':'#66717a',.45,.43));
+ }
+ // Underfloor equipment is clustered, avoiding hundreds of tiny separate meshes.
+ if(!loco){
+  for(const [offset,length] of [[-.17,2.4],[.06,2.9],[.27,1.6]])
+   box(g,bodyCenter+offset*bodyLength,.91,0,length,.46,1.7,darkMetal);
+ }else{box(g,.4,1.02,0,L-6,.45,2.2,darkMetal)}
+ const leftBogie=cab?-L/2+(kind==='agv'?6.1:kind==='fr1000'?5.5:kind==='rock'?4.5:kind==='ic'?3.4:4.4):-L/2+3.6;
+ if(kind==='agv'){
+  // The shared bogie is centred in each inter-car joint, not duplicated.
+  if(index===0)bogie(g,leftBogie);
+  if(index<count-1)bogie(g,L/2+.27);
+  else bogie(g,cab&&index>0?leftBogie:L/2-3.3);
+ }else{bogie(g,leftBogie);bogie(g,L/2-(loco?3.4:3.6))}
+ const roofStart=-L/2+bodyStart+1.0,roofEnd=L/2-1.2;
+ if(loco){
+  box(g,.8,s.height+.04,0,L*.56,.14,1.65,metal);
+  pantograph(g,L*.23,s.height+.12);
+  if(kind==='ic'||kind==='fr500')pantograph(g,-L*.12,s.height+.12);
+  rod(g,[-L*.12,s.height+.32,.25],[L*.23,s.height+.32,.25],.028,material('#9d8060',.7,.45));
+  for(const x of [-.8,.2,1.2,2.2])box(g,x,s.height+.17,0,.07,.16,1.32,darkMetal);
+ }else{
+  for(const x of [lerp(roofStart,roofEnd,.28),lerp(roofStart,roofEnd,.68)]){
+   box(g,x,s.height+.04,0,kind==='rock'?2.6:2.2,.18,1.4,metal);
+   for(const z of [-.45,0,.45])box(g,x,s.height+.14,z,1.6,.018,.13,darkMetal);
+  }
+  const pantoCar=kind==='agv'?(index===1||index===count-2):kind==='fr1000'?(index===2||index===5):kind==='evo'?(index===1||index===5):kind==='rock'?index===1:false;
+  if(pantoCar)pantograph(g,lerp(roofStart,roofEnd,.46),s.height+.12);
+ }
+ if(cab){
+  const min=kind==='ic'?.12:kind==='rock'?.37:kind==='fr500'?.4:kind==='evo'?.44:kind==='fr1000'?.51:.5;
+  const max=kind==='ic'?.65:kind==='rock'?.72:kind==='fr500'?.8:kind==='evo'?.76:.76;
+  const angular=kind==='ic'||kind==='fr500'||kind==='rock';
+  patch(g,shape,L,true,shape.nose*min,shape.nose*max,.55,Math.PI-.55,glass,.028);
+  // Windscreen divider and fine wipers follow the actual lofted surface.
+  const wiperA=surface(shape,L,shape.nose*(min+.025),1.34,true,.065);
+  const wiperB=surface(shape,L,shape.nose*(max-.025),1.7,true,.065);
+  rod(g,wiperA,wiperB,.012,darkMetal);
+  if(angular){
+   const a=surface(shape,L,shape.nose*min,Math.PI/2,true,.048),b=surface(shape,L,shape.nose*max,Math.PI/2,true,.048);
+   rod(g,a,b,.025,material(shape.color,.45,.3));
+  }
+  for(const sign of [-1,1]){
+   const a=sign===1?-.08:Math.PI+.08,d=shape.nose*(kind==='ic'?.12:kind==='rock'?.2:.3);
+   const p=surface(shape,L,d,a,true,.025);
+   mesh(g,sphereGeometry,darkMetal,p[0],p[1],p[2],.36,.13,.09);
+   mesh(g,sphereGeometry,tail?tailLamp:lamp,p[0]-.018,p[1]+.025,p[2]+sign*.045,.25,.064,.055);
+   // Cab side glazing: different length and height from passenger windows.
+   if(!loco)patch(g,shape,L,true,shape.nose*.85,shape.nose+1.15,sign===1?.07:Math.PI-.36,sign===1?.36:Math.PI-.07,glass,.023);
+   if(kind==='ic'||part==='pilot'){
+    cylinder(g,-L/2-.12,1.07,sign*.88,.18,.35,darkMetal);
+    box(g,-L/2-.28,1.07,sign*.88,.1,.31,.46,darkMetal);
+   }
+  }
+  if(kind==='rock'){
+   patch(g,shape,L,true,.04,shape.nose*.39,.05,Math.PI-.05,material('#244260',.45,.29),.022);
+   box(g,-L/2+.25,1.0,0,.18,.18,.7,darkMetal);
+  }else if(kind==='ic'||part==='pilot'){
+   box(g,-L/2+.03,1.7,0,.12,.23,1.58,material('#d49736',.25,.5));
+  }else{
+   patch(g,shape,L,true,.08,shape.nose*.23,-.6,.6,material(shape.accent,.5,.35),.019);
+   patch(g,shape,L,true,.08,shape.nose*.23,Math.PI-.6,Math.PI+.6,material(shape.accent,.5,.35),.019);
+  }
+ }
+ // Fine skirt seams and boarding steps remain geometry; doors/windows are atlas pixels.
+ for(const sign of [-1,1]){
+  if(!loco)for(const d of [bodyStart+1.0,L-1.7]){
+   box(g,d-L/2,kind==='rock'?.85:1.22,sign*(s.width/2-.02),kind==='rock'?1.35:.92,.055,.18,metal);
+  }
+ }
+ if(tail)g.rotation.y=Math.PI;
+ return g;
+}
+function gangway(g,x){
+ box(g,x,2.25,0,.43,2.35,2.3,rubber);
+ for(const dx of [-.2,-.1,0,.1,.2])for(const sign of [-1,1])box(g,x+dx,2.26,sign*1.17,.025,2.16,.045,darkMetal);
+ box(g,x,1.05,0,.65,.16,.22,darkMetal);
+}
+function batch(root){
+ root.updateMatrixWorld(true);const inverse=root.matrixWorld.clone().invert(),groups=new Map();
+ root.traverse(o=>{
+  if(!o.isMesh||o.isInstancedMesh||Array.isArray(o.material))return;
+  const k=o.geometry.uuid+'/'+o.material.uuid;
+  if(!groups.has(k))groups.set(k,[]);groups.get(k).push(o);
+ });
+ for(const parts of groups.values()){
+  if(parts.length<2)continue;
+  const m=new T.InstancedMesh(parts[0].geometry,parts[0].material,parts.length);
+  const temp=new T.Matrix4();parts.forEach((p,i)=>{m.setMatrixAt(i,temp.multiplyMatrices(inverse,p.matrixWorld));p.parent.remove(p)});
+  m.instanceMatrix.needsUpdate=true;m.computeBoundingSphere();root.add(m);
+ }
+ root.traverse(o=>{o.matrixAutoUpdate=false;o.updateMatrix()});
+}
+function destroyAssembly(){
+ assembly.traverse(o=>{if(o.isInstancedMesh)o.dispose()});
+ scene.remove(assembly);
+ for(const geo of ownedGeometries)geo.dispose();ownedGeometries.clear();geometryCache.clear();
+ for(const m of textureCache.values()){m.map.dispose();m.dispose()}textureCache.clear();
+ for(const [key,m] of materialCache)if(!fixedMaterials.has(m)){m.dispose();materialCache.delete(key)}
+ renderer.renderLists.dispose();
+}
+const shadowCanvas=document.createElement('canvas');shadowCanvas.width=128;shadowCanvas.height=64;
+const shadowContext=shadowCanvas.getContext('2d'),shadowGradient=shadowContext.createRadialGradient(64,32,1,64,32,64);
+shadowGradient.addColorStop(0,'rgba(0,0,0,.65)');shadowGradient.addColorStop(1,'rgba(0,0,0,0)');
+shadowContext.fillStyle=shadowGradient;shadowContext.fillRect(0,0,128,64);
+const shadowTexture=new T.CanvasTexture(shadowCanvas),shadowMaterial=new T.MeshBasicMaterial({map:shadowTexture,transparent:true,depthWrite:false});
+function updatePixelRatio(){
+ const dpr=quality==='eco'?1:quality==='detail'?Math.min(devicePixelRatio,2):Math.min(devicePixelRatio,innerWidth<740?1.25:1.6);
+ renderer.setPixelRatio(dpr);
+}
+function makeTrack(length){
+ const rail=material('#88939b',.8,.34),sleeper=material('#657071',.1,.92);
+ for(const z of [-.7175,.7175]){
+  box(track,0,-.045,z,length,.09,.066,rail);
+  box(track,0,-.13,z,length,.1,.045,darkMetal);
+  box(track,0,-.2,z,length,.025,.14,rail);
+ }
+ for(let x=-length/2;x<length/2;x+=.64)box(track,x,-.285,0,.23,.14,2.6,sleeper);
+ const shadowGeo=new T.PlaneGeometry(length+3,5.1);ownedGeometries.add(shadowGeo);
+ const sh=mesh(track,shadowGeo,shadowMaterial,0,-.36,0);sh.rotation.x=-Math.PI/2;
+}
+function fit(){
+ const box=new T.Box3().setFromObject(model),size=box.getSize(new T.Vector3());
+ aim.copy(box.getCenter(new T.Vector3()));aim.y=Math.max(.5,aim.y);
+ const vertical=T.MathUtils.degToRad(camera.fov),horizontal=2*Math.atan(Math.tan(vertical/2)*camera.aspect);
+ const bound=Math.hypot(size.x,size.z)/2;
+ fitDistance=$('#camera-view').value==='front'&&!auto?
+ (size.x/2+Math.max(size.z/2/Math.tan(horizontal/2),size.y/2/Math.tan(vertical/2)))*1.14:
+ Math.max(bound/Math.sin(horizontal/2),size.y/.6/Math.tan(vertical/2))*1.12;
+ distance=fitDistance*100/Number($('#zoom').value);
 }
 function build(){
-disposeModel(model);model=new T.Group();scene.add(model);
-const count=full?(current==='fr1000'?8:current==='evo'?7:current==='agv'?11:current==='rock'?4:current==='fr500'?13:7):3;
-const L=current==='agv'?7.3:current==='ic'?9.2:current==='fr500'?10.2:10.1;
-const total=count*L+(count-1)*.2;
-for(let i=0;i<count;i++){const c=car(current,i,count,L);c.position.x=-total/2+L/2+i*(L+.2);model.add(c);if(i<count-1)box(model,c.position.x+L/2+.1,1.4,0,.25,1.23,1.45,rubber)}
-const scale=full?34/total:1.04;model.scale.setScalar(scale);
-model.traverse(o=>{if(o.isMesh&&o.material){for(const m of Array.isArray(o.material)?o.material:[o.material]){if(!m.map)m.wireframe=wire}}});
-for(const child of [...base.children]){base.remove(child);if(child.geometry!==boxGeo)child.geometry?.dispose();if(child.material?.map){child.material.map.dispose();child.material.dispose()}}
-const groundLength=full?37:35;
-for(const z of [-.74,.74])box(base,0,-.06,z,groundLength,.09,.09,mat('#65786a',.5,.45));
-for(let x=-groundLength/2;x<groundLength/2;x+=.6)box(base,x,-.14,0,.15,.12,2.35,mat('#3e4c40',.1,.8));
-const grid=new T.GridHelper(80,40,0x5c7059,0x304035);grid.position.y=-.25;grid.material.transparent=true;grid.material.opacity=.18;base.add(grid);
-const shadowCanvas=document.createElement('canvas');shadowCanvas.width=256;shadowCanvas.height=64;const sx=shadowCanvas.getContext('2d'),gradient=sx.createRadialGradient(128,32,3,128,32,128);gradient.addColorStop(0,'rgba(0,0,0,.5)');gradient.addColorStop(1,'rgba(0,0,0,0)');sx.fillStyle=gradient;sx.fillRect(0,0,256,64);
-const shadow=new T.Mesh(new T.PlaneGeometry(43,9),new T.MeshBasicMaterial({map:new T.CanvasTexture(shadowCanvas),transparent:true,depthWrite:false}));shadow.rotation.x=-Math.PI/2;shadow.position.y=-.21;base.add(shadow);
-batchParts(model);batchParts(base);baseRadius=innerWidth<740?55:32;radius=baseRadius*100/Number($('#zoom').value);targetY=full?.6:1.5;
-dirty=true;
+ const start=performance.now();destroyAssembly();
+ assembly=new T.Group();model=new T.Group();track=new T.Group();assembly.add(model,track);scene.add(assembly);
+ const kind=current,number=full?({fr1000:8,evo:7,agv:11,ic:7,rock:4,fr500:13}[kind]):headView?(kind==='ic'||kind==='fr500'?2:1):3;
+ const cars=[],lengths=[];let total=0;
+ for(let i=0;i<number;i++){
+  const tail=full&&i===number-1;
+  const loco=(kind==='ic'&&i===0)||(kind==='fr500'&&(i===0||tail));
+  const part=loco?'loco':kind==='ic'&&tail?'pilot':i===0||(tail&&kind!=='ic')?'cab':'coach';
+  const c=car(kind,i,number,part,tail&&kind!=='ic'||part==='pilot');const L=c.userData.length;
+  cars.push(c);lengths.push(L);total+=L+(i<number-1?.5:0);
+ }
+ let x=-total/2;
+ cars.forEach((c,i)=>{const L=lengths[i];c.position.x=x+L/2;model.add(c);if(i<number-1)gangway(model,x+L+.25);x+=L+.5});
+ // Keep rolling stock and rails in one coordinate system; no floating scaled wheels.
+ const scale=34/total;assembly.scale.setScalar(scale);makeTrack(total+7);
+ batch(model);batch(track);
+ const wireMaterial=material('#b9d9a3',.05,.8);wireMaterial.wireframe=true;
+ if(wire)model.traverse(o=>{if(o.isMesh)o.material=wireMaterial});
+ $('#head-view').setAttribute('aria-pressed',headView&&!full);
+ $('#head-view').textContent=headView&&!full?'✓ Крупный план':'Крупный план';
+ $('#full-train').textContent=full?'✓ Весь состав':'Весь состав';
+ $('#model-recognition').innerHTML=specs[current].note.map((v,i)=>'<div><span>0'+(i+1)+'</span>'+v+'</div>').join('');
+ $('#photo-reference').href=specs[current].ref;
+ updatePixelRatio();fit();buildMs=performance.now()-start;dirty=true;wake();
 }
 rebuild=build;
-function resize(){const w=host.clientWidth,h=host.clientHeight;baseRadius=innerWidth<740?55:32;radius=baseRadius*100/Number($('#zoom').value);renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();dirty=true}
-new ResizeObserver(resize).observe(host);
-setZoom=value=>{radius=baseRadius*100/value;dirty=true};
-resetCamera=()=>{yaw=-.62;pitch=.29;$('#zoom').value='100';$('#zoom-value').value='100%';radius=baseRadius;dirty=true};
-let pointerMap=new Map(),drag=false,lastX=0,lastY=0,pinch=0;
-canvas.addEventListener('pointerdown',e=>{pointerMap.set(e.pointerId,{x:e.clientX,y:e.clientY});canvas.setPointerCapture(e.pointerId);drag=true;lastX=e.clientX;lastY=e.clientY;if(pointerMap.size===2){const a=[...pointerMap.values()];pinch=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y)}});
-canvas.addEventListener('pointermove',e=>{if(!pointerMap.has(e.pointerId))return;pointerMap.set(e.pointerId,{x:e.clientX,y:e.clientY});if(pointerMap.size===2){const a=[...pointerMap.values()],p=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);if(pinch>0){let v=Math.min(220,Math.max(65,Number($('#zoom').value)*p/pinch));$('#zoom').value=String(Math.round(v));$('#zoom-value').value=Math.round(v)+'%';setZoom(v)}pinch=p}
-else{yaw-=(e.clientX-lastX)*.007;pitch=Math.max(.04,Math.min(1.3,pitch+(e.clientY-lastY)*.005))}lastX=e.clientX;lastY=e.clientY;dirty=true});
-function pointerEnd(e){pointerMap.delete(e.pointerId);drag=pointerMap.size>0;pinch=0;if(pointerMap.size===1){const p=[...pointerMap.values()][0];lastX=p.x;lastY=p.y}}
-canvas.addEventListener('pointerup',pointerEnd);canvas.addEventListener('pointercancel',pointerEnd);canvas.addEventListener('lostpointercapture',pointerEnd);
-canvas.addEventListener('wheel',e=>{e.preventDefault();let v=Math.min(220,Math.max(65,Number($('#zoom').value)-e.deltaY*.07));$('#zoom').value=String(Math.round(v));$('#zoom-value').value=Math.round(v)+'%';setZoom(v)},{passive:false});
-canvas.addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','+','=','-','r','R'].includes(e.key))return;e.preventDefault();if(e.key==='ArrowLeft')yaw-=.12;if(e.key==='ArrowRight')yaw+=.12;if(e.key==='ArrowUp')pitch=Math.min(1.3,pitch+.07);if(e.key==='ArrowDown')pitch=Math.max(.04,pitch-.07);if(e.key==='r'||e.key==='R')resetCamera();if(['+','=','-'].includes(e.key)){let v=Math.min(220,Math.max(65,Number($('#zoom').value)+(e.key==='-'?-10:10)));$('#zoom').value=String(v);$('#zoom-value').value=v+'%';setZoom(v)}dirty=true});
-if('IntersectionObserver' in window)new IntersectionObserver(es=>{visible=es[0].isIntersecting;if(visible)dirty=true},{rootMargin:'120px'}).observe(host);
-document.addEventListener('visibilitychange',()=>{if(!document.hidden)dirty=true});
-canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();$('#viewer-status').textContent='3D приостановлен — обновите страницу';$('#depot').classList.remove('js-ready')});
-build();resize();
-$('#depot').classList.add('js-ready');$('#viewer-status').textContent='3D / ГОТОВО';
-function frame(now){requestAnimationFrame(frame);if(!visible||document.hidden)return;const dt=Math.min(.06,(now-lastRender)/1000);if(now-lastRender<25)return;lastRender=now;if(auto&&!noMotion&&!drag){yaw+=dt*.075;dirty=true}if(!dirty)return;
-camera.position.set(Math.sin(yaw)*Math.cos(pitch)*radius,Math.sin(pitch)*radius+targetY,Math.cos(yaw)*Math.cos(pitch)*radius);camera.lookAt(0,targetY,0);renderer.render(scene,camera);dirty=false;}
-requestAnimationFrame(frame);
-}catch(error){
-console.warn('3D viewer unavailable',error);$('#viewer-status').textContent='3D недоступен · силуэт и характеристики сохранены';
-$('#depot').classList.remove('js-ready');$$('.viewer-controls button,.viewer-controls input').forEach(b=>b.disabled=true);
+function resize(){
+ renderer.setSize(host.clientWidth,host.clientHeight,false);camera.aspect=host.clientWidth/Math.max(1,host.clientHeight);camera.updateProjectionMatrix();fit();dirty=true;wake();
 }
+new ResizeObserver(resize).observe(host);
+setZoom=value=>{distance=fitDistance*100/value;dirty=true;wake()};
+resetCamera=()=>{yaw=-.78;pitch=.23;$('#camera-view').value='perspective';$('#zoom').value='100';$('#zoom-value').value='100%';fit();dirty=true;wake()};
+function zoomBy(value){const v=Math.max(65,Math.min(300,value));$('#zoom').value=String(Math.round(v));$('#zoom-value').value=Math.round(v)+'%';setZoom(v)}
+$('#quality').addEventListener('change',e=>{quality=e.target.value;build();resize()});
+$('#head-view').addEventListener('click',()=>{headView=!headView;full=false;$('#full-train').setAttribute('aria-pressed','false');build()});
+$('#camera-view').addEventListener('change',e=>{
+ const views={perspective:[-.78,.23],side:[0,.1],front:[-Math.PI/2,.12],roof:[-.3,1.4],undercarriage:[-.6,-.12]};
+ [yaw,pitch]=views[e.target.value];auto=false;autoState();fit();dirty=true;wake();
+});
+
+const pointers=new Map();let lastX=0,lastY=0,pinch=0;
+canvas.addEventListener('pointerdown',e=>{
+ pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});canvas.setPointerCapture(e.pointerId);
+ dragging=true;lastX=e.clientX;lastY=e.clientY;
+ if(pointers.size===2){const [a,b]=[...pointers.values()];pinch=Math.hypot(a.x-b.x,a.y-b.y)}
+ wake();
+});
+canvas.addEventListener('pointermove',e=>{
+ if(!pointers.has(e.pointerId))return;pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+ if(pointers.size===2){
+  const [a,b]=[...pointers.values()],d=Math.hypot(a.x-b.x,a.y-b.y);
+  if(pinch>0)zoomBy(Number($('#zoom').value)*d/pinch);pinch=d;
+ }else{
+  yaw-=(e.clientX-lastX)*.006;pitch=Math.max(-.16,Math.min(1.45,pitch+(e.clientY-lastY)*.004));
+  $('#camera-view').value='perspective';
+ }
+ lastX=e.clientX;lastY=e.clientY;dirty=true;wake();
+});
+function endPointer(e){
+ pointers.delete(e.pointerId);dragging=pointers.size>0;pinch=0;
+ if(pointers.size===1){const p=[...pointers.values()][0];lastX=p.x;lastY=p.y}
+ dirty=true;wake();
+}
+for(const event of ['pointerup','pointercancel','lostpointercapture'])canvas.addEventListener(event,endPointer);
+canvas.addEventListener('wheel',e=>{e.preventDefault();zoomBy(Number($('#zoom').value)-e.deltaY*.07)},{passive:false});
+canvas.addEventListener('keydown',e=>{
+ if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','+','=','-','r','R'].includes(e.key))return;
+ e.preventDefault();if(e.key==='ArrowLeft')yaw-=.12;if(e.key==='ArrowRight')yaw+=.12;
+ if(e.key==='ArrowUp')pitch=Math.min(1.45,pitch+.07);if(e.key==='ArrowDown')pitch=Math.max(-.16,pitch-.07);
+ if(e.key==='r'||e.key==='R')resetCamera();
+ if(['+','=','-'].includes(e.key))zoomBy(Number($('#zoom').value)+(e.key==='-'?-10:10));
+ dirty=true;wake();
+});
+$('#auto').addEventListener('click',()=>{if(auto){$('#camera-view').value='perspective';fit()}dirty=true;wake()});
+$('#motion-toggle').addEventListener('click',()=>{dirty=true;wake()});
+$('#show-metrics').addEventListener('click',()=>{
+ const open=$('#render-metrics').hidden;$('#render-metrics').hidden=!open;
+ $('#show-metrics').setAttribute('aria-pressed',open);dirty=true;wake();
+});
+$('#viewer-expand').addEventListener('click',()=>{
+ const expanded=depot.classList.toggle('expanded');document.body.classList.toggle('viewer-open',expanded);
+ $('#viewer-expand').setAttribute('aria-pressed',expanded);$('#viewer-expand').textContent=expanded?'✕ Закрыть':'⤢ Развернуть';$('#viewer-expand').focus();resize();
+});
+document.addEventListener('keydown',e=>{
+ if(!depot.classList.contains('expanded'))return;
+ if(e.key==='Escape'){$('#viewer-expand').click();return}
+ if(e.key==='Tab'){
+  const focusable=$('#depot button:not(:disabled),#depot select:not(:disabled),#depot input:not(:disabled),#depot canvas').filter(el=>el.offsetParent!==null&&!el.hidden&&el.tabIndex!==-1);
+  const first=focusable[0],last=focusable[focusable.length-1];if(!first)return;
+  if(e.shiftKey&&(document.activeElement===first||!depot.contains(document.activeElement))){e.preventDefault();last.focus()}
+  else if(!e.shiftKey&&(document.activeElement===last||!depot.contains(document.activeElement))){e.preventDefault();first.focus()}
+ }
+});
+if('IntersectionObserver'in window)new IntersectionObserver(entries=>{
+ visible=entries[0].isIntersecting;if(visible){dirty=true;wake()}else if(raf){cancelAnimationFrame(raf);raf=0}
+},{rootMargin:'80px'}).observe(host);
+document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(raf);raf=0}else{lastTime=0;dirty=true;wake()}});
+canvas.addEventListener('webglcontextlost',e=>{
+ e.preventDefault();contextLost=true;cancelAnimationFrame(raf);raf=0;$('.viewer-controls button,.viewer-controls input,#quality,#camera-view,#show-metrics').forEach(b=>b.disabled=true);$('#viewer-status').textContent='Контекст 3D потерян · перезагрузите страницу';
+ depot.classList.remove('js-ready');
+});
+canvas.addEventListener('webglcontextrestored',()=>location.reload());
+function wake(){if(!raf&&visible&&!document.hidden&&!contextLost)raf=requestAnimationFrame(frame)}
+let slowFrames=0;
+function frame(now){
+ raf=0;if(!visible||document.hidden)return;
+ const rotating=auto&&!noMotion&&!dragging,dt=lastTime?Math.min(.05,(now-lastTime)/1000):0;lastTime=now;
+ if(rotating){yaw+=dt*.085;dirty=true}
+ const frameBudget=quality==='eco'?1000/30:1000/45;
+ if(now-lastPaint<frameBudget){if(rotating||dirty)wake();return}
+ if(dirty){
+  camera.position.set(aim.x+Math.sin(yaw)*Math.cos(pitch)*distance,aim.y+Math.sin(pitch)*distance,aim.z+Math.cos(yaw)*Math.cos(pitch)*distance);
+  camera.lookAt(aim);const start=performance.now();renderer.render(scene,camera);const cpuMs=performance.now()-start;
+  lastPaint=now;dirty=false;
+  $('#render-metrics').textContent=renderer.info.render.calls+' вызовов · '+Math.round(renderer.info.render.triangles/1000)+' тыс. треугольников · CPU '+cpuMs.toFixed(1)+' мс · сборка '+Math.round(buildMs)+' мс';
+  // Conservative one-way resolution reduction; no continuous oscillation or rebuilds.
+  if(quality==='auto'&&cpuMs>24)slowFrames++;else slowFrames=Math.max(0,slowFrames-1);
+  if(quality==='auto'&&slowFrames===15&&renderer.getPixelRatio()>1){
+   renderer.setPixelRatio(1);renderer.setSize(host.clientWidth,host.clientHeight,false);dirty=true;
+   $('#viewer-status').textContent='3D / АДАПТИВНОЕ РАЗРЕШЕНИЕ';
+  }
+ }
+ if(rotating||dirty)wake();
+}
+build();resize();depot.classList.add('js-ready');$('#viewer-status').textContent='3D / ГОТОВО';
+window.addEventListener('pagehide',()=>{cancelAnimationFrame(raf);raf=0});
+window.addEventListener('pageshow',()=>{dirty=true;lastTime=0;wake()});
+}catch(error){
+ console.warn('3D viewer unavailable',error);$('#viewer-status').textContent='3D недоступен · силуэт и характеристики сохранены';
+ $('#depot').classList.remove('js-ready');$('.viewer-controls button,.viewer-controls input,#quality,#camera-view,#show-metrics,#viewer-expand').forEach(b=>b.disabled=true);
+}
+
 </script>
 </body></html>
