@@ -93,6 +93,18 @@ button,a,input,select,summary{-webkit-tap-highlight-color:transparent}
 @media(prefers-reduced-motion:reduce){.train-card{transition:none!important}.train-card:hover{transform:none}}
 @media print{.viewer-toolbar,.recognition,.reference-row,.finder,.search-empty,.checklist-foot button{display:none!important}.checklist-panel{background:#fff;color:#111}.trip-checklist label{color:#222}.model-note{color:#333}}
 
+.station-caption{position:absolute;left:24px;bottom:55px;z-index:4;font:500 11px/1.5 var(--font);color:#d8e8c6;padding:7px 12px;border:1px solid #c7daaa38;border-radius:20px;background:#10211ee6;pointer-events:none}.station-caption:empty,.station-caption[hidden]{display:none}@media(max-width:600px){.station-caption{left:15px;bottom:57px;font-size:10px}}
+
+#model-fallback{overflow:hidden;isolation:isolate}
+#model-fallback:before{content:'';position:absolute;left:0;right:0;top:72%;height:4px;background:#a9b9ad;box-shadow:0 9px #384c42,0 24px 0 12px #606b61;z-index:-1}
+#model-fallback:after{content:'BINARIO 01';position:absolute;left:5%;top:20%;width:90%;height:19%;border-top:7px solid #566c65;border-bottom:2px solid #81968a;background:repeating-linear-gradient(90deg,transparent 0 19%,#81968a 19% 19.5%,transparent 19.5% 20%);color:#b8caaa;font:10px ui-monospace,monospace;letter-spacing:.2em;padding-top:8px;z-index:-1}
+#model-fallback svg{animation:fallback-station 24s infinite;animation-delay:-6s;transform-origin:center;filter:drop-shadow(0 10px 10px #0005)}
+#model-fallback svg>path:first-child{visibility:hidden}
+@keyframes fallback-station{0%{transform:translateX(160%);animation-timing-function:cubic-bezier(.12,.65,.25,1)}25%,54%{transform:translateX(0)}54%{animation-timing-function:cubic-bezier(.6,0,.9,.35)}84%,100%{transform:translateX(-160%)}}
+.no-motion #model-fallback svg{animation:none}
+.depot:not(.js-ready) .station-caption{display:none}
+@media(prefers-reduced-motion:reduce){#model-fallback svg{animation:none}}
+
 .language-switch{display:flex;align-items:center;gap:2px;border:1px solid #ffffff30;border-radius:24px;padding:3px;flex-shrink:0;background:#18211b}.language-switch a{font:600 10px/1.4 var(--font);display:grid;place-items:center;min-width:31px;min-height:29px;border-radius:20px;padding:5px 7px;color:#bdcabc}.language-switch a[aria-current=page]{background:var(--green);color:#172018}.language-switch a:hover{color:var(--text);background:#ffffff12}.language-switch a[aria-current=page]:hover{color:#172018;background:var(--green)}.nav-links{gap:clamp(11px,1.6vw,25px)}.viewer-controls .control-group{row-gap:7px}.viewer-toolbar{row-gap:9px}@media(max-width:1000px){.nav-links{gap:12px;font-size:10px}.nav{gap:15px}}@media(max-width:740px){.nav-end{gap:10px}.language-switch a{min-width:28px;min-height:28px;padding:4px;font-size:9px}.viewer-label h2{font-size:clamp(21px,5vw,24px)}.viewer-controls .control-group button{font-size:10px}.viewer-toolbar label{font-size:10px}.viewer-status{max-width:39%;text-align:right}.recognition>div{line-height:1.55}}@media print{.language-switch{display:none!important}}
 </style>
 <script>(function(){
@@ -138,8 +150,8 @@ button,a,input,select,summary{-webkit-tap-highlight-color:transparent}
 <div class="viewport" id="viewport"><div class="viewer-label"><div class="mono" id="model-code">TRENITALIA / ETR 1000</div><h2 id="model-title">Frecciarossa 1000</h2><span class="pill" id="model-type">Distributed traction · 8 cars</span></div><span class="viewer-index" id="model-index" aria-hidden="true">01</span>
 <div class="model-fallback" id="model-fallback" aria-label="Schematic Frecciarossa 1000 silhouette"><svg viewBox="0 0 900 150" aria-hidden="true"><path d="M20 112 Q32 80 85 60 L125 45 H840 Q868 45 878 75 L887 112Z" fill="#d8dedc"/><path d="M20 112 Q32 80 85 60 L125 45H210V112Z" fill="#d12637"/><path d="M74 72L125 51H165L148 75Z" fill="#18292f"/><path d="M200 65H850V86H200Z" fill="#183038"/><path d="M190 98H880V107H190Z" fill="#c72538"/><path d="M55 119H850" stroke="#687b6a" stroke-width="3"/><g fill="#111b1c"><circle cx="136" cy="113" r="12"/><circle cx="176" cy="113" r="12"/><circle cx="380" cy="113" r="12"/><circle cx="420" cy="113" r="12"/><circle cx="650" cy="113" r="12"/><circle cx="690" cy="113" r="12"/></g></svg></div>
 <canvas class="viewer-canvas" id="train-canvas" tabindex="0" aria-label="3D train model. Drag to rotate. Use the slider to zoom. Keyboard: arrow keys to rotate, plus and minus to zoom, R to reset."></canvas>
-<span class="viewer-help">Rotate: drag / arrows · zoom: pinch / + −</span><output class="render-metrics" id="render-metrics" hidden aria-label="Current 3D scene statistics"></output><span class="viewer-status" id="viewer-status" role="status">Loading 3D…</span></div>
-<div class="viewer-controls"><div class="control-group"><button id="auto" aria-pressed="true">Ⅱ Auto-rotate</button><button id="head-view" aria-pressed="true">✓ Close-up</button><button id="full-train" aria-pressed="false">Full train</button><button id="wire" aria-pressed="false">Wireframe</button><button id="reset-view">↺ Reset</button></div><label class="zoom">Zoom <input id="zoom" type="range" min="65" max="300" value="100" aria-label="Model zoom"><output id="zoom-value">100%</output></label></div>
+<output class="station-caption" id="station-caption"></output><span class="viewer-help">Rotate: drag / arrows · zoom: pinch / + −</span><output class="render-metrics" id="render-metrics" hidden aria-label="Current 3D scene statistics"></output><span class="viewer-status" id="viewer-status" role="status">Loading 3D…</span></div>
+<div class="viewer-controls"><div class="control-group"><button id="auto" aria-pressed="true">Ⅱ Auto-rotate</button><button id="head-view" aria-pressed="true">✓ Close-up</button><button id="full-train" aria-pressed="false">Full train</button><button id="station-loop" aria-pressed="true">Ⅱ Station</button><button id="reset-view">↺ Reset</button></div><label class="zoom">Zoom <input id="zoom" type="range" min="65" max="300" value="100" aria-label="Model zoom"><output id="zoom-value">100%</output></label></div>
 <div class="viewer-toolbar">
 <label>View <select id="camera-view" aria-label="Model viewpoint"><option value="perspective">Three-quarter</option><option value="side">Side</option><option value="front">Front</option><option value="roof">Roof</option><option value="undercarriage">Bogie detail</option></select></label>
 <label>Graphics <select id="quality" aria-label="Graphics quality"><option value="auto">Adaptive</option><option value="detail">Detailed</option><option value="eco">Economy</option></select></label><span class="spacer"></span>
@@ -262,11 +274,11 @@ button,a,input,select,summary{-webkit-tap-highlight-color:transparent}
 <script type="module">
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
-let noMotion=reduced.matches,current='fr1000',full=false,wire=false,auto=!noMotion,rebuild=null,resetCamera=null,setZoom=null;
+let noMotion=reduced.matches,current='fr1000',full=false,station=true,auto=false,rebuild=null,resetCamera=null,setZoom=null;
 const fleet={
 fr1000:{title:'Frecciarossa 1000',code:'TRENITALIA / ETR 1000',type:"Distributed traction · 8 cars",speed:300,cars:'8',carLabel:"cars in the trainset",length:"≈202 m",levels:'Standard · Premium · Business · Executive*',routes:"Main corridor: Torino / Milano — Roma — Napoli; extensions vary by timetable.",eng:"<strong>Engineering.</strong> 16 traction motors on several bogies. A pointed red nose, silver cars and distributed traction. Up to 300 km/h in regular Italian service.",plan:[['EX','ex'],['B','biz'],['B / ☕','food'],['P',''],['S',''],['S',''],['S',''],['S','']],legend:"Typical layout: EX — Executive, B — Business, P — Premium, S — Standard, ☕ — bistro. Check the equipment of your actual train."},
 evo:{title:'Italo EVO',code:'ITALO / ETR 675',type:"Electric multiple unit · 7 cars",speed:250,cars:'7',carLabel:"cars in the trainset",length:"187 m",levels:'Smart · Prima Business · Club Executive*',routes:"Italo network: Roma — Venezia / Verona, Napoli — northern Italy and other services; the model is not permanently tied to a route.",eng:"<strong>Engineering.</strong> Avelia Pendolino platform, conventional separate bogies and distributed traction. EVO has no active tilting. A shorter trainset and a taller, rounder cab than AGV.",plan:[['C','ex'],['P','biz'],['S / ◇','food'],['S',''],['S',''],['S / ◇','food'],['S','']],legend:"Indicative accommodation: C — Club, P — Prima, S — Smart, ◇ — vending area. Check the exact seating plan and available areas when choosing a departure."},
-agv:{title:'Italo AGV',code:'ITALO / ETR 575',type:"Articulated electric trainset · 11 cars",speed:300,cars:'11',carLabel:"cars in the trainset",length:"202 m",levels:'Smart · Prima Business · Club Executive*',routes:"Main Italo network: Torino / Milano — Bologna — Firenze — Roma — Napoli / Salerno; other services vary by timetable.",eng:"<strong>Engineering.</strong> Adjacent cars share bogies; traction is distributed along the train. Look for the long, low nose, burgundy body and gold stripe.",plan:[['C','ex'],['P','biz'],['P / ◇','food'],['P','biz'],['S',''],['S',''],['S / ◇','food'],['S',''],['S',''],['S',''],['S','']],legend:"Indicative layout: C — Club, P — Prima, S — Smart, ◇ — vending areas. Check coach numbering and travel class when booking."},
+agv:{title:'Italo AGV',code:'ITALO / ETR 575',type:"Articulated electric trainset · 11 cars",speed:300,cars:'11',carLabel:"cars in the trainset",length:"202 m",levels:'Smart · Prima Business · Club Executive*',routes:"Main Italo network: Torino / Milano — Bologna — Firenze — Roma — Napoli / Salerno; other services vary by timetable.",eng:"<strong>Engineering.</strong> Adjacent cars share bogies; traction is distributed along the train. Look for the broad, rounded front with its large dark mask, burgundy body and gold stripe.",plan:[['C','ex'],['P','biz'],['P / ◇','food'],['P','biz'],['S',''],['S',''],['S / ◇','food'],['S',''],['S',''],['S',''],['S','']],legend:"Indicative layout: C — Club, P — Prima, S — Smart, ◇ — vending areas. Check coach numbering and travel class when booking."},
 ic:{title:'Intercity',code:"TRENITALIA / LOCOMOTIVE + COACHES",type:"Example: E.401 with passenger coaches",speed:200,cars:"Varies",carLabel:"formation varies by departure",length:"By departure",levels:"1st class Plus · 2nd class Easy",routes:"Roma — Calabria / Sicilia; Milano — Liguria; the Adriatic coast and other interregional routes.",eng:"<strong>Engineering.</strong> This example shows a locomotive-hauled Intercity with single-deck coaches. Intercity is a service, not one model: other locomotives and multiple units, including hybrids, are also used.",plan:[["L",'biz'],['1','ex'],['2',''],['2 / ♧','food'],['2',''],['2',''],['2','']],legend:"Example only: L — locomotive, 1/2 — classes. Equipped trains have bicycle spaces and vending machines. Length and layout vary."},
 rock:{title:'Regionale Rock',code:'TRENITALIA / HITACHI ROCK',type:"Double-deck electric multiple unit",speed:160,cars:'4–6',carLabel:"cars in different versions",length:"By version",levels:"Usually 2nd class · two decks",routes:"Regional networks: Lazio, Toscana, Emilia-Romagna, Liguria, Veneto and other regions. Not every R / RV is a Rock.",eng:"<strong>Engineering.</strong> A tall, double-deck body with two rows of windows and doors near the car ends. Built for capacity and frequent stops. The same models can operate Regionale and Regionale Veloce services.",plan:[['2 ↑↓','biz'],['2 ↑↓',''],['2 ↑↓',''],['2 ↑↓','']],legend:"The 3D view shows a four-car Rock example. ↑↓ — two decks. Car count, seating and bicycle areas depend on the version."},
 fr500:{title:'Frecciarossa ETR 500',code:'TRENITALIA / ETR 500',type:"2 power cars + 11 passenger coaches",speed:300,cars:'11 + 2',carLabel:"passenger coaches + power cars",length:"2 power cars",levels:'Standard · Premium · Business · Executive',routes:"Main Frecciarossa network: Milano / Torino — Roma — Napoli, the Adriatic corridor and other services.",eng:"<strong>Engineering.</strong> Two separate power cars at the ends of a long train. Passengers travel in the intermediate coaches. Its nose is shorter and bulkier than Frecciarossa 1000’s.",plan:[["M",'biz'],['EX','ex'],['B','biz'],['B','biz'],['B','biz'],['B / ☕','food'],['P',''],['S',''],['S',''],['S',''],['S',''],['S',''],["M",'biz']],legend:"Typical Trenitalia layout: M — power cars without passengers, EX — Executive, B — Business, P — Premium, S — Standard, ☕ — bistro."}
@@ -284,12 +296,14 @@ const cardData=[
 {title:'Merci',code:"M / FREIGHT TRAFFIC",tag:'freight',eyebrow:"FREIGHT / NO PASSENGER SERVICE",speed:"By trainset",unit:"load, wagon, line",seat:"No passenger tickets",kind:'freight',desc:"Long trains carrying containers, cars and raw materials. They share the railway and are not automatically last in every situation.",tech:"Locomotives and different types of freight wagon. Acceleration and braking depend on mass, length and load characteristics.",pass:"There is no ordinary tourist service. A freight train ahead of yours does not mean it must immediately be cleared out of the way.",route:"Ports, terminals and industrial hubs: Genova, La Spezia, Trieste, Verona and international corridors.",source:'https://www.rfi.it/it/Offerta/accesso-alla-rete/prospetto-informativo-della-rete.html'}
 ];
 function trainArt(kind){
-const freight=kind==='freight',rock=kind==='rock',night=kind==='night',italo=kind==='agv',silver=kind==='silver'||kind==='white',ic=kind==='ic';
+const freight=kind==='freight',rock=kind==='rock',night=kind==='night',italo=kind==='agv'||kind==='evo',silver=kind==='silver'||kind==='white',ic=kind==='ic';
 const body=italo?'#a51e35':rock?'#e2e8dd':night?'#224f70':ic?'#d8dfdd':silver?'#d5dcda':'#c42c3e';
 const stripe=italo?'#ddb96a':rock?'#b7e36c':ic?'#14858a':silver?'#c22c45':'#e7e4d9';
 if(freight)return '<svg viewBox="0 0 410 100" aria-hidden="true"><path d="M6 83H405" stroke="#70816f"/><g fill="#253d35" stroke="#637360"><path d="M10 47L28 29H82V74H10Z"/><rect x="94" y="28" width="95" height="46" rx="2" fill="#9a5b39"/><rect x="200" y="28" width="94" height="46" rx="2" fill="#617667"/><rect x="305" y="28" width="95" height="46" rx="2" fill="#9c983b"/></g><path d="M20 44H45V53H20Z" fill="#c4dfc6"/><path d="M108 32V70M123 32V70M138 32V70M153 32V70M168 32V70M216 32V70M231 32V70M246 32V70M261 32V70M276 32V70M320 32V70M335 32V70M350 32V70M365 32V70M380 32V70" stroke="#131e1980"/><g fill="#0c1513">'+[27,64,111,170,216,276,320,382].map(x=>'<circle cx="'+x+'" cy="77" r="6"/>').join('')+'</g></svg>';
 let windows='';for(let i=0;i<14;i++)windows+='<rect x="'+(97+i*21)+'" y="'+(rock?40:46)+'" width="15" height="9" rx="2"/>'+(rock?'<rect x="'+(97+i*21)+'" y="60" width="15" height="8" rx="2"/>':'');
-return '<svg viewBox="0 0 410 100" aria-hidden="true"><path d="M5 84H405" stroke="#71816d" stroke-width="1"/><path d="M10 75Q16 58 '+(rock?'43 34L55 25':'52 48L75 33')+'H389Q400 33 402 46V75Z" fill="'+body+'"/><path d="M12 72H402V78H12Z" fill="'+stripe+'"/><path d="M'+(rock?'30 48L51 29H65L62 48':'39 57L78 37H92L78 57')+'Z" fill="#10252e"/><g fill="#112c35">'+windows+'</g><path d="M186 35V74M294 35V74" stroke="#0e1819" stroke-width="4"/><g fill="#0a1414">'+[74,98,173,199,281,306,365,389].map(x=>'<circle cx="'+x+'" cy="79" r="5"/>').join('')+'</g><path d="M135 31L145 18H160L150 31" stroke="#81918a" stroke-width="2" fill="none"/><path d="M19 66L33 64" stroke="#ffeece" stroke-width="3"/></svg>';
+const outline=rock?'M12 75V53L25 28Q30 24 39 24':ic?'M12 75V46L22 31':kind==='agv'?'M12 75Q8 65 12 52L27 33Q32 29 47 29':kind==='evo'?'M12 75Q8 61 18 53Q30 35 55 29':'M12 75Q8 62 17 55L47 33Q52 29 65 29';
+const wind=rock?'M16 51L28 28H39L33 51Z':ic?'M14 45L24 33H35L29 45Z':kind==='agv'?'M13 53L29 32H45L34 57Z':kind==='evo'?'M20 53Q32 36 54 31H65L43 56Z':'M22 53L48 33H62L42 56Z';
+return '<svg viewBox="0 0 410 100" aria-hidden="true"><path d="M5 84H405" stroke="#71816d" stroke-width="1"/><path d="'+outline+'H389Q400 29 402 46V75Z" fill="'+body+'"/><path d="M12 72H402V78H12Z" fill="'+stripe+'"/><path d="'+wind+'" fill="#10252e"/><g fill="#112c35">'+windows+'</g><path d="M186 35V74M294 35V74" stroke="#0e1819" stroke-width="4"/><g fill="#0a1414">'+[74,98,173,199,281,306,365,389].map(x=>'<circle cx="'+x+'" cy="79" r="5"/>').join('')+'</g><path d="M135 31L145 18H160L150 31" stroke="#81918a" stroke-width="2" fill="none"/><path d="M15 63L24 61" stroke="#ffeece" stroke-width="3"/></svg>';
 }
 $('#train-grid').innerHTML=cardData.map(d=>'<article class="train-card reveal" data-category="'+d.tag+'"><div class="train-art" style="--glow:'+(d.tag==='fast'?'#bf233b22':d.tag==='local'?'#9cd14719':'#7599b018')+'"><span class="code">'+d.code+'</span>'+trainArt(d.kind)+'</div><div class="train-body"><div class="eyebrow">'+d.eyebrow+'</div><h3>'+d.title+'</h3><p>'+d.desc+'</p><div class="mini-stats"><div><b>'+d.speed+'</b><br><span>'+d.unit+'</span></div><div style="text-align:right"><b style="font-size:13px">'+d.seat+"</b><br><span>check your departure</span></div></div><details><summary>Engineering, comfort and routes</summary><p><b>Engineering.</b> "+d.tech+"</p><p><b>For passengers.</b> "+d.pass+"</p><p><b>Where to find it.</b> "+d.route+'</p><p><a href="'+d.source+"\" target=\"_blank\" rel=\"noopener noreferrer\">Official source ↗</a></p></details></div></article>").join('');
 function updateFleet(key){
@@ -342,8 +356,8 @@ autoState();
 $('#motion-toggle').addEventListener('click',()=>{noMotion=!noMotion;document.body.classList.toggle('no-motion',noMotion);$('#motion-toggle').setAttribute('aria-pressed',noMotion);$('#motion-toggle').textContent=noMotion?"Enable animations":"Disable animations";if(noMotion){auto=false;autoState()}simState()});
 if(noMotion){document.body.classList.add('no-motion');$('#motion-toggle').setAttribute('aria-pressed',true);$('#motion-toggle').textContent="Enable animations"}
 $('#auto').addEventListener('click',()=>{auto=!auto;autoState()});
-$('#full-train').addEventListener('click',()=>{full=!full;$('#full-train').setAttribute('aria-pressed',full);$('#full-train').textContent=full?"Leading section":"Full train";if(rebuild)rebuild()});
-$('#wire').addEventListener('click',()=>{wire=!wire;$('#wire').setAttribute('aria-pressed',wire);if(rebuild)rebuild()});
+$('#full-train').addEventListener('click',()=>{station=false;full=!full;$('#full-train').setAttribute('aria-pressed',full);$('#full-train').textContent=full?"Leading section":"Full train";if(rebuild)rebuild()});
+$('#station-loop').addEventListener('click',()=>{station=!station;auto=false;autoState();if(rebuild)rebuild()});
 $('#reset-view').addEventListener('click',()=>{if(resetCamera)resetCamera()});
 $('#zoom').addEventListener('input',()=>{$('#zoom-value').value=$('#zoom').value+'%';if(setZoom)setZoom(Number($('#zoom').value))});
 
@@ -420,7 +434,7 @@ const pmrem=new T.PMREMGenerator(renderer),env=pmrem.fromScene(studio,.05,.1,100
 scene.environment=env.texture;scene.environmentIntensity=.65;pmrem.dispose();panelGeo.dispose();panelMat.dispose();
 let assembly=new T.Group(),model=new T.Group(),track=new T.Group();scene.add(assembly);assembly.add(model,track);
 let yaw=-.78,pitch=.23,distance=60,fitDistance=60,aim=new T.Vector3(),dirty=true,visible=true,contextLost=false;
-let quality='auto',headView=true,dragging=false,raf=0,lastTime=0,lastPaint=0,buildMs=0;
+let quality='auto',headView=true,dragging=false,raf=0,lastTime=0,lastPaint=0,buildMs=0,stationClock=6,trainLength=1,lastStationPhase=-1;
 let geometryCache=new Map(),materialCache=new Map(),textureCache=new Map(),ownedGeometries=new Set();
 const boxGeometry=new T.BoxGeometry(1,1,1),cylinderGeometry=new T.CylinderGeometry(1,1,1,16);
 const sphereGeometry=new T.SphereGeometry(1,12,8);
@@ -446,34 +460,34 @@ function rod(g,a,b,r=.025,m=metal){
  o.scale.set(r,v.length(),r);o.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),v.normalize());return o;
 }
 const specs={
-fr1000:{width:2.924,height:4.08,head:26.5,coach:24.25,nose:7.1,color:'#c9cdd0',accent:'#c82136',window:2.75,windowH:.72,spacing:1.8,roof:'#9aa2a8',bodyBottom:1.06,round:.44,
- noseRound:1.05,chin:.86,crown:.91,
- rings:[[0,.48,.72,1.76],[.08,.65,.69,1.94],[.23,.85,.75,2.30],[.43,.96,.87,2.94],[.64,.995,.98,3.70],[.84,1,1.04,4.05],[1,1,1.06,4.08]],
+fr1000:{width:2.924,height:4.08,head:26.5,coach:24.25,nose:5.25,color:'#c9cdd0',accent:'#c82136',window:2.75,windowH:.72,spacing:1.8,roof:'#9aa2a8',bodyBottom:1.06,round:.44,
+ capDepth:.26,noseRound:.62,chin:.93,crown:.87,
+ rings:[[0,.71,.64,2.10],[.08,.84,.64,2.25],[.23,.94,.72,2.64],[.43,.99,.87,3.24],[.67,1,.99,3.94],[.87,1,1.05,4.08],[1,1,1.06,4.08]],
  note:["Long wedge-shaped nose","Silver body and red nose mask","Separate bogies beneath the cars"],
  ref:'https://www.trenitalia.com/it/frecciarossa/la-flotta.html'},
-evo:{width:2.83,height:4.1,head:28.2,coach:25.52,nose:5.8,color:'#b2192f',accent:'#d7b569',window:2.75,windowH:.68,spacing:1.75,roof:'#635c61',bodyBottom:1.13,round:.49,
- noseRound:1.3,chin:.86,crown:.83,
- rings:[[0,.53,.78,1.94],[.1,.75,.71,2.25],[.26,.92,.78,2.92],[.48,1,.94,3.72],[.73,1,1.09,4.08],[1,1,1.13,4.1]],
+evo:{width:2.83,height:4.1,head:28.2,coach:25.52,nose:4.55,color:'#b2192f',accent:'#d7b569',window:2.75,windowH:.68,spacing:1.75,roof:'#635c61',bodyBottom:1.13,round:.49,
+ capDepth:.38,noseRound:.84,chin:.95,crown:.85,
+ rings:[[0,.70,.57,1.90],[.1,.88,.58,2.35],[.26,.98,.70,3.10],[.48,1,.94,3.82],[.73,1,1.09,4.10],[1,1,1.13,4.1]],
  note:["Tall rounded cab","Shorter, rounded EVO nose","Separate bogies, unlike AGV"],
  ref:'https://italospa.italotreno.it/en/ntvs-fleet/trains/italo-evo.html'},
-agv:{width:2.985,height:3.6,head:26.1,coach:16.08888889,nose:7.2,color:'#8f1429',accent:'#d6b15d',window:2.6,windowH:.61,spacing:1.69,roof:'#514c50',bodyBottom:1.0,round:.54,
- noseRound:1.12,chin:.91,crown:.84,
- rings:[[0,.56,.66,1.79],[.08,.73,.64,1.99],[.23,.9,.70,2.44],[.44,.99,.84,3.09],[.69,1,.97,3.56],[1,1,1,3.6]],
- note:["Low elongated AGV nose","Short intermediate cars","Shared bogies between cars"],
+agv:{width:2.985,height:3.6,head:26.1,coach:16.08888889,nose:3.55,color:'#8f1429',accent:'#d6b15d',window:2.6,windowH:.61,spacing:1.69,roof:'#514c50',bodyBottom:1.0,round:.54,
+ capDepth:.27,noseRound:.56,chin:.96,crown:.82,
+ rings:[[0,.77,.56,2.13],[.08,.89,.56,2.37],[.23,.97,.64,2.89],[.44,1,.82,3.38],[.69,1,.96,3.60],[1,1,1,3.6]],
+ note:["Broad, rounded AGV cab front","Short intermediate cars","Shared bogies between cars"],
  ref:'https://italospa.italotreno.it/en/ntvs-fleet/trains/agv-575.html'},
-ic:{width:3.0,height:4.1,head:19.42,coach:26.4,nose:2.2,color:'#e0e1df',accent:'#307f89',window:2.78,windowH:.75,spacing:1.95,roof:'#aeb4b5',bodyBottom:1.16,round:.2,
- noseRound:.22,chin:1,crown:.94,
- rings:[[0,.91,.98,2.90],[.08,.97,1,3.08],[.38,1,1.08,3.82],[.72,1,1.15,4.08],[1,1,1.16,4.1]],
+ic:{width:3.0,height:4.1,head:19.42,coach:26.4,nose:1.15,color:'#e0e1df',accent:'#307f89',window:2.78,windowH:.75,spacing:1.95,roof:'#aeb4b5',bodyBottom:1.16,round:.2,
+ capDepth:.06,noseRound:.22,chin:1,crown:.94,
+ rings:[[0,.97,.98,2.90],[.08,1,1,3.08],[.55,1,1.08,3.91],[.84,1,1.15,4.1],[1,1,1.16,4.1]],
  note:["Angular single-cab E.401","Locomotive shorter than its coaches","Conventional coaches and a rear driving trailer"],
  ref:'https://www.trenitalia.com/it/intercity.html'},
-rock:{width:2.8,height:4.3,head:27.0,coach:26.0,nose:3.8,color:'#d5d9da',accent:'#e5b52f',window:3.46,windowH:.48,spacing:1.59,roof:'#5c6870',bodyBottom:.63,round:.26,
- noseRound:.52,chin:.88,crown:.9,
- rings:[[0,.72,.62,2.20],[.12,.87,.57,2.77],[.35,.98,.59,3.83],[.65,1,.62,4.28],[1,1,.63,4.3]],
+rock:{width:2.8,height:4.3,head:27.0,coach:26.0,nose:1.95,color:'#d5d9da',accent:'#e5b52f',window:3.46,windowH:.48,spacing:1.59,roof:'#5c6870',bodyBottom:.63,round:.26,
+ capDepth:.12,couplerRecess:true,noseRound:.52,chin:.88,crown:.9,
+ rings:[[0,.88,.62,2.34],[.12,.97,.57,2.97],[.46,1,.59,3.97],[.79,1,.62,4.30],[1,1,.63,4.3]],
  note:["Tall double-deck body","Two window levels and wide doors","Short Rock cab front"],
  ref:'https://www.trenitalia.com/it/regionale/regionale-rebel-revolution.html'},
-fr500:{width:2.95,height:4.05,head:20.5,coach:26.1,nose:4.5,color:'#cbd0d2',accent:'#bd2337',window:2.72,windowH:.74,spacing:1.82,roof:'#7e898f',bodyBottom:1.12,round:.33,
- noseRound:.94,chin:.92,crown:.92,
- rings:[[0,.59,.72,1.98],[.1,.76,.73,2.25],[.29,.94,.85,2.98],[.55,1,1.02,3.83],[.82,1,1.11,4.04],[1,1,1.12,4.05]],
+fr500:{width:2.95,height:4.05,head:20.5,coach:26.1,nose:3.55,color:'#cbd0d2',accent:'#bd2337',window:2.72,windowH:.74,spacing:1.82,roof:'#7e898f',bodyBottom:1.12,round:.33,
+ capDepth:.25,noseRound:.94,chin:.92,crown:.92,
+ rings:[[0,.77,.68,2.15],[.1,.90,.73,2.52],[.29,.99,.85,3.24],[.55,1,1.02,3.92],[.82,1,1.11,4.05],[1,1,1.12,4.05]],
  note:["Bulky E.404 power car","Grilles instead of passenger windows","Two power cars and a long coach formation"],
  ref:'https://www.trenitalia.com/en/connections/frecciarossa-etr-500.html'}
 };
@@ -498,7 +512,7 @@ function uvForAngle(s,angle){
 function lerp(a,b,t){return a+(b-a)*t}
 function profile(s,d,cab){
  if(!cab||d>=s.nose)return [1,s.bodyBottom,s.height];
- if(d<0){const first=s.rings[0],v=Math.sqrt(Math.max(.0001,1-Math.pow(d/.32,2))),mid=(first[2]+first[3])/2;return [first[1]*v,mid-(first[3]-first[2])*v/2,mid+(first[3]-first[2])*v/2]}
+ if(d<0){const first=s.rings[0],v=Math.sqrt(Math.max(.0001,1-Math.pow(d/(s.capDepth||.32),2))),mid=(first[2]+first[3])/2;return [first[1]*v,mid-(first[3]-first[2])*v/2,mid+(first[3]-first[2])*v/2]}
  const t=Math.max(0,d/s.nose),r=s.rings;
  let i=1;while(i<r.length-1&&r[i][0]<t)i++;
  const a=r[i-1],b=r[i],u=Math.max(0,Math.min(1,(t-a[0])/(b[0]-a[0])));
@@ -515,13 +529,16 @@ function surface(s,L,d,a,cab,offset=0){
  const blend=cab?Math.pow(Math.max(0,1-d/s.nose),1.2):0;
  const exponent=lerp(s.round,s.noseRound||s.round,blend);
  const taper=1-blend*(1-(v>0?(s.crown||1):(s.chin||1)))*Math.pow(Math.abs(v),2);
- return [d-L/2,(lo+hi)/2+Math.sign(v)*Math.pow(Math.abs(v),exponent)*(hi-lo)/2+v*offset,Math.sign(c)*Math.pow(Math.abs(c),exponent)*s.width*w/2*taper+c*offset];
+ const z=Math.sign(c)*Math.pow(Math.abs(c),exponent)*s.width*w/2*taper+c*offset;
+ let y=(lo+hi)/2+Math.sign(v)*Math.pow(Math.abs(v),exponent)*(hi-lo)/2+v*offset;
+ if(s.couplerRecess&&v<0&&d<s.nose*.28)y+=.88*Math.exp(-Math.pow(z/.49,6))*Math.pow(Math.abs(v),3)*Math.max(0,1-Math.max(0,d)/(s.nose*.28))*(hi-lo)/(s.rings[0][3]-s.rings[0][2]);
+ return [d-L/2,y,z];
 }
 function shellGeometry(s,L,cab,key){
  const cacheKey='shell/'+key+'/'+L+'/'+cab;
  if(geometryCache.has(cacheKey))return geometryCache.get(cacheKey);
  const columns=quality==='eco'?32:64,distances=[];
- if(cab){distances.push(-.3199,-.30,-.25,-.17,-.08);for(let i=0;i<=40;i++)distances.push(s.nose*i/40);distances.push(Math.min(L-.08,s.nose+.3));}
+ if(cab){for(const t of [.9999,.94,.78,.53,.25])distances.push(-(s.capDepth||.32)*t);for(let i=0;i<=40;i++)distances.push(s.nose*i/40);distances.push(Math.min(L-.08,s.nose+.3));}
  else distances.push(0,.06,.22);
  for(let d=(cab?s.nose+.8:1);d<L-.2;d+=1.5)distances.push(d);
  distances.push(L-.15,L);distances.sort((a,b)=>a-b);
@@ -529,7 +546,7 @@ function shellGeometry(s,L,cab,key){
  for(const d of distances)for(let j=0;j<=columns;j++){
   positions.push(...surface(s,L,d,-Math.PI/2+j/columns*Math.PI*2,cab));
   const circumference=1-uvForAngle(s,-Math.PI/2+j/columns*Math.PI*2);
-  uv.push(Math.max(0,d)/L,d<0?lerp(.73,circumference,Math.sqrt(Math.max(0,1-Math.pow(d/.32,2)))):circumference);
+  uv.push(Math.max(0,d)/L,d<0?lerp(.73,circumference,Math.sqrt(Math.max(0,1-Math.pow(d/(s.capDepth||.32),2)))):circumference);
  }
  for(let i=0;i<distances.length-1;i++)for(let j=0;j<columns;j++){
   const a=i*(columns+1)+j,b=a+columns+1;indices.push(a,b,a+1,b,b+1,a+1);
@@ -563,6 +580,9 @@ function atlas(s,L,cab,loco,kind){
  for(const [p,v] of [[0,'#172027'],[.12,s.color],[.25,s.color],[.42,s.roof],[.5,s.roof],[.58,s.roof],[.75,s.color],[.88,s.color],[1,'#172027']])shade.addColorStop(p,v);
  ctx.fillStyle=shade;ctx.fillRect(0,0,W,H);
  if(cab&&(kind==='fr1000'||kind==='fr500')){ctx.fillStyle=s.accent;ctx.fillRect(0,0,s.nose*.83*sx,H);}
+ if(cab&&(kind==='evo'||kind==='agv'||kind==='ic'||kind==='rock')){
+  ctx.fillStyle=kind==='ic'?'#188ac0':kind==='rock'?'#283d4d':s.color;ctx.fillRect(0,0,s.nose*.98*sx,H);
+ }
  for(const side of [1,-1]){
   const center=side===1?.25:.75;
   function row(y){const mid=(s.bodyBottom+s.height)/2,half=(s.height-s.bodyBottom)/2,v=Math.max(-.995,Math.min(.995,(y-mid)/half));const a=Math.asin(Math.sign(v)*Math.pow(Math.abs(v),1/s.round));return uvForAngle(s,side===1?a:Math.PI-a)*H}
@@ -572,7 +592,12 @@ function atlas(s,L,cab,loco,kind){
   if(kind==='fr1000'){
    rect(0,1.45,L,.68,'#a3162c');rect(0,1.15,L,.17,'#555d64');
    if(cab){ctx.fillStyle=s.accent;ctx.beginPath();ctx.moveTo(0,center*H-H*.16);ctx.lineTo((s.nose+1.8)*sx,center*H-H*.1);ctx.lineTo((s.nose+4.2)*sx,center*H+H*.05);ctx.lineTo(0,center*H+H*.15);ctx.fill();}
-   if(cab){rect(0,1.73,s.nose*.76,.38,'#d5d9db');rect(0,1.44,s.nose*.70,.12,'#303c46');}
+   if(cab)for(let px=0;px<s.nose*.85*sx;px++){
+    const d=px/sx,[w,lo,hi]=profile(s,d,true),mid=(lo+hi)/2,half=(hi-lo)/2;
+    const blend=Math.pow(Math.max(0,1-d/s.nose),1.2),exp=lerp(s.round,s.noseRound,blend);
+    const localRow=y=>{const v=Math.max(-.999,Math.min(.999,(y-mid)/half)),a=Math.asin(Math.sign(v)*Math.pow(Math.abs(v),1/exp));return uvForAngle(s,side===1?a:Math.PI-a)*H};
+    const ya=localRow(1.78),yb=localRow(1.36);ctx.fillStyle='#d5d9db';ctx.fillRect(px,Math.min(ya,yb),1.2,Math.abs(yb-ya));
+   }
   }else if(kind==='evo'||kind==='agv'){
    rect(0,1.25,L,.3,'#29282d');rect(begin,1.83,end-begin,.055,s.accent);
    rect(begin,3.17,end-begin,.025,'#ce5358');
@@ -632,8 +657,8 @@ function bogie(g,x,kind='standard'){
   box(g,x,.62,s*.98,2.55,.17,.14,darkMetal);
   for(const dx of [-.93,.93]){
    cylinder(g,x+dx,.46,s*.77,.46,.19,darkMetal);
-   cylinder(g,x+dx,.46,s*.88,.39,.026,metal);
-   cylinder(g,x+dx,.46,s*.9,.2,.034,darkMetal);
+   cylinder(g,x+dx,.46,s*.88,.39,.026,darkMetal);
+   cylinder(g,x+dx,.46,s*.9,.2,.034,metal);
    cylinder(g,x+dx,.46,s*.93,.09,.06,chrome);
    box(g,x+dx,.52,s*1.02,.32,.3,.16,metal);
    box(g,x+dx+.27,.53,s*.79,.15,.3,.12,darkMetal);
@@ -684,11 +709,11 @@ function cabPanel(g,s,L,d0,d1,w0,w1,m,lift=.025,bow=0,centerZ=0){
 function cabDetails(g,s,L,kind,tail,part){
  const N=s.nose,black=material('#101921',.35,.27),seal=material('#070c11',.05,.65);
  const paint=material(kind==='evo'?'#b2192f':kind==='agv'?'#8f1429':kind==='rock'?'#244b70':kind==='ic'?'#286578':s.accent,.48,.3);
- const configs={fr1000:[.48,.75,.95,.89],evo:[.34,.65,.94,.84],agv:[.36,.65,1.00,.83],fr500:[.32,.67,1.08,1.00],rock:[.19,.49,.86,.83],ic:[.04,.32,1.16,1.12]};
+ const configs={fr1000:[.35,.70,.99,.87],evo:[.28,.60,1.02,.86],agv:[.23,.64,1.04,.88],fr500:[.26,.63,1.10,1.02],rock:[.17,.63,.89,.82],ic:[.07,.51,1.17,1.11]};
  const [bottom,top,wb,wt]=configs[kind];
  // Different mask outlines: EVO's domed cap, AGV's long black face, Rock's tall shield.
  if(kind==='evo'||kind==='agv'||kind==='rock'){
-  const a=kind==='agv'?.17:kind==='evo'?.20:.06,b=kind==='rock'?.68:kind==='agv'?.76:.77;
+  const a=kind==='agv'?.035:kind==='evo'?.08:.04,b=kind==='rock'?.84:kind==='agv'?.81:.76;
   cabPanel(g,s,L,N*a,N*b,kind==='rock'?.96:1.03,kind==='rock'?.81:.88,black,.026,kind==='agv'?.14:0);
  }
  cabPanel(g,s,L,N*bottom-.045,N*top+.045,wb+.055,wt+.045,seal,.042);
@@ -703,7 +728,8 @@ function cabDetails(g,s,L,kind,tail,part){
  }
  // Cab quarter lights are separate polygonal glazing, with a substantial painted pillar.
  for(const sign of [-1,1]){
-  const a=sign===1?.16:Math.PI-.49,b=sign===1?.49:Math.PI-.16;
+  const low=kind==='ic'?.002:.022,high=kind==='ic'?.16:.27;
+  const a=sign===1?low:Math.PI-high,b=sign===1?high:Math.PI-low;
   patch(g,s,L,true,N*.79,N+.75,a,b,seal,.029);
   patch(g,s,L,true,N*.82,N+.66,a+.025,b-.025,glass,.047);
   if(kind==='ic'||kind==='rock'){
@@ -719,9 +745,9 @@ function cabDetails(g,s,L,kind,tail,part){
   const ld=N*(kind==='fr1000'?.17:kind==='evo'?.20:kind==='agv'?.19:kind==='fr500'?.13:kind==='rock'?.065:.014);
   const lateral=kind==='ic'?1.03:kind==='rock'?.88:kind==='fr1000'?.83:.81;
   const p=upperPoint(s,L,ld,sign*lateral,.052);
-  cabPanel(g,s,L,ld-.13,ld+.22,.14,.11,seal,.062,0,sign*lateral);
+  cabPanel(g,s,L,ld-.17,ld+(kind==='fr1000'?.58:.32),kind==='fr1000'?.23:.16,.14,seal,.036,0,sign*lateral);
   if(kind==='fr1000'||kind==='evo'||kind==='rock'){
-   const q=upperPoint(s,L,ld-.025,sign*(lateral+.11),.083),r=upperPoint(s,L,ld+.12,sign*(lateral-.13),.083);
+   const q=upperPoint(s,L,ld+.08,sign*(lateral+.15),.064),r=upperPoint(s,L,ld+.40,sign*(lateral-.08),.064);
    rod(g,q,r,.032,tail?tailLamp:lamp);
    mesh(g,sphereGeometry,tail?tailLamp:lamp,p[0]-.055,p[1]+.035,p[2],.085,.045,.075);
   }else{
@@ -762,6 +788,10 @@ function cabDetails(g,s,L,kind,tail,part){
    box(g,x-.26,1.05,sign*.91,.09,.32,.47,darkMetal);
    rod(g,[x+.14,1.22,sign*.35],[x-.05,.75,sign*.32],.035,rubber);
   }
+  if(kind==='rock')for(const sign of [-1,1]){
+   box(g,x+.06,1.00,sign*.81,.35,.46,.52,darkMetal);
+   for(let i=0;i<4;i++)box(g,x-.13,.84+i*.105,sign*.81,.035,.025,.55,metal);
+  }
  }
 }
 function car(kind,index,count,part='coach',tail=false){
@@ -784,6 +814,10 @@ function car(kind,index,count,part='coach',tail=false){
    box(g,bodyCenter+offset*bodyLength,.91,0,length,.46,1.7,darkMetal);
  }else{box(g,.4,1.02,0,L-6,.45,2.2,darkMetal)}
  const leftBogie=cab?-L/2+(kind==='agv'?6.1:kind==='fr1000'?5.5:kind==='rock'?4.5:kind==='ic'?3.4:4.4):-L/2+3.6;
+ if(kind==='fr1000'||kind==='evo'||kind==='agv')for(const sign of [-1,1]){
+  const skirt=material(kind==='fr1000'?'#666d73':kind==='evo'?'#3a3037':'#42252f',.42,.46);
+  for(const x of [leftBogie,L/2-3.6])box(g,x,.99,sign*(s.width/2-.10),3.8,.34,.12,skirt);
+ }
  if(kind==='agv'){
   // The shared bogie is centred in each inter-car joint, not duplicated.
   if(index===0)bogie(g,leftBogie);
@@ -863,9 +897,45 @@ function makeTrack(length){
  const shadowGeo=new T.PlaneGeometry(length+3,5.1);ownedGeometries.add(shadowGeo);
  const sh=mesh(track,shadowGeo,shadowMaterial,0,-.36,0);sh.rotation.x=-Math.PI/2;
 }
+function makeStation(length){
+ const stone=material('#7c8682',.05,.9),edge=material('#c8b980',.05,.8),blue=material('#183a45',.35,.55),roof=material('#43585b',.6,.43);
+ const platformLength=length*1.10;
+ box(track,0,.35,-4.15,platformLength,1.25,4.5,stone);
+ box(track,0,1.01,-2.00,platformLength,.05,.22,edge);
+ box(track,0,1.025,-2.38,platformLength,.025,.32,material('#d6d2bd',.04,.8));
+ // The canopy sits behind the train so the cab stays visible from the front side.
+ box(track,0,5.2,-5.05,platformLength,.14,3.8,roof);
+ box(track,0,5.08,-3.25,platformLength,.08,.07,material('#f5dfac',.05,.4));
+ const step=Math.max(8,length/10);
+ for(let x=-platformLength/2+step*.5;x<platformLength/2;x+=step){
+  box(track,x,3.06,-5.1,.14,4.1,.16,blue);
+  box(track,x,4.92,-4.5,.12,.12,2.7,blue);
+  box(track,x,1.46,-4.3,2.0,.13,.55,blue);
+  for(const dx of [-.65,.65])box(track,x+dx,1.2,-4.3,.08,.48,.45,blue);
+ }
+ const c=document.createElement('canvas');c.width=512;c.height=128;
+ const ctx=c.getContext('2d');ctx.fillStyle='#113440';ctx.fillRect(0,0,512,128);ctx.fillStyle='#eff6ec';ctx.font='600 48px Arial';ctx.textAlign='center';ctx.fillText('BINARIO 01',256,65);ctx.font='20px Arial';ctx.fillStyle='#c9d9ad';ctx.fillText('ITALIA • ARRIVI / PARTENZE',256,103);
+ const texture=new T.CanvasTexture(c);texture.colorSpace=T.SRGBColorSpace;
+ const signMaterial=new T.MeshStandardMaterial({map:texture,roughness:.8,side:T.DoubleSide});textureCache.set('station-sign',signMaterial);
+ const geo=new T.PlaneGeometry(5.2,1.3);ownedGeometries.add(geo);
+ for(const x of [-length*.28,length*.28]){
+  mesh(track,geo,signMaterial,x,4.24,-3.08);
+  rod(track,[x-1.9,4.9,-3.08],[x-1.9,4.7,-3.08],.025,blue);
+  rod(track,[x+1.9,4.9,-3.08],[x+1.9,4.7,-3.08],.025,blue);
+ }
+}
+// Closed cycle, with zero speed at both ends of the station dwell.
+function stationState(seconds,length){
+ const t=((seconds%24)+24)%24,travel=length*1.8;
+ if(t<6)return {x:travel*Math.pow(1-t/6,3),phase:0};
+ if(t<13)return {x:0,phase:1};
+ if(t<20)return {x:-travel*Math.pow((t-13)/7,3),phase:2};
+ return {x:-travel,phase:3};
+}
 function fit(){
  const box=new T.Box3().setFromObject(model),size=box.getSize(new T.Vector3());
  aim.copy(box.getCenter(new T.Vector3()));aim.y=Math.max(.5,aim.y);
+ if(station){size.x=Math.min(size.x,7.5);aim.x=-17+size.x*.43;aim.y=Math.max(.55,aim.y)}
  const vertical=T.MathUtils.degToRad(camera.fov),horizontal=2*Math.atan(Math.tan(vertical/2)*camera.aspect);
  const bound=Math.hypot(size.x,size.z)/2;
  fitDistance=$('#camera-view').value==='front'&&!auto?
@@ -876,10 +946,10 @@ function fit(){
 function build(){
  const start=performance.now();destroyAssembly();
  assembly=new T.Group();model=new T.Group();track=new T.Group();assembly.add(model,track);scene.add(assembly);
- const kind=current,number=full?({fr1000:8,evo:7,agv:11,ic:7,rock:4,fr500:13}[kind]):headView?(kind==='ic'||kind==='fr500'?2:1):3;
+ const kind=current,number=full||station?({fr1000:8,evo:7,agv:11,ic:7,rock:4,fr500:13}[kind]):headView?(kind==='ic'||kind==='fr500'?2:1):3;
  const cars=[],lengths=[];let total=0;
  for(let i=0;i<number;i++){
-  const tail=full&&i===number-1;
+  const tail=(full||station)&&i===number-1;
   const loco=(kind==='ic'&&i===0)||(kind==='fr500'&&(i===0||tail));
   const part=loco?'loco':kind==='ic'&&tail?'pilot':i===0||(tail&&kind!=='ic')?'cab':'coach';
   const c=car(kind,i,number,part,tail&&kind!=='ic'||part==='pilot');const L=c.userData.length;
@@ -888,12 +958,16 @@ function build(){
  let x=-total/2;
  cars.forEach((c,i)=>{const L=lengths[i];c.position.x=x+L/2;model.add(c);if(i<number-1)gangway(model,x+L+.25);x+=L+.5});
  // Keep rolling stock and rails in one coordinate system; no floating scaled wheels.
- const scale=34/total;assembly.scale.setScalar(scale);makeTrack(total+7);
+ trainLength=total;stationClock=6;lastStationPhase=-1;
+ if(station){yaw=-.72;pitch=.22;$('#camera-view').value='perspective'}
+ const scale=34/total;assembly.scale.setScalar(scale);makeTrack(station?total*5:total+7);
+ if(station)makeStation(total);
  batch(model);batch(track);
- const wireMaterial=material('#b9d9a3',.05,.8);wireMaterial.wireframe=true;
- if(wire)model.traverse(o=>{if(o.isMesh)o.material=wireMaterial});
- $('#head-view').setAttribute('aria-pressed',headView&&!full);
- $('#head-view').textContent=headView&&!full?"✓ Close-up":"Close-up";
+ $('#station-loop').setAttribute('aria-pressed',station);
+ $('#station-loop').textContent=station?"✓ Station":"▶ Station";
+ $('#station-caption').hidden=!station;
+ $('#head-view').setAttribute('aria-pressed',headView&&!full&&!station);
+ $('#head-view').textContent=headView&&!full&&!station?"✓ Close-up":"Close-up";
  $('#full-train').textContent=full?"✓ Full train":"Full train";
  $('#model-recognition').innerHTML=specs[current].note.map((v,i)=>'<div><span>0'+(i+1)+'</span>'+v+'</div>').join('');
  $('#photo-reference').href=specs[current].ref;
@@ -908,7 +982,7 @@ setZoom=value=>{distance=fitDistance*100/value;dirty=true;wake()};
 resetCamera=()=>{yaw=-.78;pitch=.23;$('#camera-view').value='perspective';$('#zoom').value='100';$('#zoom-value').value='100%';fit();dirty=true;wake()};
 function zoomBy(value){const v=Math.max(65,Math.min(300,value));$('#zoom').value=String(Math.round(v));$('#zoom-value').value=Math.round(v)+'%';setZoom(v)}
 $('#quality').addEventListener('change',e=>{quality=e.target.value;build();resize()});
-$('#head-view').addEventListener('click',()=>{headView=!headView;full=false;$('#full-train').setAttribute('aria-pressed','false');build()});
+$('#head-view').addEventListener('click',()=>{headView=station||full?true:!headView;if(station){auto=!noMotion;autoState()}station=false;full=false;$('#full-train').setAttribute('aria-pressed','false');build()});
 $('#camera-view').addEventListener('change',e=>{
  const views={perspective:[-.78,.23],side:[0,.1],front:[-Math.PI/2,.12],roof:[-.3,1.4],undercarriage:[-.6,-.12]};
  [yaw,pitch]=views[e.target.value];auto=false;autoState();fit();dirty=true;wake();
@@ -981,9 +1055,15 @@ let slowFrames=0;
 function frame(now){
  raf=0;if(!visible||document.hidden)return;
  const rotating=auto&&!noMotion&&!dragging,dt=lastTime?Math.min(.05,(now-lastTime)/1000):0;lastTime=now;
+ const cycling=station&&!noMotion&&!dragging;
+ if(cycling){stationClock+=dt;dirty=true}
+ if(station){
+  const state=stationState(stationClock,trainLength);model.position.x=state.x;model.updateMatrix();
+  if(state.phase!==lastStationPhase){$('#station-caption').textContent=["Arriving · gradual braking","At the platform · Binario 01","Departing · accelerating","Next service"][state.phase];lastStationPhase=state.phase}
+ }
  if(rotating){yaw+=dt*.085;dirty=true}
  const frameBudget=quality==='eco'?1000/30:1000/45;
- if(now-lastPaint<frameBudget){if(rotating||dirty)wake();return}
+ if(now-lastPaint<frameBudget){if(rotating||cycling||dirty)wake();return}
  if(dirty){
   camera.position.set(aim.x+Math.sin(yaw)*Math.cos(pitch)*distance,aim.y+Math.sin(pitch)*distance,aim.z+Math.cos(yaw)*Math.cos(pitch)*distance);
   camera.lookAt(aim);const start=performance.now();renderer.render(scene,camera);const cpuMs=performance.now()-start;
@@ -996,7 +1076,7 @@ function frame(now){
    $('#viewer-status').textContent="3D / ADAPTIVE RESOLUTION";
   }
  }
- if(rotating||dirty)wake();
+ if(rotating||cycling||dirty)wake();
 }
 build();resize();depot.classList.add('js-ready');$('#viewer-status').textContent="3D / READY";
 window.addEventListener('pagehide',()=>{cancelAnimationFrame(raf);raf=0});
