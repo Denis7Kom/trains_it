@@ -98,14 +98,14 @@ button,a,input,select,summary{-webkit-tap-highlight-color:transparent}
 #model-fallback{overflow:hidden;isolation:isolate}
 #model-fallback:before{content:'';position:absolute;left:0;right:0;top:72%;height:4px;background:#a9b9ad;box-shadow:0 9px #384c42,0 24px 0 12px #606b61;z-index:-1}
 #model-fallback:after{content:'BINARIO 01';position:absolute;left:5%;top:20%;width:90%;height:19%;border-top:7px solid #566c65;border-bottom:2px solid #81968a;background:repeating-linear-gradient(90deg,transparent 0 19%,#81968a 19% 19.5%,transparent 19.5% 20%);color:#b8caaa;font:10px ui-monospace,monospace;letter-spacing:.2em;padding-top:8px;z-index:-1}
-#model-fallback svg{animation:fallback-station 24s infinite;animation-delay:-6s;transform-origin:center;filter:drop-shadow(0 10px 10px #0005)}
+#model-fallback svg{animation:none;transform-origin:center;filter:drop-shadow(0 10px 10px #0005)}
 #model-fallback svg>path:first-child{visibility:hidden}
-@keyframes fallback-station{0%{transform:translateX(160%);animation-timing-function:cubic-bezier(.12,.65,.25,1)}25%,54%{transform:translateX(0)}54%{animation-timing-function:cubic-bezier(.6,0,.9,.35)}84%,100%{transform:translateX(-160%)}}
 .no-motion #model-fallback svg{animation:none}
 .depot:not(.js-ready) .station-caption{display:none}
 @media(prefers-reduced-motion:reduce){#model-fallback svg{animation:none}}
 
 .language-switch{display:flex;align-items:center;gap:2px;border:1px solid #ffffff30;border-radius:24px;padding:3px;flex-shrink:0;background:#18211b}.language-switch a{font:600 10px/1.4 var(--font);display:grid;place-items:center;min-width:31px;min-height:29px;border-radius:20px;padding:5px 7px;color:#bdcabc}.language-switch a[aria-current=page]{background:var(--green);color:#172018}.language-switch a:hover{color:var(--text);background:#ffffff12}.language-switch a[aria-current=page]:hover{color:#172018;background:var(--green)}.nav-links{gap:clamp(11px,1.6vw,25px)}.viewer-controls .control-group{row-gap:7px}.viewer-toolbar{row-gap:9px}@media(max-width:1000px){.nav-links{gap:12px;font-size:10px}.nav{gap:15px}}@media(max-width:740px){.nav-end{gap:10px}.language-switch a{min-width:28px;min-height:28px;padding:4px;font-size:9px}.viewer-label h2{font-size:clamp(21px,5vw,24px)}.viewer-controls .control-group button{font-size:10px}.viewer-toolbar label{font-size:10px}.viewer-status{max-width:39%;text-align:right}.recognition>div{line-height:1.55}}@media print{.language-switch{display:none!important}}
+.viewer-canvas{touch-action:none}.viewer-expand-single{position:absolute;right:20px;top:22px;z-index:6;background:#15221de6;border:1px solid #ffffff30;border-radius:7px;font-size:10px;padding:8px 10px}.depot:not(.js-ready) .station-caption{display:block}.viewer-index{top:62px}@media(max-width:740px){.viewer-expand-single{right:12px;top:16px}.viewer-help{max-width:80%;font-size:9px}.viewer-status{bottom:40px;font-size:8px}}
 </style>
 <script>(function(){
   const language="it",paths={"ru":"../","en":"../en/","it":"../it/"},key='binario-language-v1',current=new URL(location.href);
@@ -149,17 +149,12 @@ button,a,input,select,summary{-webkit-tap-highlight-color:transparent}
 <div role="tabpanel" id="fleet-panel" aria-labelledby="tab-fr1000">
 <div class="viewport" id="viewport"><div class="viewer-label"><div class="mono" id="model-code">TRENITALIA / ETR 1000</div><h2 id="model-title">Frecciarossa 1000</h2><span class="pill" id="model-type">Trazione distribuita · 8 casse</span></div><span class="viewer-index" id="model-index" aria-hidden="true">01</span>
 <div class="model-fallback" id="model-fallback" aria-label="Sagoma schematica del Frecciarossa 1000"><svg viewBox="0 0 900 150" aria-hidden="true"><path d="M20 112 Q32 80 85 60 L125 45 H840 Q868 45 878 75 L887 112Z" fill="#d8dedc"/><path d="M20 112 Q32 80 85 60 L125 45H210V112Z" fill="#d12637"/><path d="M74 72L125 51H165L148 75Z" fill="#18292f"/><path d="M200 65H850V86H200Z" fill="#183038"/><path d="M190 98H880V107H190Z" fill="#c72538"/><path d="M55 119H850" stroke="#687b6a" stroke-width="3"/><g fill="#111b1c"><circle cx="136" cy="113" r="12"/><circle cx="176" cy="113" r="12"/><circle cx="380" cy="113" r="12"/><circle cx="420" cy="113" r="12"/><circle cx="650" cy="113" r="12"/><circle cx="690" cy="113" r="12"/></g></svg></div>
-<canvas class="viewer-canvas" id="train-canvas" tabindex="0" aria-label="Modello 3D del treno. Trascina per ruotarlo e usa il cursore per lo zoom. Tastiera: frecce per ruotare, più e meno per lo zoom, R per ripristinare."></canvas>
-<output class="station-caption" id="station-caption"></output><span class="viewer-help">Ruota: trascina / frecce · zoom: pizzica / + −</span><output class="render-metrics" id="render-metrics" hidden aria-label="Statistiche della scena 3D corrente"></output><span class="viewer-status" id="viewer-status" role="status">Caricamento 3D…</span></div>
-<div class="viewer-controls"><div class="control-group"><button id="auto" aria-pressed="true">Ⅱ Rotazione automatica</button><button id="head-view" aria-pressed="true">✓ Primo piano</button><button id="full-train" aria-pressed="false">Treno completo</button><button id="station-loop" aria-pressed="true">Ⅱ Stazione</button><button id="reset-view">↺ Ripristina</button></div><label class="zoom">Zoom <input id="zoom" type="range" min="65" max="300" value="100" aria-label="Zoom del modello"><output id="zoom-value">100%</output></label></div>
-<div class="viewer-toolbar">
-<label>Vista <select id="camera-view" aria-label="Inquadratura del modello"><option value="perspective">Tre quarti</option><option value="side">Laterale</option><option value="front">Frontale</option><option value="roof">Tetto</option><option value="undercarriage">Carrelli dal basso</option></select></label>
-<label>Grafica <select id="quality" aria-label="Qualità grafica"><option value="auto">Adattiva</option><option value="detail">Dettagliata</option><option value="eco">Risparmio</option></select></label><span class="spacer"></span>
-<button id="show-metrics" aria-pressed="false">Statistiche</button><button id="share-model">Condividi modello</button><button id="viewer-expand" aria-pressed="false">⤢ Espandi</button>
-<input id="share-link" hidden readonly aria-label="Link da copiare" style="width:100%;background:#18221c;color:#e8efdf;border:1px solid #ffffff44;padding:8px;font-size:11px">
-</div><div class="recognition" id="model-recognition" aria-label="Come riconoscere questo treno"></div>
+<canvas class="viewer-canvas" id="train-canvas" tabindex="0" aria-label="Modello 3D del treno. Un dito per ruotare, due per ingrandire. Doppio tocco per ripristinare. Tastiera: frecce, più, meno e R."></canvas>
+<button id="viewer-expand" class="viewer-expand-single" aria-pressed="false">⤢ Espandi</button>
+<output class="station-caption" id="station-caption"></output><span class="viewer-help">Un dito: ruota · due: zoom · doppio tocco: ripristina</span><span class="viewer-status" id="viewer-status" role="status">Caricamento 3D…</span></div>
+<div class="recognition" id="model-recognition" aria-label="Come riconoscere questo treno"></div>
 <div class="reference-row"><span>Riconosci la famiglia dalla forma, oltre che dal colore.</span><a id="photo-reference" href="https://www.trenitalia.com/it/frecciarossa/la-flotta.html" target="_blank" rel="noopener noreferrer">Foto e dati dell’operatore ↗</a></div>
-<div class="model-note">Ricostruzioni 3D originali basate su riferimenti visivi. Geometria, marcature e posizione degli apparati sono approssimative: non sono modelli CAD di fabbrica. Primo piano mostra la cassa di testa, con una carrozza nei treni a locomotiva; Treno completo mostra una composizione d’esempio. La modalità Risparmio riduce dettaglio delle superfici e risoluzione.</div></div></div>
+<div class="model-note">Scegli un altro treno: quello precedente parte, il nuovo arriva e apre le porte per 10 secondi. Dopo la chiusura delle porte il treno resta in stazione. Ricostruzioni 3D originali da fotografie; geometria e dotazioni sono approssimative.</div></div></div>
 <div class="model-stats" id="model-stats" aria-live="polite"></div>
 <div class="model-details"><p id="model-engineering"></p><div><strong style="font-size:12px">Ambienti di viaggio</strong><div class="coach-plan" id="coach-plan"></div><div class="plan-legend" id="plan-legend"></div></div></div>
 <div class="hero-ticker"><span><b>06</b> modelli interattivi</span><span><b>10</b> categorie e famiglie</span><span><b>300 km/h</b> massimo nel normale servizio nazionale</span><button class="a11y-motion" id="motion-toggle" aria-pressed="false">Disattiva animazioni</button></div>
@@ -274,7 +269,7 @@ button,a,input,select,summary{-webkit-tap-highlight-color:transparent}
 <script type="module">
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
-let noMotion=reduced.matches,current='fr1000',full=false,station=true,auto=false,rebuild=null,resetCamera=null,setZoom=null;
+let noMotion=reduced.matches,current='fr1000',rebuild=null,resetCamera=null,wakeViewer=null;
 const fleet={
 fr1000:{title:'Frecciarossa 1000',code:'TRENITALIA / ETR 1000',type:"Trazione distribuita · 8 casse",speed:300,cars:'8',carLabel:"casse nel convoglio",length:"≈202 m",levels:'Standard · Premium · Business · Executive*',routes:"Asse principale Torino / Milano — Roma — Napoli; prolungamenti secondo l’orario.",eng:"<strong>Tecnica.</strong> 16 motori di trazione su più carrelli. Testa rossa affusolata, casse argentate e trazione distribuita. Fino a 300 km/h nel normale servizio italiano.",plan:[['EX','ex'],['B','biz'],['B / ☕','food'],['P',''],['S',''],['S',''],['S',''],['S','']],legend:"Schema tipico: EX — Executive, B — Business, P — Premium, S — Standard, ☕ — bistrot. Verifica le dotazioni del convoglio effettivo."},
 evo:{title:'Italo EVO',code:'ITALO / ETR 675',type:"Elettrotreno · 7 casse",speed:250,cars:'7',carLabel:"casse nel convoglio",length:"187 m",levels:'Smart · Prima Business · Club Executive*',routes:"Rete Italo: Roma — Venezia / Verona, Napoli — nord Italia e altre corse; il modello non è assegnato in modo permanente a una direttrice.",eng:"<strong>Tecnica.</strong> Piattaforma Avelia Pendolino, carrelli tradizionali separati e trazione distribuita. L’EVO non ha pendolamento attivo. Convoglio più corto e cabina più alta e arrotondata rispetto all’AGV.",plan:[['C','ex'],['P','biz'],['S / ◇','food'],['S',''],['S',''],['S / ◇','food'],['S','']],legend:"Distribuzione indicativa: C — Club, P — Prima, S — Smart, ◇ — zona distributori. Schema esatto e ambienti disponibili vanno verificati nella scelta della corsa."},
@@ -295,6 +290,50 @@ const cardData=[
 {title:'Regionale',code:"R / SERVIZIO LOCALE",tag:'local',eyebrow:"REGIONALE / VICINO ALLA META",speed:"Secondo il modello",unit:"Rock / Pop — fino a 160",seat:"Di norma senza prenotazione",kind:'rock',desc:"Per piccole stazioni, periferie e spostamenti quotidiani. Spesso è il tratto finale più utile del viaggio.",tech:"Il Rock è a due piani; il Pop e molti altri sono a un piano. Sulle linee non elettrificate si usano anche treni diesel o ibridi.",pass:"Di norma 2ª classe, su alcune corse anche 1ª. Verifica bici, Wi-Fi e accessibilità nelle icone della corsa.",route:"Reti locali in tutta Italia. Ci sono anche Trenord, Trenitalia Tper e compagnie regionali con regole proprie.",source:'https://www.trenitalia.com/it/regionale/viaggiare-con-il-regionale.html'},
 {title:'Merci',code:"M / TRAFFICO MERCI",tag:'freight',eyebrow:"MERCI / NON TRASPORTA PASSEGGERI",speed:"Secondo il convoglio",unit:"carico, carro, linea",seat:"Nessun biglietto passeggeri",kind:'freight',desc:"Lunghi convogli con container, automobili e materie prime. Partecipano alla circolazione e non sono «sempre gli ultimi».",tech:"Locomotive e carri merci di vari tipi. Accelerazione e frenatura dipendono da massa, lunghezza e caratteristiche del carico.",pass:"Non è previsto un normale servizio turistico. Un merci davanti al tuo treno non deve necessariamente essere spostato subito.",route:"Porti, terminal e nodi industriali: Genova, La Spezia, Trieste, Verona e corridoi internazionali.",source:'https://www.rfi.it/it/Offerta/accesso-alla-rete/prospetto-informativo-della-rete.html'}
 ];
+function createTrainSequence(kind){
+ const state={kind,requested:kind,phase:'parked',time:0,doors:0,x:0,active:false};
+ let closingFrom=1;
+ function enter(phase){state.phase=phase;state.time=0}
+ function close(){closingFrom=state.doors;enter('closing')}
+ return {state,
+  request(key){
+   if(key===state.requested)return false;
+   state.requested=key;
+   if(state.phase==='parked')enter('departing');
+   else if(state.phase==='open'||state.phase==='opening')close();
+   state.active=true;return true;
+  },
+  tick(dt,reduced=false){
+   state.time+=Math.max(0,dt);
+   for(let i=0;i<12;i++){
+    const duration=state.phase==='open'?10:state.phase==='parked'?Infinity:reduced?0:state.phase==='arriving'?3.6:state.phase==='departing'?3.1:state.phase==='closing'?.8*closingFrom:.8;
+    if(state.time<duration)break;
+    const rest=state.time-duration;
+    if(state.phase==='arriving')enter(state.requested===state.kind?'opening':'departing');
+    else if(state.phase==='opening'){state.doors=1;enter('open')}
+    else if(state.phase==='open'){closingFrom=1;enter('closing')}
+    else if(state.phase==='closing'){state.doors=0;enter(state.requested===state.kind?'parked':'departing')}
+    else if(state.phase==='departing'){state.kind=state.requested;enter('arriving')}
+    else break;
+    state.time=rest;
+   }
+   state.x=state.phase==='arriving'?1.8*Math.pow(1-Math.min(1,state.time/3.6),3):state.phase==='departing'?-1.8*Math.pow(Math.min(1,state.time/3.1),3):0;
+   state.doors=state.phase==='opening'?Math.min(1,state.time/.8):state.phase==='open'?1:state.phase==='closing'?Math.max(0,closingFrom-state.time/.8):0;
+   state.active=state.phase!=='parked';return state;
+  }
+ };
+}
+function fallbackArt(kind){
+ const color=kind==='rock'?'#e5b52f':kind==='agv'||kind==='evo'?'#a51e35':'#d3d9d6';
+ const doors=[113,217,326].map(x=>'<rect x="'+x+'" y="37" width="13" height="38" fill="#172a29"/><g data-fallback-door><rect x="'+x+'" y="37" width="13" height="38" rx="1" fill="'+color+'" stroke="#33423d" stroke-width=".6"/><rect x="'+(x+3)+'" y="42" width="7" height="12" rx="1" fill="#18343f"/></g>').join('');
+ return trainArt(kind).replace('</svg>',doors+'</svg>');
+}
+let captionPhase='';
+function selectionCaption(state){
+ if(captionPhase===state.phase)return;captionPhase=state.phase;
+ const labels={"arriving":"Arrivo","opening":"Apertura delle porte","open":"Porte aperte · 10 secondi","closing":"Chiusura delle porte","parked":"Porte chiuse · scegli un altro treno","departing":"Partenza"};
+ $('#station-caption').textContent=labels[state.phase];
+}
 function trainArt(kind){
 const freight=kind==='freight',rock=kind==='rock',night=kind==='night',italo=kind==='agv'||kind==='evo',silver=kind==='silver'||kind==='white',ic=kind==='ic';
 const body=italo?'#a51e35':rock?'#e2e8dd':night?'#224f70':ic?'#d8dfdd':silver?'#d5dcda':'#c42c3e';
@@ -315,8 +354,8 @@ $('#model-stats').innerHTML="<div class=\"stat\"><label>Velocità massima in ser
 $('#model-engineering').innerHTML=f.eng;
 $('#coach-plan').innerHTML=f.plan.map(c=>'<span class="coach '+c[1]+'">'+c[0]+'</span>').join('');
 $('#plan-legend').textContent=f.legend;
-$('#model-fallback').innerHTML=trainArt(key);$('#model-fallback').setAttribute('aria-label',"Sagoma schematica "+f.title);
-if(rebuild)rebuild();
+if(rebuild)rebuild(key);else $('#model-fallback').innerHTML=fallbackArt(key);
+$('#model-fallback').setAttribute('aria-label',"Sagoma schematica "+f.title);
 }
 updateFleet(current);
 $$('[data-model]').forEach(b=>{b.addEventListener('click',()=>updateFleet(b.dataset.model));b.addEventListener('keydown',e=>{const tabs=$$('[data-model]'),i=tabs.indexOf(b);let n;if(e.key==='ArrowRight')n=(i+1)%tabs.length;if(e.key==='ArrowLeft')n=(i+tabs.length-1)%tabs.length;if(e.key==='Home')n=0;if(e.key==='End')n=tabs.length-1;if(n!==undefined){e.preventDefault();updateFleet(tabs[n].dataset.model);tabs[n].focus()}})});
@@ -351,16 +390,8 @@ if('IntersectionObserver' in window){const io=new IntersectionObserver(entries=>
 let simPaused=noMotion;function simState(){$$('.sim-train').forEach(t=>t.style.animationPlayState=(simPaused||noMotion)?'paused':'running');$('#sim-toggle').setAttribute('aria-pressed',simPaused||noMotion);$('#sim-toggle').textContent=(simPaused||noMotion)?"▶ Avvia schema":"Ⅱ Pausa schema"}
 $('#sim-toggle').addEventListener('click',()=>{simPaused=!simPaused;simState()});simState();
 function fitSim(){const w=$('.sim-frame').clientWidth;$('#sim-wrap').style.transform='scale('+Math.min(1,w/1000)+')'}fitSim();addEventListener('resize',fitSim);
-function autoState(){$('#auto').setAttribute('aria-pressed',auto);$('#auto').textContent=auto?"Ⅱ Rotazione automatica":"▶ Rotazione automatica"}
-autoState();
-$('#motion-toggle').addEventListener('click',()=>{noMotion=!noMotion;document.body.classList.toggle('no-motion',noMotion);$('#motion-toggle').setAttribute('aria-pressed',noMotion);$('#motion-toggle').textContent=noMotion?"Attiva animazioni":"Disattiva animazioni";if(noMotion){auto=false;autoState()}simState()});
+$('#motion-toggle').addEventListener('click',()=>{noMotion=!noMotion;document.body.classList.toggle('no-motion',noMotion);$('#motion-toggle').setAttribute('aria-pressed',noMotion);$('#motion-toggle').textContent=noMotion?"Attiva animazioni":"Disattiva animazioni";simState();if(wakeViewer)wakeViewer()});
 if(noMotion){document.body.classList.add('no-motion');$('#motion-toggle').setAttribute('aria-pressed',true);$('#motion-toggle').textContent="Attiva animazioni"}
-$('#auto').addEventListener('click',()=>{auto=!auto;autoState()});
-$('#full-train').addEventListener('click',()=>{station=false;full=!full;$('#full-train').setAttribute('aria-pressed',full);$('#full-train').textContent=full?"Sezione di testa":"Treno completo";if(rebuild)rebuild()});
-$('#station-loop').addEventListener('click',()=>{station=!station;auto=false;autoState();if(rebuild)rebuild()});
-$('#reset-view').addEventListener('click',()=>{if(resetCamera)resetCamera()});
-$('#zoom').addEventListener('input',()=>{$('#zoom-value').value=$('#zoom').value+'%';if(setZoom)setZoom(Number($('#zoom').value))});
-
 
 /* Practical guide tools work independently of WebGL and external modules. */
 let activeCategory='all';
@@ -402,11 +433,6 @@ try{
 $$('[data-trip-check]').forEach(c=>c.addEventListener('change',checkProgress));
 $('#reset-checklist').addEventListener('click',()=>{$$('[data-trip-check]').forEach(c=>c.checked=false);checkProgress()});
 checkProgress();
-$('#share-model').addEventListener('click',async()=>{
- const url=new URL(location.href);url.searchParams.set('train',current);url.hash='depot';
- try{await navigator.clipboard.writeText(url.href);$('#share-model').textContent="✓ Link copiato"}
- catch{const field=$('#share-link');field.hidden=false;field.value=url.href;field.focus();field.select();$('#share-model').textContent="Copia il link"}
-});
 const initialModel=new URLSearchParams(location.search).get('train');if(initialModel&&fleet[initialModel])updateFleet(initialModel);
 if('IntersectionObserver'in window){
  const navObserver=new IntersectionObserver(entries=>{
@@ -416,6 +442,22 @@ if('IntersectionObserver'in window){
  $$('#nav-links a').forEach(a=>{const target=document.getElementById(a.hash.slice(1));if(target)navObserver.observe(target)});
 }
 
+const selection=createTrainSequence(current);
+let enhanced3D=false,fallbackRAF=0,fallbackLast=0,fallbackKind=current,fallbackVisible=true;
+function fallbackWake(){if(!enhanced3D&&!fallbackRAF&&fallbackVisible&&!document.hidden)fallbackRAF=requestAnimationFrame(fallbackFrame)}
+function fallbackFrame(now){
+ fallbackRAF=0;if(enhanced3D||document.hidden||!fallbackVisible)return;
+ const dt=fallbackLast?Math.min(.1,(now-fallbackLast)/1000):0;fallbackLast=now;
+ const state=selection.tick(dt,noMotion),host=$('#model-fallback');
+ if(fallbackKind!==state.kind){fallbackKind=state.kind;host.innerHTML=fallbackArt(state.kind)}
+ const svg=host.querySelector('svg');if(svg)svg.style.transform='translateX('+(state.x*100)+'%)';
+ host.querySelectorAll('[data-fallback-door]').forEach(leaf=>leaf.setAttribute('transform','translate('+(state.doors*12)+' 0)'));
+ selectionCaption(state);if(state.active)fallbackWake();
+}
+rebuild=key=>{selection.request(key);fallbackWake()};wakeViewer=fallbackWake;
+if('IntersectionObserver'in window)new IntersectionObserver(entries=>{fallbackVisible=entries[0].isIntersecting;if(fallbackVisible){fallbackLast=0;fallbackWake()}else{cancelAnimationFrame(fallbackRAF);fallbackRAF=0}},{rootMargin:'80px'}).observe($('#viewport'));
+document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(fallbackRAF);fallbackRAF=0}else{fallbackLast=0;fallbackWake()}});
+fallbackWake();
 try{
 const T=await import('https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js');
 const canvas=$('#train-canvas'),host=$('#viewport'),depot=$('#depot');
@@ -434,8 +476,9 @@ const pmrem=new T.PMREMGenerator(renderer),env=pmrem.fromScene(studio,.05,.1,100
 scene.environment=env.texture;scene.environmentIntensity=.65;pmrem.dispose();panelGeo.dispose();panelMat.dispose();
 let assembly=new T.Group(),model=new T.Group(),track=new T.Group();scene.add(assembly);assembly.add(model,track);
 let yaw=-.78,pitch=.23,distance=60,fitDistance=60,aim=new T.Vector3(),dirty=true,visible=true,contextLost=false;
-let quality='auto',headView=true,dragging=false,raf=0,lastTime=0,lastPaint=0,buildMs=0,stationClock=6,trainLength=1,lastStationPhase=-1;
+let quality='auto',dragging=false,raf=0,lastTime=0,lastPaint=0,buildMs=0,trainLength=1,visualKind=selection.state.kind,zoom=100;
 let geometryCache=new Map(),materialCache=new Map(),textureCache=new Map(),ownedGeometries=new Set();
+const animatedDoors=[];let appliedDoorAmount=-1;
 const boxGeometry=new T.BoxGeometry(1,1,1),cylinderGeometry=new T.CylinderGeometry(1,1,1,16);
 const sphereGeometry=new T.SphereGeometry(1,12,8);
 const sharedGeometry=new Set([boxGeometry,cylinderGeometry,sphereGeometry]);
@@ -626,11 +669,9 @@ function atlas(s,L,cab,loco,kind){
    }
    for(const x of doors){
     rect(x-.035,2.2,doorW+.07,2.08,'#303a42',2);
-    rect(x,2.2,doorW,2.01,kind==='rock'?'#e9b732':s.color,2);
-    pane(x+.18,2.61,doorW-.36,.64);
-    rect(x+doorW-.16,1.94,.045,.18,'#2e353d');
-    rect(x,1.22,doorW,.045,'#c9cfd0');
-    if(kind==='rock')rect(x+doorW/2,2.2,.018,1.95,'#665a3a');
+    rect(x,2.2,doorW,2.01,'#0c1718',2);
+    rect(x+.07,2.2,.07,1.82,'#b7a77e');
+    rect(x+.17,1.35,doorW-.26,.18,'#8b8271');
    }
   }else{
    for(let x=begin+.8;x<L-1.8;x+=.22)rect(x,2.77,.08,kind==='ic'?1.12:.85,'#3b3b42');
@@ -794,6 +835,44 @@ function cabDetails(g,s,L,kind,tail,part){
   }
  }
 }
+function passengerDoors(g,s,L,cab,kind,tail){
+ const width=kind==='rock'?1.45:.93,height=2.01;
+ const begin=cab?s.nose+.45:.55,end=L-.6;
+ const positions=kind==='rock'?[begin+1.0,end-2.5]:[begin+.25,end-1.2];
+ const key='door-material/'+kind;let m=textureCache.get(key);
+ if(!m){
+  const c=document.createElement('canvas');c.width=128;c.height=256;
+  const ctx=c.getContext('2d');ctx.fillStyle=kind==='rock'?'#e9b732':s.color;ctx.fillRect(0,0,128,256);
+  ctx.strokeStyle='#303a42';ctx.lineWidth=5;ctx.strokeRect(2,2,124,252);
+  const pane=ctx.createLinearGradient(0,35,0,132);pane.addColorStop(0,'#506e7d');pane.addColorStop(.4,'#142a36');pane.addColorStop(1,'#0a1620');ctx.fillStyle=pane;ctx.fillRect(23,35,82,84);
+  ctx.fillStyle='#c5d6df66';ctx.fillRect(27,39,74,3);ctx.fillStyle='#2a383c';ctx.fillRect(108,139,5,21);ctx.fillStyle='#b5bdba';ctx.fillRect(5,244,118,4);
+  if(kind==='rock'){ctx.fillStyle='#665a3a';ctx.fillRect(62,3,3,248)}
+  const map=new T.CanvasTexture(c);map.colorSpace=T.SRGBColorSpace;
+  m=new T.MeshStandardMaterial({map,metalness:.34,roughness:.34,side:T.DoubleSide});textureCache.set(key,m);
+ }
+ const split=kind==='rock'?2:1;
+ for(const side of [-1,1])for(const d of positions)for(let leaf=0;leaf<split;leaf++){
+  const geoKey='door-leaf/'+width+'/'+split+'/'+leaf;let geo=geometryCache.get(geoKey);
+  if(!geo){
+   geo=new T.PlaneGeometry(width/split,height);
+   const uv=geo.attributes.uv;for(let i=0;i<uv.count;i++)uv.setX(i,(uv.getX(i)+leaf)/split);
+   geometryCache.set(geoKey,geo);ownedGeometries.add(geo);
+  }
+  const x=d-L/2+width*(leaf+.5)/split,z=side*(s.width/2+.037);
+  const o=mesh(g,geo,m,x,2.2,z);if(side===-1)o.rotation.y=Math.PI;
+  o.userData.dynamicDoor=true;
+  animatedDoors.push({mesh:o,x,z,side,boarding:tail?side===-1:side===1,direction:split===2?(leaf===0?-1:1):1,travel:width/split+.08});
+ }
+}
+function applyDoors(amount){
+ if(amount===appliedDoorAmount)return;appliedDoorAmount=amount;
+ const slide=Math.max(0,(amount-.12)/.88),plug=Math.min(1,amount/.12)*.075;
+ for(const door of animatedDoors){
+  const open=door.boarding;
+  door.mesh.position.x=door.x+(open?slide*door.direction*door.travel:0);
+  door.mesh.position.z=door.z+(open?door.side*plug:0);door.mesh.updateMatrix();
+ }
+}
 function car(kind,index,count,part='coach',tail=false){
  const s=specs[kind],loco=part==='loco',cab=part==='cab'||loco||part==='pilot';
  let L=cab?s.head:s.coach;
@@ -801,6 +880,7 @@ function car(kind,index,count,part='coach',tail=false){
  const shape=part==='pilot'?{...s,nose:2.7,height:4.0}:s;
  const g=new T.Group();g.userData.length=L;
  mesh(g,shellGeometry(shape,L,cab,kind+part),atlas(shape,L,cab,loco,kind));
+ if(!loco)passengerDoors(g,shape,L,cab,kind,tail);
  const bodyStart=cab?shape.nose:0;
  const bodyLength=L-bodyStart-.8,bodyCenter=bodyStart/2+.1;
  // Sills hide only the upper wheel area, not the wheel/rail contact.
@@ -857,7 +937,7 @@ function gangway(g,x){
 function batch(root){
  root.updateMatrixWorld(true);const inverse=root.matrixWorld.clone().invert(),groups=new Map();
  root.traverse(o=>{
-  if(!o.isMesh||o.isInstancedMesh||Array.isArray(o.material))return;
+  if(!o.isMesh||o.isInstancedMesh||o.userData.dynamicDoor||Array.isArray(o.material))return;
   const k=o.geometry.uuid+'/'+o.material.uuid;
   if(!groups.has(k))groups.set(k,[]);groups.get(k).push(o);
  });
@@ -901,6 +981,8 @@ function makeStation(length){
  const stone=material('#7c8682',.05,.9),edge=material('#c8b980',.05,.8),blue=material('#183a45',.35,.55),roof=material('#43585b',.6,.43);
  const platformLength=length*1.10;
  box(track,0,.35,-4.15,platformLength,1.25,4.5,stone);
+ box(track,0,.35,3.60,platformLength,1.25,3.10,stone);
+ box(track,0,1.01,2.13,platformLength,.05,.22,edge);
  box(track,0,1.01,-2.00,platformLength,.05,.22,edge);
  box(track,0,1.025,-2.38,platformLength,.025,.32,material('#d6d2bd',.04,.8));
  // The canopy sits behind the train so the cab stays visible from the front side.
@@ -924,32 +1006,20 @@ function makeStation(length){
   rod(track,[x+1.9,4.9,-3.08],[x+1.9,4.7,-3.08],.025,blue);
  }
 }
-// Closed cycle, with zero speed at both ends of the station dwell.
-function stationState(seconds,length){
- const t=((seconds%24)+24)%24,travel=length*1.8;
- if(t<6)return {x:travel*Math.pow(1-t/6,3),phase:0};
- if(t<13)return {x:0,phase:1};
- if(t<20)return {x:-travel*Math.pow((t-13)/7,3),phase:2};
- return {x:-travel,phase:3};
-}
 function fit(){
- const box=new T.Box3().setFromObject(model),size=box.getSize(new T.Vector3());
- aim.copy(box.getCenter(new T.Vector3()));aim.y=Math.max(.5,aim.y);
- if(station){size.x=Math.min(size.x,7.5);aim.x=-17+size.x*.43;aim.y=Math.max(.55,aim.y)}
+ const bounds=new T.Box3().setFromObject(model),size=bounds.getSize(new T.Vector3());
+ size.x=7.5;aim.set(-17+size.x*.43,Math.max(.55,size.y/2),0);
  const vertical=T.MathUtils.degToRad(camera.fov),horizontal=2*Math.atan(Math.tan(vertical/2)*camera.aspect);
- const bound=Math.hypot(size.x,size.z)/2;
- fitDistance=$('#camera-view').value==='front'&&!auto?
- (size.x/2+Math.max(size.z/2/Math.tan(horizontal/2),size.y/2/Math.tan(vertical/2)))*1.14:
- Math.max(bound/Math.sin(horizontal/2),size.y/.6/Math.tan(vertical/2))*1.12;
- distance=fitDistance*100/Number($('#zoom').value);
+ fitDistance=Math.max(Math.hypot(size.x,size.z)/2/Math.sin(horizontal/2),size.y/.6/Math.tan(vertical/2))*1.12;
+ distance=fitDistance*100/zoom;
 }
 function build(){
- const start=performance.now();destroyAssembly();
+ const start=performance.now();destroyAssembly();animatedDoors.length=0;appliedDoorAmount=-1;
  assembly=new T.Group();model=new T.Group();track=new T.Group();assembly.add(model,track);scene.add(assembly);
- const kind=current,number=full||station?({fr1000:8,evo:7,agv:11,ic:7,rock:4,fr500:13}[kind]):headView?(kind==='ic'||kind==='fr500'?2:1):3;
+ const kind=visualKind,number={fr1000:8,evo:7,agv:11,ic:7,rock:4,fr500:13}[kind];
  const cars=[],lengths=[];let total=0;
  for(let i=0;i<number;i++){
-  const tail=(full||station)&&i===number-1;
+  const tail=i===number-1;
   const loco=(kind==='ic'&&i===0)||(kind==='fr500'&&(i===0||tail));
   const part=loco?'loco':kind==='ic'&&tail?'pilot':i===0||(tail&&kind!=='ic')?'cab':'coach';
   const c=car(kind,i,number,part,tail&&kind!=='ic'||part==='pilot');const L=c.userData.length;
@@ -958,74 +1028,59 @@ function build(){
  let x=-total/2;
  cars.forEach((c,i)=>{const L=lengths[i];c.position.x=x+L/2;model.add(c);if(i<number-1)gangway(model,x+L+.25);x+=L+.5});
  // Keep rolling stock and rails in one coordinate system; no floating scaled wheels.
- trainLength=total;stationClock=6;lastStationPhase=-1;
- if(station){yaw=-.72;pitch=.22;$('#camera-view').value='perspective'}
- const scale=34/total;assembly.scale.setScalar(scale);makeTrack(station?total*5:total+7);
- if(station)makeStation(total);
+ trainLength=total;
+ const scale=34/total;assembly.scale.setScalar(scale);makeTrack(total*5);makeStation(total);
  batch(model);batch(track);
- $('#station-loop').setAttribute('aria-pressed',station);
- $('#station-loop').textContent=station?"✓ Stazione":"▶ Stazione";
- $('#station-caption').hidden=!station;
- $('#head-view').setAttribute('aria-pressed',headView&&!full&&!station);
- $('#head-view').textContent=headView&&!full&&!station?"✓ Primo piano":"Primo piano";
- $('#full-train').textContent=full?"✓ Treno completo":"Treno completo";
- $('#model-recognition').innerHTML=specs[current].note.map((v,i)=>'<div><span>0'+(i+1)+'</span>'+v+'</div>').join('');
- $('#photo-reference').href=specs[current].ref;
+ $('#model-recognition').innerHTML=specs[visualKind].note.map((v,i)=>'<div><span>0'+(i+1)+'</span>'+v+'</div>').join('');
+ $('#photo-reference').href=specs[visualKind].ref;
  updatePixelRatio();fit();buildMs=performance.now()-start;dirty=true;wake();
 }
-rebuild=build;
+rebuild=key=>{selection.request(key);dirty=true;wake()};wakeViewer=()=>{dirty=true;wake()};
 function resize(){
  renderer.setSize(host.clientWidth,host.clientHeight,false);camera.aspect=host.clientWidth/Math.max(1,host.clientHeight);camera.updateProjectionMatrix();fit();dirty=true;wake();
 }
 new ResizeObserver(resize).observe(host);
-setZoom=value=>{distance=fitDistance*100/value;dirty=true;wake()};
-resetCamera=()=>{yaw=-.78;pitch=.23;$('#camera-view').value='perspective';$('#zoom').value='100';$('#zoom-value').value='100%';fit();dirty=true;wake()};
-function zoomBy(value){const v=Math.max(65,Math.min(300,value));$('#zoom').value=String(Math.round(v));$('#zoom-value').value=Math.round(v)+'%';setZoom(v)}
-$('#quality').addEventListener('change',e=>{quality=e.target.value;build();resize()});
-$('#head-view').addEventListener('click',()=>{headView=station||full?true:!headView;if(station){auto=!noMotion;autoState()}station=false;full=false;$('#full-train').setAttribute('aria-pressed','false');build()});
-$('#camera-view').addEventListener('change',e=>{
- const views={perspective:[-.78,.23],side:[0,.1],front:[-Math.PI/2,.12],roof:[-.3,1.4],undercarriage:[-.6,-.12]};
- [yaw,pitch]=views[e.target.value];auto=false;autoState();fit();dirty=true;wake();
-});
-
-const pointers=new Map();let lastX=0,lastY=0,pinch=0;
+resetCamera=()=>{yaw=-.72;pitch=.22;zoom=100;fit();dirty=true;wake()};
+function zoomBy(value){zoom=Math.max(20,Math.min(800,value));distance=fitDistance*100/zoom;dirty=true;wake()}
+const pointers=new Map();let lastX=0,lastY=0,pinch=0,tapTime=0,tapX=0,tapY=0,gestureStart=0,gestureMoved=false,multiTouch=false;
 canvas.addEventListener('pointerdown',e=>{
  pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});canvas.setPointerCapture(e.pointerId);
  dragging=true;lastX=e.clientX;lastY=e.clientY;
+ if(pointers.size===1){gestureStart=performance.now();gestureMoved=false;multiTouch=false}
+ if(pointers.size>1)multiTouch=true;
  if(pointers.size===2){const [a,b]=[...pointers.values()];pinch=Math.hypot(a.x-b.x,a.y-b.y)}
  wake();
 });
 canvas.addEventListener('pointermove',e=>{
  if(!pointers.has(e.pointerId))return;pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+ if(Math.abs(e.clientX-lastX)+Math.abs(e.clientY-lastY)>3)gestureMoved=true;
  if(pointers.size===2){
   const [a,b]=[...pointers.values()],d=Math.hypot(a.x-b.x,a.y-b.y);
-  if(pinch>0)zoomBy(Number($('#zoom').value)*d/pinch);pinch=d;
+  if(pinch>0)zoomBy(zoom*d/pinch);pinch=d;
  }else{
   yaw-=(e.clientX-lastX)*.006;pitch=Math.max(-.16,Math.min(1.45,pitch+(e.clientY-lastY)*.004));
-  $('#camera-view').value='perspective';
  }
  lastX=e.clientX;lastY=e.clientY;dirty=true;wake();
 });
 function endPointer(e){
+ const now=performance.now();
+ if(e.type==='pointerup'&&pointers.size===1&&!multiTouch&&!gestureMoved&&now-gestureStart<300){
+  if(now-tapTime<320&&Math.hypot(e.clientX-tapX,e.clientY-tapY)<25){resetCamera();tapTime=0}
+  else{tapTime=now;tapX=e.clientX;tapY=e.clientY}
+ }else tapTime=0;
  pointers.delete(e.pointerId);dragging=pointers.size>0;pinch=0;
  if(pointers.size===1){const p=[...pointers.values()][0];lastX=p.x;lastY=p.y}
  dirty=true;wake();
 }
 for(const event of ['pointerup','pointercancel','lostpointercapture'])canvas.addEventListener(event,endPointer);
-canvas.addEventListener('wheel',e=>{e.preventDefault();zoomBy(Number($('#zoom').value)-e.deltaY*.07)},{passive:false});
+canvas.addEventListener('wheel',e=>{e.preventDefault();zoomBy(zoom-e.deltaY*.07)},{passive:false});
 canvas.addEventListener('keydown',e=>{
  if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','+','=','-','r','R'].includes(e.key))return;
  e.preventDefault();if(e.key==='ArrowLeft')yaw-=.12;if(e.key==='ArrowRight')yaw+=.12;
  if(e.key==='ArrowUp')pitch=Math.min(1.45,pitch+.07);if(e.key==='ArrowDown')pitch=Math.max(-.16,pitch-.07);
  if(e.key==='r'||e.key==='R')resetCamera();
- if(['+','=','-'].includes(e.key))zoomBy(Number($('#zoom').value)+(e.key==='-'?-10:10));
+ if(['+','=','-'].includes(e.key))zoomBy(zoom+(e.key==='-'?-10:10));
  dirty=true;wake();
-});
-$('#auto').addEventListener('click',()=>{if(auto){$('#camera-view').value='perspective';fit()}dirty=true;wake()});
-$('#motion-toggle').addEventListener('click',()=>{dirty=true;wake()});
-$('#show-metrics').addEventListener('click',()=>{
- const open=$('#render-metrics').hidden;$('#render-metrics').hidden=!open;
- $('#show-metrics').setAttribute('aria-pressed',open);dirty=true;wake();
 });
 $('#viewer-expand').addEventListener('click',()=>{
  const expanded=depot.classList.toggle('expanded');document.body.classList.toggle('viewer-open',expanded);
@@ -1046,7 +1101,7 @@ if('IntersectionObserver'in window)new IntersectionObserver(entries=>{
 },{rootMargin:'80px'}).observe(host);
 document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(raf);raf=0}else{lastTime=0;dirty=true;wake()}});
 canvas.addEventListener('webglcontextlost',e=>{
- e.preventDefault();contextLost=true;cancelAnimationFrame(raf);raf=0;$$('.viewer-controls button,.viewer-controls input,#quality,#camera-view,#show-metrics').forEach(b=>b.disabled=true);$('#viewer-status').textContent="Contesto 3D perso · ricarica la pagina";
+ e.preventDefault();contextLost=true;cancelAnimationFrame(raf);raf=0;$('#viewer-status').textContent="Contesto 3D perso · ricarica la pagina";
  depot.classList.remove('js-ready');
 });
 canvas.addEventListener('webglcontextrestored',()=>location.reload());
@@ -1054,21 +1109,18 @@ function wake(){if(!raf&&visible&&!document.hidden&&!contextLost)raf=requestAnim
 let slowFrames=0;
 function frame(now){
  raf=0;if(!visible||document.hidden)return;
- const rotating=auto&&!noMotion&&!dragging,dt=lastTime?Math.min(.05,(now-lastTime)/1000):0;lastTime=now;
- const cycling=station&&!noMotion&&!dragging;
- if(cycling){stationClock+=dt;dirty=true}
- if(station){
-  const state=stationState(stationClock,trainLength);model.position.x=state.x;model.updateMatrix();
-  if(state.phase!==lastStationPhase){$('#station-caption').textContent=["Arrivo · frenata graduale","Sosta · Binario 01","Partenza · accelerazione","Prossimo treno"][state.phase];lastStationPhase=state.phase}
- }
- if(rotating){yaw+=dt*.085;dirty=true}
+ const dt=lastTime?Math.min(.1,(now-lastTime)/1000):0;lastTime=now;
+ const state=selection.tick(dt,noMotion);
+ if(state.kind!==visualKind){visualKind=state.kind;build()}
+ const moving=state.active,x=state.x*trainLength;
+ if(model.position.x!==x){model.position.x=x;model.updateMatrix();dirty=true}
+ if(appliedDoorAmount!==state.doors){applyDoors(state.doors);dirty=true}selectionCaption(state);
  const frameBudget=quality==='eco'?1000/30:1000/45;
- if(now-lastPaint<frameBudget){if(rotating||cycling||dirty)wake();return}
+ if(now-lastPaint<frameBudget){if(moving||dirty)wake();return}
  if(dirty){
   camera.position.set(aim.x+Math.sin(yaw)*Math.cos(pitch)*distance,aim.y+Math.sin(pitch)*distance,aim.z+Math.cos(yaw)*Math.cos(pitch)*distance);
   camera.lookAt(aim);const start=performance.now();renderer.render(scene,camera);const cpuMs=performance.now()-start;
   lastPaint=now;dirty=false;
-  $('#render-metrics').textContent=renderer.info.render.calls+" chiamate · "+Math.round(renderer.info.render.triangles/1000)+" mila triangoli · CPU "+cpuMs.toFixed(1)+" ms · creazione "+Math.round(buildMs)+" ms";
   // Conservative one-way resolution reduction; no continuous oscillation or rebuilds.
   if(quality==='auto'&&cpuMs>24)slowFrames++;else slowFrames=Math.max(0,slowFrames-1);
   if(quality==='auto'&&slowFrames===15&&renderer.getPixelRatio()>1){
@@ -1076,15 +1128,16 @@ function frame(now){
    $('#viewer-status').textContent="3D / RISOLUZIONE ADATTIVA";
   }
  }
- if(rotating||cycling||dirty)wake();
+ if(moving||dirty)wake();
 }
-build();resize();depot.classList.add('js-ready');$('#viewer-status').textContent="3D / PRONTO";
+build();resize();enhanced3D=true;cancelAnimationFrame(fallbackRAF);fallbackRAF=0;depot.classList.add('js-ready');$('#viewer-status').textContent="3D / PRONTO";
 window.addEventListener('pagehide',()=>{cancelAnimationFrame(raf);raf=0});
 window.addEventListener('pageshow',()=>{dirty=true;lastTime=0;wake()});
 }catch(error){
- console.warn('3D viewer unavailable',error);$('#viewer-status').textContent="3D non disponibile · sagoma e dati restano disponibili";
- $('#depot').classList.remove('js-ready');$$('.viewer-controls button,.viewer-controls input,#quality,#camera-view,#show-metrics,#viewer-expand').forEach(b=>b.disabled=true);
+ enhanced3D=false;fallbackWake();console.warn('3D viewer unavailable',error);$('#viewer-status').textContent="3D non disponibile · sagoma e dati restano disponibili";
+ $('#depot').classList.remove('js-ready');$('#viewer-expand').disabled=true;
 }
 
 </script>
 </body></html>
+
