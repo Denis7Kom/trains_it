@@ -478,6 +478,7 @@ let assembly=new T.Group(),model=new T.Group(),track=new T.Group();scene.add(ass
 let yaw=-.78,pitch=.23,distance=60,fitDistance=60,aim=new T.Vector3(),dirty=true,visible=true,contextLost=false;
 let quality='auto',dragging=false,raf=0,lastTime=0,lastPaint=0,buildMs=0,trainLength=1,visualKind=selection.state.kind,zoom=100;
 let geometryCache=new Map(),materialCache=new Map(),textureCache=new Map(),ownedGeometries=new Set();
+const stationGeometries=new Set(),stationMaterials=new Set(),stationTextures=new Set();let stationReady=false;
 const animatedDoors=[];let appliedDoorAmount=-1;
 const boxGeometry=new T.BoxGeometry(1,1,1),cylinderGeometry=new T.CylinderGeometry(1,1,1,16);
 const sphereGeometry=new T.SphereGeometry(1,12,8);
@@ -488,7 +489,7 @@ function material(color,metalness=.3,roughness=.45){
  return materialCache.get(k);
 }
 const metal=material('#808992',.78,.3),darkMetal=material('#252d34',.65,.49),rubber=material('#121719',.04,.92);
-const glass=material('#111c27',.7,.13),chrome=material('#d2dbe2',.85,.2);
+const glass=material('#152b37',.22,.09),chrome=material('#d2dbe2',.85,.2);
 const lamp=new T.MeshStandardMaterial({color:'#fff1c4',emissive:'#ffdc97',emissiveIntensity:1.4,roughness:.22});
 const tailLamp=new T.MeshStandardMaterial({color:'#aa1726',emissive:'#ed1727',emissiveIntensity:.8});
 const fixedMaterials=new Set([...materialCache.values(),lamp,tailLamp]);
@@ -504,18 +505,18 @@ function rod(g,a,b,r=.025,m=metal){
 }
 const specs={
 fr1000:{width:2.924,height:4.08,head:26.5,coach:24.25,nose:5.25,color:'#c9cdd0',accent:'#c82136',window:2.75,windowH:.72,spacing:1.8,roof:'#9aa2a8',bodyBottom:1.06,round:.44,
- capDepth:.26,noseRound:.62,chin:.93,crown:.87,
- rings:[[0,.71,.64,2.10],[.08,.84,.64,2.25],[.23,.94,.72,2.64],[.43,.99,.87,3.24],[.67,1,.99,3.94],[.87,1,1.05,4.08],[1,1,1.06,4.08]],
+ capDepth:.44,noseRound:.72,chin:.93,crown:.87,
+ rings:[[0,.39,.88,1.72],[.08,.59,.82,1.98],[.23,.82,.83,2.48],[.43,.96,.91,3.19],[.67,1,1.02,3.93],[.87,1,1.06,4.08],[1,1,1.06,4.08]],
  note:["Long wedge-shaped nose","Silver body and red nose mask","Separate bogies beneath the cars"],
  ref:'https://www.trenitalia.com/it/frecciarossa/la-flotta.html'},
 evo:{width:2.83,height:4.1,head:28.2,coach:25.52,nose:4.55,color:'#b2192f',accent:'#d7b569',window:2.75,windowH:.68,spacing:1.75,roof:'#635c61',bodyBottom:1.13,round:.49,
  capDepth:.38,noseRound:.84,chin:.95,crown:.85,
- rings:[[0,.70,.57,1.90],[.1,.88,.58,2.35],[.26,.98,.70,3.10],[.48,1,.94,3.82],[.73,1,1.09,4.10],[1,1,1.13,4.1]],
+ rings:[[0,.53,.80,1.92],[.1,.73,.77,2.23],[.26,.93,.83,2.98],[.48,1,1.0,3.83],[.73,1,1.12,4.10],[1,1,1.13,4.1]],
  note:["Tall rounded cab","Shorter, rounded EVO nose","Separate bogies, unlike AGV"],
  ref:'https://italospa.italotreno.it/en/ntvs-fleet/trains/italo-evo.html'},
 agv:{width:2.985,height:3.6,head:26.1,coach:16.08888889,nose:3.55,color:'#8f1429',accent:'#d6b15d',window:2.6,windowH:.61,spacing:1.69,roof:'#514c50',bodyBottom:1.0,round:.54,
  capDepth:.27,noseRound:.56,chin:.96,crown:.82,
- rings:[[0,.77,.56,2.13],[.08,.89,.56,2.37],[.23,.97,.64,2.89],[.44,1,.82,3.38],[.69,1,.96,3.60],[1,1,1,3.6]],
+ rings:[[0,.59,.71,1.88],[.08,.77,.68,2.12],[.23,.94,.73,2.73],[.44,1,.88,3.32],[.69,1,.98,3.60],[1,1,1,3.6]],
  note:["Broad, rounded AGV cab front","Short intermediate cars","Shared bogies between cars"],
  ref:'https://italospa.italotreno.it/en/ntvs-fleet/trains/agv-575.html'},
 ic:{width:3.0,height:4.1,head:19.42,coach:26.4,nose:1.15,color:'#e0e1df',accent:'#307f89',window:2.78,windowH:.75,spacing:1.95,roof:'#aeb4b5',bodyBottom:1.16,round:.2,
@@ -666,6 +667,7 @@ function atlas(s,L,cab,loco,kind){
     if(doors.some(d=>x+widen(s,kind)>d-.1&&x<d+doorW+.1))continue;
     pane(x,s.window,kind==='rock'?1.13:1.18,s.windowH);
     if(kind==='rock')pane(x,1.5,1.13,.5);
+    if(kind==='ic')rect(x+.58,s.window,.023,s.windowH,'#71828b');
    }
    for(const x of doors){
     rect(x-.035,2.2,doorW+.07,2.08,'#303a42',2);
@@ -687,7 +689,7 @@ function atlas(s,L,cab,loco,kind){
   ctx.restore();
  }
  const texture=new T.CanvasTexture(c);texture.colorSpace=T.SRGBColorSpace;texture.anisotropy=Math.min(4,renderer.capabilities.getMaxAnisotropy());
- const m=new T.MeshStandardMaterial({map:texture,metalness:kind==='evo'||kind==='agv'?.4:.52,roughness:.32});
+ const m=new T.MeshStandardMaterial({map:texture,metalness:kind==='evo'||kind==='agv'?.28:.38,roughness:.27});
  textureCache.set(key,m);return m;
 }
 function widen(s,kind){return kind==='rock'?1.13:1.18}
@@ -750,7 +752,7 @@ function cabPanel(g,s,L,d0,d1,w0,w1,m,lift=.025,bow=0,centerZ=0){
 function cabDetails(g,s,L,kind,tail,part){
  const N=s.nose,black=material('#101921',.35,.27),seal=material('#070c11',.05,.65);
  const paint=material(kind==='evo'?'#b2192f':kind==='agv'?'#8f1429':kind==='rock'?'#244b70':kind==='ic'?'#286578':s.accent,.48,.3);
- const configs={fr1000:[.35,.70,.99,.87],evo:[.28,.60,1.02,.86],agv:[.23,.64,1.04,.88],fr500:[.26,.63,1.10,1.02],rock:[.17,.63,.89,.82],ic:[.07,.51,1.17,1.11]};
+ const configs={fr1000:[.43,.73,.89,.86],evo:[.36,.66,.94,.84],agv:[.33,.70,1.02,.91],fr500:[.26,.63,1.10,1.02],rock:[.17,.63,.89,.82],ic:[.07,.51,1.17,1.11]};
  const [bottom,top,wb,wt]=configs[kind];
  // Different mask outlines: EVO's domed cap, AGV's long black face, Rock's tall shield.
  if(kind==='evo'||kind==='agv'||kind==='rock'){
@@ -769,7 +771,7 @@ function cabDetails(g,s,L,kind,tail,part){
  }
  // Cab quarter lights are separate polygonal glazing, with a substantial painted pillar.
  for(const sign of [-1,1]){
-  const low=kind==='ic'?.002:.022,high=kind==='ic'?.16:.27;
+  const low=kind==='ic'?.10:.08,high=kind==='ic'?.48:.43;
   const a=sign===1?low:Math.PI-high,b=sign===1?high:Math.PI-low;
   patch(g,s,L,true,N*.79,N+.75,a,b,seal,.029);
   patch(g,s,L,true,N*.82,N+.66,a+.025,b-.025,glass,.047);
@@ -920,6 +922,7 @@ function car(kind,index,count,part='coach',tail=false){
   if(pantoCar)pantograph(g,lerp(roofStart,roofEnd,.46),s.height+.12);
  }
  if(cab)cabDetails(g,shape,L,kind,tail,part);
+ rollingStockDetails(g,shape,L,kind,cab,loco,index);
  // Fine skirt seams and boarding steps remain geometry; doors/windows are atlas pixels.
  for(const sign of [-1,1]){
   if(!loco)for(const d of [bodyStart+1.0,L-1.7]){
@@ -928,6 +931,36 @@ function car(kind,index,count,part='coach',tail=false){
  }
  if(tail)g.rotation.y=Math.PI;
  return g;
+}
+function rollingStockDetails(g,s,L,kind,cab,loco,index){
+ const begin=cab?s.nose+.45:.55,end=L-.6;
+ const seam=material('#4a5054',.45,.6),rim=material('#929b9f',.65,.32);
+ // Recessed roof grilles, rain gutters and lower equipment access panels.
+ for(const side of [-1,1]){
+  const z=side*(s.width/2-.035);
+  box(g,(begin+end-L)/2,s.height-.24,z,end-begin,.024,.025,rim);
+  for(let d=begin+2.5;d<end-2;d+=3.1){
+   box(g,d-L/2,1.18,side*(s.width/2+.008),.018,.27,.012,seam);
+   box(g,d-L/2+.1,1.28,side*(s.width/2+.017),.11,.026,.018,rim);
+  }
+  if(loco){
+   for(let d=begin+1;d<end-1.6;d+=1.65){
+    box(g,d-L/2,2.78,z,1.28,.84,.035,darkMetal);
+    for(let y=2.45;y<3.16;y+=.09)box(g,d-L/2,y,side*(s.width/2+.01),1.22,.024,.018,rim);
+   }
+   for(let y=1.05;y<1.9;y+=.23)box(g,L/2-1.05,y,side*(s.width/2+.06),.64,.035,.16,metal);
+  }
+ }
+ if(cab){
+  // Flush service hatch seams at the cab shoulder.
+  for(const side of [-1,1]){
+   const d=s.nose+.24,z=side*(s.width/2+.012);
+   box(g,d-L/2,2.07,z,.014,1.6,.014,seam);
+   box(g,d-L/2+.17,2.16,z,.13,.035,.025,chrome);
+  }
+ }
+ // Low-profile radio aerials only on cab roofs.
+ if(cab){box(g,-L/2+s.nose+1.3,s.height+.08,0,.42,.12,.24,darkMetal);rod(g,[-L/2+s.nose+1.3,s.height+.1,0],[-L/2+s.nose+1.3,s.height+.38,0],.014,darkMetal)}
 }
 function gangway(g,x){
  box(g,x,2.25,0,.43,2.35,2.3,rubber);
@@ -950,11 +983,12 @@ function batch(root){
  root.traverse(o=>{o.matrixAutoUpdate=false;o.updateMatrix()});
 }
 function destroyAssembly(){
- assembly.traverse(o=>{if(o.isInstancedMesh)o.dispose()});
- scene.remove(assembly);
- for(const geo of ownedGeometries)geo.dispose();ownedGeometries.clear();geometryCache.clear();
- for(const m of textureCache.values()){m.map.dispose();m.dispose()}textureCache.clear();
- for(const [key,m] of materialCache)if(!fixedMaterials.has(m)){m.dispose();materialCache.delete(key)}
+ model.traverse(o=>{if(o.isInstancedMesh)o.dispose()});
+ assembly.remove(model);
+ for(const geo of ownedGeometries)if(!stationGeometries.has(geo))geo.dispose();
+ for(const geo of [...ownedGeometries])if(!stationGeometries.has(geo))ownedGeometries.delete(geo);geometryCache.clear();
+ for(const [key,m] of textureCache)if(!stationTextures.has(m)){m.map.dispose();m.dispose();textureCache.delete(key)}
+ for(const [key,m] of materialCache)if(!fixedMaterials.has(m)&&!stationMaterials.has(m)){m.dispose();materialCache.delete(key)}
  renderer.renderLists.dispose();
 }
 const shadowCanvas=document.createElement('canvas');shadowCanvas.width=128;shadowCanvas.height=64;
@@ -1007,15 +1041,14 @@ function makeStation(length){
  }
 }
 function fit(){
- const bounds=new T.Box3().setFromObject(model),size=bounds.getSize(new T.Vector3());
- size.x=7.5;aim.set(-17+size.x*.43,Math.max(.55,size.y/2),0);
+ const size=new T.Vector3(7.5,1.05,.52);aim.set(-17+size.x*.43,.55,0);
  const vertical=T.MathUtils.degToRad(camera.fov),horizontal=2*Math.atan(Math.tan(vertical/2)*camera.aspect);
  fitDistance=Math.max(Math.hypot(size.x,size.z)/2/Math.sin(horizontal/2),size.y/.6/Math.tan(vertical/2))*1.12;
  distance=fitDistance*100/zoom;
 }
 function build(){
  const start=performance.now();destroyAssembly();animatedDoors.length=0;appliedDoorAmount=-1;
- assembly=new T.Group();model=new T.Group();track=new T.Group();assembly.add(model,track);scene.add(assembly);
+ model=new T.Group();assembly.add(model);
  const kind=visualKind,number={fr1000:8,evo:7,agv:11,ic:7,rock:4,fr500:13}[kind];
  const cars=[],lengths=[];let total=0;
  for(let i=0;i<number;i++){
@@ -1025,12 +1058,17 @@ function build(){
   const c=car(kind,i,number,part,tail&&kind!=='ic'||part==='pilot');const L=c.userData.length;
   cars.push(c);lengths.push(L);total+=L+(i<number-1?.5:0);
  }
- let x=-total/2;
+ let x=-100;
  cars.forEach((c,i)=>{const L=lengths[i];c.position.x=x+L/2;model.add(c);if(i<number-1)gangway(model,x+L+.25);x+=L+.5});
  // Keep rolling stock and rails in one coordinate system; no floating scaled wheels.
  trainLength=total;
- const scale=34/total;assembly.scale.setScalar(scale);makeTrack(total*5);makeStation(total);
- batch(model);batch(track);
+ assembly.scale.setScalar(.17);
+ if(!stationReady){
+  makeTrack(1800);makeStation(420);batch(track);
+  track.traverse(o=>{if(o.isMesh){stationGeometries.add(o.geometry);stationMaterials.add(o.material);if(o.material.map)stationTextures.add(o.material)}});
+  stationReady=true;
+ }
+ batch(model);
  $('#model-recognition').innerHTML=specs[visualKind].note.map((v,i)=>'<div><span>0'+(i+1)+'</span>'+v+'</div>').join('');
  $('#photo-reference').href=specs[visualKind].ref;
  updatePixelRatio();fit();buildMs=performance.now()-start;dirty=true;wake();
