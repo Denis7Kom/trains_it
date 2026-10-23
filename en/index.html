@@ -707,7 +707,7 @@ function cabDetails(g,s,L,kind,tail,part){
   patch(g,s,L,true,N*.79,N+.75,a,b,seal,.029);
   patch(g,s,L,true,N*.82,N+.66,a+.025,b-.025,glass,.047);
   if(kind==='ic'||kind==='rock'){
-   const x=-L/2-.08,y=kind==='ic'?1.90:1.66,z=sign*(kind==='ic'?1.02:.89);
+   const x=-L/2-.35,y=kind==='ic'?1.90:1.66,z=sign*(kind==='ic'?1.02:.89);
    box(g,x,y,z,.10,.24,kind==='ic'?.46:.33,seal);
    for(const delta of [-.09,.09]){
     const lens=mesh(g,cylinderGeometry,delta>0?tailLamp:tail?tailLamp:lamp,x-.07,y,z+delta,.064,.045,.064);
@@ -754,7 +754,7 @@ function cabDetails(g,s,L,kind,tail,part){
    }
   }
  }else{
-  const x=-L/2-.23;
+  const x=-L/2-.43;
   box(g,x,1.02,0,.48,.21,.29,darkMetal);
   box(g,x-.24,1.02,0,.13,.28,.49,darkMetal);
   if(kind==='ic'||part==='pilot')for(const sign of [-1,1]){
