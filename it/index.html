@@ -505,32 +505,32 @@ function rod(g,a,b,r=.025,m=metal){
 }
 const specs={
 fr1000:{width:2.924,height:4.08,head:26.5,coach:24.25,nose:5.25,color:'#c9cdd0',accent:'#c82136',window:2.75,windowH:.72,spacing:1.8,roof:'#9aa2a8',bodyBottom:1.06,round:.44,
- capDepth:.44,noseRound:.72,chin:.93,crown:.87,
+ cabShape:[.68,.94,.82,.94],capDepth:.44,noseRound:.72,chin:.93,crown:.87,
  rings:[[0,.39,.88,1.72],[.08,.59,.82,1.98],[.23,.82,.83,2.48],[.43,.96,.91,3.19],[.67,1,1.02,3.93],[.87,1,1.06,4.08],[1,1,1.06,4.08]],
  note:["Muso lungo a cuneo","Cassa argentata e maschera rossa","Carrelli separati sotto le casse"],
  ref:'https://www.trenitalia.com/it/frecciarossa/la-flotta.html'},
 evo:{width:2.83,height:4.1,head:28.2,coach:25.52,nose:4.55,color:'#b2192f',accent:'#d7b569',window:2.75,windowH:.68,spacing:1.75,roof:'#635c61',bodyBottom:1.13,round:.49,
- capDepth:.38,noseRound:.84,chin:.95,crown:.85,
+ cabShape:[.82,.76,.85,.95],capDepth:.38,noseRound:.84,chin:.95,crown:.85,
  rings:[[0,.53,.80,1.92],[.1,.73,.77,2.23],[.26,.93,.83,2.98],[.48,1,1.0,3.83],[.73,1,1.12,4.10],[1,1,1.13,4.1]],
  note:["Cabina alta e arrotondata","Muso EVO corto e bombato","Carrelli separati, diversi dall’AGV"],
  ref:'https://italospa.italotreno.it/en/ntvs-fleet/trains/italo-evo.html'},
 agv:{width:2.985,height:3.6,head:26.1,coach:16.08888889,nose:3.55,color:'#8f1429',accent:'#d6b15d',window:2.6,windowH:.61,spacing:1.69,roof:'#514c50',bodyBottom:1.0,round:.54,
- capDepth:.27,noseRound:.56,chin:.96,crown:.82,
+ cabShape:[.57,.88,.80,.96],capDepth:.27,noseRound:.56,chin:.96,crown:.82,
  rings:[[0,.59,.71,1.88],[.08,.77,.68,2.12],[.23,.94,.73,2.73],[.44,1,.88,3.32],[.69,1,.98,3.60],[1,1,1,3.6]],
  note:["Frontale AGV ampio e arrotondato","Casse intermedie corte","Carrelli condivisi tra le casse"],
  ref:'https://italospa.italotreno.it/en/ntvs-fleet/trains/agv-575.html'},
 ic:{width:3.0,height:4.1,head:19.42,coach:26.4,nose:1.15,color:'#e0e1df',accent:'#307f89',window:2.78,windowH:.75,spacing:1.95,roof:'#aeb4b5',bodyBottom:1.16,round:.2,
- capDepth:.06,noseRound:.22,chin:1,crown:.94,
+ cabShape:[.19,.24,.95,1],capDepth:.06,noseRound:.22,chin:1,crown:.94,
  rings:[[0,.97,.98,2.90],[.08,1,1,3.08],[.55,1,1.08,3.91],[.84,1,1.15,4.1],[1,1,1.16,4.1]],
  note:["E.401 monocabina dalle forme spigolose","Locomotiva più corta delle carrozze","Carrozze tradizionali e pilota in coda"],
  ref:'https://www.trenitalia.com/it/intercity.html'},
 rock:{width:2.8,height:4.3,head:27.0,coach:26.0,nose:1.95,color:'#d5d9da',accent:'#e5b52f',window:3.46,windowH:.48,spacing:1.59,roof:'#5c6870',bodyBottom:.63,round:.26,
- capDepth:.12,couplerRecess:true,noseRound:.52,chin:.88,crown:.9,
+ cabShape:[.39,.64,.85,.90],capDepth:.12,couplerRecess:true,noseRound:.52,chin:.88,crown:.9,
  rings:[[0,.88,.62,2.34],[.12,.97,.57,2.97],[.46,1,.59,3.97],[.79,1,.62,4.30],[1,1,.63,4.3]],
  note:["Cassa alta a due piani","Due livelli di finestrini e porte ampie","Frontale corto del Rock"],
  ref:'https://www.trenitalia.com/it/regionale/regionale-rebel-revolution.html'},
 fr500:{width:2.95,height:4.05,head:20.5,coach:26.1,nose:3.55,color:'#cbd0d2',accent:'#bd2337',window:2.72,windowH:.74,spacing:1.82,roof:'#7e898f',bodyBottom:1.12,round:.33,
- capDepth:.25,noseRound:.94,chin:.92,crown:.92,
+ cabShape:[.83,.67,.93,.93],capDepth:.25,noseRound:.94,chin:.92,crown:.92,
  rings:[[0,.77,.68,2.15],[.1,.90,.73,2.52],[.29,.99,.85,3.24],[.55,1,1.02,3.92],[.82,1,1.11,4.05],[1,1,1.12,4.05]],
  note:["Motrice E.404 massiccia","Griglie al posto dei finestrini passeggeri","Due motrici e una lunga serie di carrozze"],
  ref:'https://www.trenitalia.com/en/connections/frecciarossa-etr-500.html'}
@@ -554,27 +554,41 @@ function uvForAngle(s,angle){
 }
 
 function lerp(a,b,t){return a+(b-a)*t}
+
 function profile(s,d,cab){
  if(!cab||d>=s.nose)return [1,s.bodyBottom,s.height];
- if(d<0){const first=s.rings[0],v=Math.sqrt(Math.max(.0001,1-Math.pow(d/(s.capDepth||.32),2))),mid=(first[2]+first[3])/2;return [first[1]*v,mid-(first[3]-first[2])*v/2,mid+(first[3]-first[2])*v/2]}
+ if(d<0){
+  const first=s.rings[0],r=Math.min(1,Math.abs(d)/(s.capDepth||.32));
+  const v=Math.sqrt(Math.max(0,1-r*r)),mid=(first[2]+first[3])/2;
+  return [first[1]*v,mid-(first[3]-first[2])*v/2,mid+(first[3]-first[2])*v/2];
+ }
  const t=Math.max(0,d/s.nose),r=s.rings;
  let i=1;while(i<r.length-1&&r[i][0]<t)i++;
- const a=r[i-1],b=r[i],u=Math.max(0,Math.min(1,(t-a[0])/(b[0]-a[0])));
- const prev=r[Math.max(0,i-2)],next=r[Math.min(r.length-1,i+1)],dt=b[0]-a[0];
- const interpolate=k=>{
-  const m0=i===1?(b[k]-a[k])/dt:(b[k]-prev[k])/(b[0]-prev[0]);
-  const m1=i===r.length-1?0:(next[k]-a[k])/(next[0]-a[0]);
-  return (2*u*u*u-3*u*u+1)*a[k]+(u*u*u-2*u*u+u)*dt*m0+(-2*u*u*u+3*u*u)*b[k]+(u*u*u-u*u)*dt*m1;
+ const a=r[i-1],b=r[i],h=b[0]-a[0],u=Math.max(0,Math.min(1,(t-a[0])/h));
+ // Shape-preserving slopes. Opposite slopes get a horizontal tangent instead of a bulge.
+ const tangent=(left,right,k)=>{
+  const h0=r[left+1][0]-r[left][0],h1=r[right+1][0]-r[right][0];
+  const d0=(r[left+1][k]-r[left][k])/h0,d1=(r[right+1][k]-r[right][k])/h1;
+  if(d0*d1<=0)return 0;
+  const w0=2*h1+h0,w1=h1+2*h0;
+  return (w0+w1)/(w0/d0+w1/d1);
  };
- return [Math.max(.03,Math.min(1,interpolate(1))),interpolate(2),interpolate(3)];
+ const interpolate=k=>{
+  const m0=i===1?0:tangent(i-2,i-1,k),m1=i===r.length-1?0:tangent(i-1,i,k);
+  const value=(2*u*u*u-3*u*u+1)*a[k]+(u*u*u-2*u*u+u)*h*m0+(-2*u*u*u+3*u*u)*b[k]+(u*u*u-u*u)*h*m1;
+  return Math.max(Math.min(a[k],b[k]),Math.min(Math.max(a[k],b[k]),value));
+ };
+ return [interpolate(1),interpolate(2),interpolate(3)];
 }
 function surface(s,L,d,a,cab,offset=0){
  const [w,lo,hi]=profile(s,d,cab),c=Math.cos(a),v=Math.sin(a);
- const blend=cab?Math.pow(Math.max(0,1-d/s.nose),1.2):0;
- const exponent=lerp(s.round,s.noseRound||s.round,blend);
- const taper=1-blend*(1-(v>0?(s.crown||1):(s.chin||1)))*Math.pow(Math.abs(v),2);
- const z=Math.sign(c)*Math.pow(Math.abs(c),exponent)*s.width*w/2*taper+c*offset;
- let y=(lo+hi)/2+Math.sign(v)*Math.pow(Math.abs(v),exponent)*(hi-lo)/2+v*offset;
+ const t=cab?Math.max(0,Math.min(1,1-Math.max(0,d)/s.nose)):0;
+ const blend=t*t*(3-2*t);
+ const shape=s.cabShape||[s.noseRound||s.round,s.noseRound||s.round,s.crown||1,s.chin||1];
+ const ex=lerp(s.round,shape[0],blend),ey=lerp(s.round,shape[1],blend);
+ const taper=1-blend*(1-(v>0?shape[2]:shape[3]))*Math.pow(Math.abs(v),2);
+ const z=Math.sign(c)*Math.pow(Math.abs(c),ex)*s.width*w/2*taper+c*offset;
+ let y=(lo+hi)/2+Math.sign(v)*Math.pow(Math.abs(v),ey)*(hi-lo)/2+v*offset;
  if(s.couplerRecess&&v<0&&d<s.nose*.28)y+=.88*Math.exp(-Math.pow(z/.49,6))*Math.pow(Math.abs(v),3)*Math.max(0,1-Math.max(0,d)/(s.nose*.28))*(hi-lo)/(s.rings[0][3]-s.rings[0][2]);
  return [d-L/2,y,z];
 }
@@ -638,7 +652,7 @@ function atlas(s,L,cab,loco,kind){
    if(cab){ctx.fillStyle=s.accent;ctx.beginPath();ctx.moveTo(0,center*H-H*.16);ctx.lineTo((s.nose+1.8)*sx,center*H-H*.1);ctx.lineTo((s.nose+4.2)*sx,center*H+H*.05);ctx.lineTo(0,center*H+H*.15);ctx.fill();}
    if(cab)for(let px=0;px<s.nose*.85*sx;px++){
     const d=px/sx,[w,lo,hi]=profile(s,d,true),mid=(lo+hi)/2,half=(hi-lo)/2;
-    const blend=Math.pow(Math.max(0,1-d/s.nose),1.2),exp=lerp(s.round,s.noseRound,blend);
+    const t=Math.max(0,Math.min(1,1-d/s.nose)),blend=t*t*(3-2*t),exp=lerp(s.round,(s.cabShape||[s.noseRound,s.noseRound])[1],blend);
     const localRow=y=>{const v=Math.max(-.999,Math.min(.999,(y-mid)/half)),a=Math.asin(Math.sign(v)*Math.pow(Math.abs(v),1/exp));return uvForAngle(s,side===1?a:Math.PI-a)*H};
     const ya=localRow(1.78),yb=localRow(1.36);ctx.fillStyle='#d5d9db';ctx.fillRect(px,Math.min(ya,yb),1.2,Math.abs(yb-ya));
    }
@@ -836,6 +850,30 @@ function hullLens(g,s,L,d,z,r,lit){
   o.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),normal);
  }
 }
+
+function opticalHousing(g,s,L,kind,d,z,side){
+ const contours={
+  fr1000:[[-.14,.00],[-.08,.15],[.25,.17],[.51,.01],[.38,-.15],[.03,-.13]],
+  evo:[[-.14,-.02],[-.04,.16],[.26,.13],[.37,-.04],[.19,-.14],[-.08,-.13]],
+  agv:[[-.12,-.09],[-.07,.11],[.15,.17],[.34,.07],[.28,-.12],[.04,-.16]],
+  fr500:[[-.13,-.14],[-.14,.13],[.25,.15],[.32,.03],[.25,-.14],[.02,-.16]]
+ };
+ const control=contours[kind],points=[];
+ for(let i=0;i<control.length;i++)for(let j=0;j<4;j++){
+  const p0=control[(i+control.length-1)%control.length],p1=control[i],p2=control[(i+1)%control.length],p3=control[(i+2)%control.length],t=j/4;
+  points.push([0,1].map(k=>.5*((2*p1[k])+(-p0[k]+p2[k])*t+(2*p0[k]-5*p1[k]+4*p2[k]-p3[k])*t*t+(-p0[k]+3*p1[k]-3*p2[k]+p3[k])*t*t*t)));
+ }
+ const key=['optical-housing',kind,L,s.nose,s.height,side].join('/');
+ let geo=geometryCache.get(key);
+ if(!geo){
+  const positions=[...upperPoint(s,L,d+.12,side*z,.026)],indices=[];
+  for(const [dx,dz]of points)positions.push(...upperPoint(s,L,d+dx,side*(z+dz),.026));
+  for(let i=0;i<points.length;i++)indices.push(0,i+1,(i+1)%points.length+1);
+  geo=new T.BufferGeometry();geo.setAttribute('position',new T.Float32BufferAttribute(positions,3));geo.setIndex(indices);geo.computeVertexNormals();
+  geometryCache.set(key,geo);ownedGeometries.add(geo);
+ }
+ const m=material('#090e13',.24,.23);m.side=T.DoubleSide;mesh(g,geo,m);
+}
 function cabDetails(g,s,L,kind,tail,part){
  const N=s.nose,seal=material('#080e14',.1,.65),mask=material('#101b24',.26,.25);
  const cfg={
@@ -862,21 +900,12 @@ function cabDetails(g,s,L,kind,tail,part){
  cabSideGlass(g,s,L,kind);
  const markerD=N*(kind==='ic'?.79:kind==='rock'?.81:a-.065);
  cabPanel(g,s,L,markerD-.045,markerD+.075,.105,.095,seal,.04);
- hullLens(g,s,L,markerD,0,.055,tail?tailLamp:lamp);
+ hullLens(g,s,L,markerD,0,.055,tail?glass:lamp);
  if(cfg.lamp)for(const side of [-1,1]){
-  const [d,z,len]=cfg.lamp;
-  const lateral=side*z;
-  const half=kind==='fr1000'?.17:kind==='agv'?.145:.15;
-  cabPanel(g,s,L,N*d-.12,N*d+len,half,.11,seal,.031,0,lateral);
-  if(kind==='fr1000'||kind==='evo'){
-   for(let i=0;i<6;i++){
-    const t=i/5;
-    hullLens(g,s,L,N*d-.04+t*len*.72,lateral-side*.08*t,.027,tail?tailLamp:lamp);
-   }
-   hullLens(g,s,L,N*d+len*.75,lateral-side*.08,.063,tail?tailLamp:lamp);
-  }else{
-   for(const dz of [-.07,.07])hullLens(g,s,L,N*d+.05,lateral+dz,.059,tail||dz>0?tailLamp:lamp);
-  }
+  const [d,z]=cfg.lamp;
+  opticalHousing(g,s,L,kind,N*d,z,side);
+  const positions=kind==='fr1000'?[[.05,.052,.067],[.29,-.035,.061]]:kind==='evo'?[[.02,.043,.069],[.22,-.036,.058]]:kind==='agv'?[[.025,-.048,.065],[.20,.045,.057]]:[[.015,-.062,.067],[.18,.064,.062]];
+  positions.forEach(([dx,dz,r],i)=>hullLens(g,s,L,N*d+dx,side*(z+dz),r,tail?(i===0?tailLamp:glass):lamp));
  }
  if(kind==='rock'||kind==='ic'){
   // The front cap is an ellipsoid. Place lamp clusters directly on that cap.
@@ -959,7 +988,7 @@ function car(kind,index,count,part='coach',tail=false){
  const s=specs[kind],loco=part==='loco',cab=part==='cab'||loco||part==='pilot';
  let L=cab?s.head:s.coach;
  if(part==='pilot')L=26.4;
- const shape=part==='pilot'?{...s,nose:2.7,height:4.0}:s;
+ const shape=part==='pilot'?{...s,nose:1.85,height:4.0,capDepth:.16,cabShape:[.34,.42,.93,.97],rings:[[0,.90,.91,2.54],[.13,.97,.95,2.91],[.45,1,1.06,3.72],[.79,1,1.15,4],[1,1,1.16,4]]}:s;
  const g=new T.Group();g.userData.length=L;
  mesh(g,shellGeometry(shape,L,cab,kind+part),atlas(shape,L,cab,loco,kind));
  if(!loco)passengerDoors(g,shape,L,cab,kind,tail);
