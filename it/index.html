@@ -1063,6 +1063,7 @@ canvas.addEventListener('pointermove',e=>{
  lastX=e.clientX;lastY=e.clientY;dirty=true;wake();
 });
 function endPointer(e){
+ if(!pointers.has(e.pointerId))return;
  const now=performance.now();
  if(e.type==='pointerup'&&pointers.size===1&&!multiTouch&&!gestureMoved&&now-gestureStart<300){
   if(now-tapTime<320&&Math.hypot(e.clientX-tapX,e.clientY-tapY)<25){resetCamera();tapTime=0}
