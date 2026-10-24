@@ -1,0 +1,21 @@
+{
+  "name": "binario-italian-trains",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Development checks for the static BINARIO railway guide",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "format": "node scripts/format.mjs",
+    "format:check": "node scripts/format.mjs --check",
+    "verify": "node scripts/verify.mjs",
+    "baseline:record": "node scripts/verify.mjs --record",
+    "lint": "prettier --check \"scripts/*.mjs\" \"*.json\" README.md \".github/workflows/*.yml\"",
+    "check": "npm run format:check && npm run lint && npm run verify"
+  },
+  "devDependencies": {
+    "prettier": "3.6.2"
+  }
+}

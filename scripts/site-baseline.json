@@ -1,0 +1,35 @@
+{
+  "index.html": {
+    "markup": "8f1f033820f3e2f08d54912c1b7d39dff003035b4a069af4843b9419cf3753dc",
+    "scripts": [
+      "c4bdd4d2a97598fbcc5ff7aca4264d5f3afc9cee0ecd5431181df66a2b523ee8",
+      "9ddfb4acff323274eefa89caf031b7c669688f4c6b053a251207656aaed1baf8",
+      "65a75c693de6d4a816fce563a866c9c30308d02df4449134da4a2e50ed7fda4a"
+    ],
+    "styles": [
+      "46c35f79ec0e97d7de2b0047b42735ef9ed01f47010ef61b20468dbebba1e5cb"
+    ]
+  },
+  "en/index.html": {
+    "markup": "2691c1b1751b920a3265821e54242ac4cb8543bc95b5d0da3c72fe81cdd29a0b",
+    "scripts": [
+      "b1bcd1fabe0583a41c053390ad5856357bbc6cce8c9308e5aad001319b67e89a",
+      "9ddfb4acff323274eefa89caf031b7c669688f4c6b053a251207656aaed1baf8",
+      "ddc26f939a4feb9fca26b96a40a3bf8183792f7f2100a23d2fac3ef2f4350b04"
+    ],
+    "styles": [
+      "46c35f79ec0e97d7de2b0047b42735ef9ed01f47010ef61b20468dbebba1e5cb"
+    ]
+  },
+  "it/index.html": {
+    "markup": "bcef3d733f50d6f2cb83c949777df0b114bf079280ba1903ae43c3af4a87beeb",
+    "scripts": [
+      "58081b1f6d90e7f887cb595aa4e6cce857f87a1e4196c79192b738855deed11a",
+      "9ddfb4acff323274eefa89caf031b7c669688f4c6b053a251207656aaed1baf8",
+      "ebf4aafe3ed860dd4f5e39dfa262d26e5cc2401235183e5554f87ad82aa73322"
+    ],
+    "styles": [
+      "46c35f79ec0e97d7de2b0047b42735ef9ed01f47010ef61b20468dbebba1e5cb"
+    ]
+  }
+}
