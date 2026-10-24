@@ -1,32 +1,32 @@
 {
   "index.html": {
-    "markup": "8f1f033820f3e2f08d54912c1b7d39dff003035b4a069af4843b9419cf3753dc",
+    "markup": "05deca7faf5b3fe569c82574214654e5be9c79c5c6ad58ca074e29d133b2661d",
     "scripts": [
       "c4bdd4d2a97598fbcc5ff7aca4264d5f3afc9cee0ecd5431181df66a2b523ee8",
       "9ddfb4acff323274eefa89caf031b7c669688f4c6b053a251207656aaed1baf8",
-      "f3961c42ff7c8bed6d2cf5580c25ef4ce515afdfc99d870e4ab741a8ce0b580b"
+      "55b64cc7dab1f6d5c76891e0c6a59630d139dd0653dbd01d496529d36f0a3971"
     ],
     "styles": [
       "46c35f79ec0e97d7de2b0047b42735ef9ed01f47010ef61b20468dbebba1e5cb"
     ]
   },
   "en/index.html": {
-    "markup": "2691c1b1751b920a3265821e54242ac4cb8543bc95b5d0da3c72fe81cdd29a0b",
+    "markup": "1b0b376298366ae7ba22adc3ea99f5ea7b5749a1c16222f89e8459ad3f8f315f",
     "scripts": [
       "b1bcd1fabe0583a41c053390ad5856357bbc6cce8c9308e5aad001319b67e89a",
       "9ddfb4acff323274eefa89caf031b7c669688f4c6b053a251207656aaed1baf8",
-      "74655583c1d4c46215bc2dd5681e90cd2e9874157e64a150f7153b18ddc34f05"
+      "2bb137ad65040dd0469977db068bacd39290df25f946463bf4c2582935be0333"
     ],
     "styles": [
       "46c35f79ec0e97d7de2b0047b42735ef9ed01f47010ef61b20468dbebba1e5cb"
     ]
   },
   "it/index.html": {
-    "markup": "bcef3d733f50d6f2cb83c949777df0b114bf079280ba1903ae43c3af4a87beeb",
+    "markup": "60d27701f4c0af260be34097b586b9fe8b76b002c0e9b56dbb18b0cbfa439fa2",
     "scripts": [
       "58081b1f6d90e7f887cb595aa4e6cce857f87a1e4196c79192b738855deed11a",
       "9ddfb4acff323274eefa89caf031b7c669688f4c6b053a251207656aaed1baf8",
-      "7ecf2c336b60075cd6c5b25525b0ebe87a48ca736702e3c2eb67dc1482e16d22"
+      "f8763f38545ada895b7911ca2755aef202822c7d8a193df1efd1430f5cdfadf5"
     ],
     "styles": [
       "46c35f79ec0e97d7de2b0047b42735ef9ed01f47010ef61b20468dbebba1e5cb"

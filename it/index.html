@@ -2686,6 +2686,7 @@ document.documentElement.classList.add('js');
 <div class="depot" id="depot">
 <div class="depot-tabs" role="tablist" aria-label="Scegli un modello 3D"><span class="mono">DEPOSITO / 360°</span>
 <button role="tab" aria-selected="true" aria-controls="fleet-panel" id="tab-fr1000" data-model="fr1000">Frecciarossa 1000</button>
+<button role="tab" aria-selected="false" aria-controls="fleet-panel" id="tab-silver" data-model="silver" tabindex="-1">Frecciargento</button>
 <button role="tab" aria-selected="false" aria-controls="fleet-panel" id="tab-evo" data-model="evo" tabindex="-1">Italo EVO</button>
 <button role="tab" aria-selected="false" aria-controls="fleet-panel" id="tab-agv" data-model="agv" tabindex="-1">Italo AGV</button>
 <button role="tab" aria-selected="false" aria-controls="fleet-panel" id="tab-ic" data-model="ic" tabindex="-1">Intercity</button>
@@ -2815,6 +2816,31 @@ let noMotion = reduced.matches,
   resetCamera = null,
   wakeViewer = null;
 const fleet = {
+  silver: {
+    'title': 'Frecciargento',
+    'code': 'TRENITALIA / ETR 600',
+    'speed': 250,
+    'cars': '7',
+    'type': 'ETR 600 · livrea della fotografia',
+    'carLabel': 'carrozze nel convoglio',
+    'length': 'Livrea argentata',
+    'levels': '1ª · 2ª classe · bistrot',
+    'routes':
+      'Aspetto storico dell’ETR 600 sui collegamenti italiani a lunga percorrenza. Verificare il treno effettivo alla prenotazione.',
+    'eng':
+      '<strong>Costruzione.</strong> Pendolino ad assetto variabile a sette carrozze. Il modello riproduce la livrea argentata dell’ETR 600 nella fotografia. Oggi gli ETR 600 fanno parte della famiglia Frecciarossa: non è l’attuale ETR 485.',
+    'legend':
+      'Configurazione storica ETR 600: 1/2 — classi, ☕ — bistrot. Composizione e ambienti attuali possono variare.',
+    'plan': [
+      ['1', 'ex'],
+      ['1', 'biz'],
+      ['2 / ☕', 'food'],
+      ['2', ''],
+      ['2', ''],
+      ['2', ''],
+      ['2', ''],
+    ],
+  },
   fr1000: {
     title: 'Frecciarossa 1000',
     code: 'TRENITALIA / ETR 1000',
@@ -4559,7 +4585,7 @@ try {
     studio.add(p);
   }
   const pmrem = new T.PMREMGenerator(renderer),
-    env = pmrem.fromScene(studio, 0.05, 0.1, 100);
+    env = pmrem.fromScene(studio, 0.035, 0.1, 100);
   scene.environment = env.texture;
   scene.environmentIntensity = 0.65;
   pmrem.dispose();
@@ -4702,40 +4728,72 @@ try {
     return o;
   }
   const specs = {
+    silver: {
+      'width': 2.83,
+      'height': 4.1,
+      'head': 28.2,
+      'coach': 25.52,
+      'nose': 5.7,
+      'color': '#aeb4b8',
+      'accent': '#dc2c34',
+      'window': 2.77,
+      'windowH': 0.75,
+      'spacing': 1.88,
+      'roof': '#646c70',
+      'bodyBottom': 1.13,
+      'round': 0.4,
+      'cabShape': [0.44, 0.68, 0.88, 0.98],
+      'capDepth': 0.22,
+      'noseRound': 0.55,
+      'rings': [
+        [0, 0.44, 0.92, 1.78],
+        [0.12, 0.58, 0.94, 2.05],
+        [0.32, 0.8, 1, 2.7],
+        [0.55, 0.95, 1.1, 3.55],
+        [0.79, 1, 1.13, 4.05],
+        [1, 1, 1.13, 4.1],
+      ],
+      'ref': 'https://www.trenitalia.com/it/frecciarossa/la-flotta.html',
+      'note': [
+        'Muso argentato a cuneo',
+        'Cornice rossa e linea verde',
+        'ETR 600 nella livrea di riferimento',
+      ],
+    },
     fr1000: {
-      width: 2.924,
-      height: 4.08,
-      head: 26.5,
-      coach: 24.25,
-      nose: 5.25,
-      color: '#c9cdd0',
-      accent: '#c82136',
-      window: 2.75,
-      windowH: 0.72,
-      spacing: 1.8,
-      roof: '#9aa2a8',
-      bodyBottom: 1.06,
-      round: 0.44,
-      cabShape: [0.68, 0.94, 0.82, 0.94],
-      capDepth: 0.44,
-      noseRound: 0.72,
-      chin: 0.93,
-      crown: 0.87,
-      rings: [
-        [0, 0.39, 0.88, 1.72],
-        [0.08, 0.59, 0.82, 1.98],
-        [0.23, 0.82, 0.83, 2.48],
-        [0.43, 0.96, 0.91, 3.19],
-        [0.67, 1, 1.02, 3.93],
-        [0.87, 1, 1.06, 4.08],
+      'width': 2.924,
+      'height': 4.08,
+      'head': 26.5,
+      'coach': 24.25,
+      'nose': 7.05,
+      'color': '#c8cbcd',
+      'accent': '#d91f32',
+      'window': 2.75,
+      'windowH': 0.72,
+      'spacing': 1.8,
+      'roof': '#c12939',
+      'bodyBottom': 1.06,
+      'round': 0.44,
+      'cabShape': [0.53, 0.73, 0.87, 0.98],
+      'capDepth': 0.28,
+      'noseRound': 0.6,
+      'chin': 0.93,
+      'crown': 0.87,
+      'rings': [
+        [0, 0.38, 0.84, 1.69],
+        [0.09, 0.49, 0.82, 1.9],
+        [0.27, 0.7, 0.86, 2.43],
+        [0.49, 0.91, 0.97, 3.22],
+        [0.73, 0.99, 1.05, 3.91],
+        [0.91, 1, 1.06, 4.08],
         [1, 1, 1.06, 4.08],
       ],
-      note: [
+      'note': [
         'Muso lungo a cuneo',
         'Cassa argentata e maschera rossa',
         'Carrelli separati sotto le casse',
       ],
-      ref: 'https://www.trenitalia.com/it/frecciarossa/la-flotta.html',
+      'ref': 'https://www.trenitalia.com/it/frecciarossa/la-flotta.html',
     },
     evo: {
       width: 2.83,
@@ -4772,38 +4830,39 @@ try {
       ref: 'https://italospa.italotreno.it/en/ntvs-fleet/trains/italo-evo.html',
     },
     agv: {
-      width: 2.985,
-      height: 3.6,
-      head: 26.1,
-      coach: 16.08888889,
-      nose: 3.55,
-      color: '#8f1429',
-      accent: '#d6b15d',
-      window: 2.6,
-      windowH: 0.61,
-      spacing: 1.69,
-      roof: '#514c50',
-      bodyBottom: 1.0,
-      round: 0.54,
-      cabShape: [0.57, 0.88, 0.8, 0.96],
-      capDepth: 0.27,
-      noseRound: 0.56,
-      chin: 0.96,
-      crown: 0.82,
-      rings: [
-        [0, 0.59, 0.71, 1.88],
-        [0.08, 0.77, 0.68, 2.12],
-        [0.23, 0.94, 0.73, 2.73],
-        [0.44, 1, 0.88, 3.32],
-        [0.69, 1, 0.98, 3.6],
+      'width': 2.985,
+      'height': 3.6,
+      'head': 26.1,
+      'coach': 16.08888889,
+      'nose': 5.15,
+      'color': '#8d102d',
+      'accent': '#d0af6d',
+      'window': 2.6,
+      'windowH': 0.61,
+      'spacing': 1.69,
+      'roof': '#7b1830',
+      'bodyBottom': 1,
+      'round': 0.54,
+      'cabShape': [0.4, 0.62, 0.9, 0.98],
+      'capDepth': 0.18,
+      'noseRound': 0.48,
+      'chin': 0.96,
+      'crown': 0.82,
+      'rings': [
+        [0, 0.65, 0.75, 1.84],
+        [0.12, 0.73, 0.72, 2.03],
+        [0.32, 0.88, 0.79, 2.59],
+        [0.57, 0.98, 0.94, 3.3],
+        [0.82, 1, 1, 3.6],
         [1, 1, 1, 3.6],
       ],
-      note: [
+      'note': [
         'Frontale AGV ampio e arrotondato',
         'Casse intermedie corte',
         'Carrelli condivisi tra le casse',
       ],
-      ref: 'https://italospa.italotreno.it/en/ntvs-fleet/trains/agv-575.html',
+      'ref': 'https://italospa.italotreno.it/en/ntvs-fleet/trains/agv-575.html',
+      'couplerRecess': false,
     },
     ic: {
       width: 3.0,
@@ -5140,7 +5199,7 @@ try {
       shade.addColorStop(p, v);
     ctx.fillStyle = shade;
     ctx.fillRect(0, 0, W, H);
-    if (cab && (kind === 'fr1000' || kind === 'fr500')) {
+    if (cab && kind === 'fr500') {
       ctx.fillStyle = s.accent;
       ctx.fillRect(0, 0, s.nose * 0.83 * sx, H);
     }
@@ -5166,37 +5225,82 @@ try {
       const begin = cab ? s.nose + 0.45 : 0.55,
         end = L - 0.6;
       // Body livery differs by family, rather than changing only its base colour.
-      if (kind === 'fr1000') {
-        rect(0, 1.45, L, 0.68, '#a3162c');
-        rect(0, 1.15, L, 0.17, '#555d64');
-        if (cab) {
-          ctx.fillStyle = s.accent;
-          ctx.beginPath();
-          ctx.moveTo(0, center * H - H * 0.16);
-          ctx.lineTo((s.nose + 1.8) * sx, center * H - H * 0.1);
-          ctx.lineTo((s.nose + 4.2) * sx, center * H + H * 0.05);
-          ctx.lineTo(0, center * H + H * 0.15);
-          ctx.fill();
+      function heightBand(from, to, bottom, top, color) {
+        ctx.fillStyle = color;
+        for (let px = Math.floor(from * sx); px < Math.ceil(to * sx); px++) {
+          const d = px / sx,
+            [w, lo, hi] = profile(s, d, cab),
+            mid = (lo + hi) / 2,
+            half = (hi - lo) / 2;
+          const t = cab ? Math.max(0, Math.min(1, 1 - d / s.nose)) : 0,
+            blend = t * t * (3 - 2 * t);
+          const exp = lerp(s.round, (s.cabShape || [s.round, s.round])[1], blend);
+          const mapped = (y) => {
+            const v = Math.max(-0.999, Math.min(0.999, (y - mid) / half)),
+              a = Math.asin(Math.sign(v) * Math.pow(Math.abs(v), 1 / exp));
+            return uvForAngle(s, side === 1 ? a : Math.PI - a) * H;
+          };
+          const a = mapped(bottom(d)),
+            b = mapped(top(d));
+          ctx.fillRect(px, Math.min(a, b), 1.15, Math.max(1, Math.abs(a - b)));
         }
-        if (cab)
-          for (let px = 0; px < s.nose * 0.85 * sx; px++) {
-            const d = px / sx,
-              [w, lo, hi] = profile(s, d, true),
-              mid = (lo + hi) / 2,
-              half = (hi - lo) / 2;
-            const t = Math.max(0, Math.min(1, 1 - d / s.nose)),
-              blend = t * t * (3 - 2 * t),
-              exp = lerp(s.round, (s.cabShape || [s.noseRound, s.noseRound])[1], blend);
-            const localRow = (y) => {
-              const v = Math.max(-0.999, Math.min(0.999, (y - mid) / half)),
-                a = Math.asin(Math.sign(v) * Math.pow(Math.abs(v), 1 / exp));
-              return uvForAngle(s, side === 1 ? a : Math.PI - a) * H;
-            };
-            const ya = localRow(1.78),
-              yb = localRow(1.36);
-            ctx.fillStyle = '#d5d9db';
-            ctx.fillRect(px, Math.min(ya, yb), 1.2, Math.abs(yb - ya));
-          }
+      }
+      if (kind === 'fr1000') {
+        rect(0, 1.25, L, 0.25, '#a5abad');
+        rect(0, 2.08, L, 0.54, '#d52232');
+        rect(0, 2.94, L, 1.02, '#22272b');
+        rect(0, 3.51, L, 0.055, '#f1eee7');
+        rect(0, 3.86, L, 0.62, '#d51c2f');
+        if (cab) {
+          heightBand(
+            0,
+            s.nose,
+            (d) => 1.35 + 0.17 * Math.min(1, d / s.nose),
+            () => 4.2,
+            '#d61f32',
+          );
+          heightBand(
+            s.nose * 0.78,
+            s.nose + 1.3,
+            (d) => 2.4 + 0.24 * Math.max(0, 1 - d / s.nose),
+            () => 3.46,
+            '#20292e',
+          );
+          heightBand(
+            0,
+            s.nose,
+            (d) => 1.28 + (0.13 * d) / s.nose,
+            (d) => 1.37 + (0.16 * d) / s.nose,
+            '#f0eeea',
+          );
+        }
+      } else if (kind === 'silver') {
+        rect(0, 1.43, L, 0.3, '#e32c37');
+        rect(0, 3.78, L, 0.18, '#e32c37');
+        rect(0, 3.92, L, 0.06, '#e4e5e1');
+        if (cab) {
+          heightBand(
+            0,
+            s.nose + 1.0,
+            (d) => 1.4 + 0.55 * Math.min(1, d / s.nose),
+            (d) => 1.44 + 0.55 * Math.min(1, d / s.nose),
+            '#e9eae6',
+          );
+          heightBand(
+            0,
+            s.nose + 1.0,
+            (d) => 1.44 + 0.55 * Math.min(1, d / s.nose),
+            (d) => 1.51 + 0.55 * Math.min(1, d / s.nose),
+            '#167468',
+          );
+          heightBand(
+            s.nose * 0.53,
+            s.nose,
+            (d) => 2.82 + (0.35 * d) / s.nose,
+            () => 4.2,
+            '#dc2933',
+          );
+        }
       } else if (kind === 'evo' || kind === 'agv') {
         rect(0, 1.25, L, 0.3, '#29282d');
         rect(begin, 1.83, end - begin, 0.055, s.accent);
@@ -5255,9 +5359,13 @@ try {
             ? 'ROCK'
             : kind === 'ic'
               ? 'INTERCITY'
-              : 'FRECCIAROSSA';
+              : kind === 'silver'
+                ? 'FRECCIARGENTO'
+                : kind === 'fr1000'
+                  ? 'FRECCIAROSSA 1000'
+                  : 'FRECCIAROSSA';
       const tx = ((begin + end) / 2) * sx,
-        ty = row(kind === 'rock' ? 2.55 : kind === 'ic' ? 1.99 : 2.02);
+        ty = row(kind === 'rock' ? 2.55 : kind === 'ic' ? 1.99 : kind === 'silver' ? 2.12 : 2.02);
       ctx.save();
       ctx.translate(tx, ty);
       if (side === -1) ctx.scale(-1, 1);
@@ -5302,7 +5410,7 @@ try {
     texture.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy());
     const m = new T.MeshPhysicalMaterial({
       map: texture,
-      metalness: kind === 'evo' || kind === 'agv' ? 0.22 : 0.34,
+      metalness: kind === 'silver' ? 0.46 : kind === 'evo' || kind === 'agv' ? 0.22 : 0.34,
       roughness: 0.3,
       clearcoat: 0.72,
       clearcoatRoughness: 0.23,
@@ -5424,8 +5532,13 @@ try {
   function cabSideGlass(g, s, L, kind) {
     const N = s.nose,
       seal = material('#080f14', 0.08, 0.68);
-    const lead = kind === 'ic' ? 0.6 : kind === 'rock' ? 0.62 : 0.71,
-      back = N + (kind === 'ic' ? 1.12 : 0.94);
+    const quarter = {
+      fr1000: [0.84, N + 0.28, 0.22, 0.66],
+      agv: [0.54, N * 0.98, 0.12, 0.66],
+      silver: [0.62, N * 0.99, 0.09, 0.55],
+    }[kind];
+    const lead = quarter ? quarter[0] : kind === 'ic' ? 0.6 : kind === 'rock' ? 0.62 : 0.71,
+      back = quarter ? quarter[1] : N + (kind === 'ic' ? 1.12 : 0.94);
     for (const side of [-1, 1])
       for (const inset of [0, 1]) {
         const key = ['quarterlight', kind, L, s.height, inset, side].join('/');
@@ -5443,7 +5556,11 @@ try {
               const d0 = N * lead + (1 - v) * 0.27 + inset * 0.045,
                 d1 = back - inset * 0.055;
               const d = lerp(d0, d1, u);
-              const a = lerp(0.055 + inset * 0.022, 0.43 - inset * 0.025, v);
+              const a = lerp(
+                (quarter ? quarter[2] : 0.055) + inset * 0.022,
+                (quarter ? quarter[3] : 0.43) - inset * 0.025,
+                v,
+              );
               positions.push(
                 ...surface(s, L, d, side === 1 ? a : Math.PI - a, true, inset ? 0.036 : 0.018),
               );
@@ -5540,18 +5657,26 @@ try {
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       const italo = kind === 'evo' || kind === 'agv';
-      ctx.fillStyle = italo ? '#e0bd7c' : kind === 'rock' ? '#e7edf0' : '#f7f4ee';
+      ctx.fillStyle = italo
+        ? '#f5f1e8'
+        : kind === 'silver'
+          ? '#216c63'
+          : kind === 'rock'
+            ? '#e7edf0'
+            : '#f7f4ee';
       ctx.font = italo ? 'italic 700 72px Arial' : 'italic 700 39px Arial';
       ctx.fillText(
         italo
-          ? '.italo'
+          ? 'ntv'
           : kind === 'rock'
             ? 'TRENITALIA'
             : kind === 'ic'
               ? 'FS'
               : kind === 'fr500'
                 ? 'FRECCIAROSSA'
-                : 'FRECCIAROSSA 1000',
+                : kind === 'silver'
+                  ? 'FS'
+                  : 'FRECCIAROSSA 1000',
         256,
         55,
         480,
@@ -5586,9 +5711,10 @@ try {
       textureCache.set(key, m);
     }
     const cfg = {
-      fr1000: [0.27, 0.34, 0.49],
+      fr1000: [0.36, 0.4, 0.4],
+      silver: [0.33, 0.4, 0.34],
       evo: [0.19, 0.27, 0.52],
-      agv: [0.15, 0.24, 0.61],
+      agv: [0.18, 0.225, 0.54],
       fr500: [0.12, 0.2, 0.58],
       rock: [0.08, 0.17, 0.51],
       ic: [0.003, 0.055, 0.65],
@@ -5629,12 +5755,20 @@ try {
         [-0.08, -0.13],
       ],
       agv: [
-        [-0.12, -0.09],
-        [-0.07, 0.11],
-        [0.15, 0.17],
-        [0.34, 0.07],
-        [0.28, -0.12],
-        [0.04, -0.16],
+        [-0.17, -0.16],
+        [-0.12, 0.19],
+        [0.35, 0.22],
+        [0.67, 0.06],
+        [0.48, -0.21],
+        [0.02, -0.23],
+      ],
+      silver: [
+        [-0.17, -0.08],
+        [-0.04, 0.13],
+        [0.35, 0.16],
+        [0.6, 0.02],
+        [0.36, -0.14],
+        [0, -0.13],
       ],
       fr500: [
         [-0.13, -0.14],
@@ -5689,16 +5823,17 @@ try {
       seal = material('#080e14', 0.1, 0.65),
       mask = material('#101b24', 0.26, 0.25);
     const cfg = {
-      fr1000: { wind: [0.43, 0.735, 0.89, 0.85], lamp: [0.22, 0.76, 0.36] },
+      fr1000: { wind: [0.49, 0.755, 0.84, 0.8], lamp: [0.27, 0.76, 0.36] },
+      silver: { wind: [0.45, 0.76, 0.83, 0.82], lamp: [0.27, 0.73, 0.34] },
       evo: {
         wind: [0.37, 0.68, 0.94, 0.83],
         lamp: [0.255, 0.91, 0.29],
         mask: [0.29, 0.79, 1.02, 0.88],
       },
       agv: {
-        wind: [0.34, 0.7, 1.02, 0.9],
-        lamp: [0.25, 1.01, 0.27],
-        mask: [0.25, 0.85, 1.13, 0.94],
+        wind: [0.49, 0.92, 1.04, 0.96],
+        lamp: [0.25, 0.95, 0.27],
+        mask: [0.16, 0.965, 1.03, 1.04],
       },
       fr500: { wind: [0.32, 0.69, 1.07, 0.98], lamp: [0.19, 0.94, 0.32] },
       rock: { wind: [0.27, 0.71, 0.94, 0.81], mask: [0.035, 0.88, 1.08, 0.87] },
@@ -5720,6 +5855,18 @@ try {
         kind === 'agv' ? 0.08 : 0,
       );
     const [a, b, w0, w1] = cfg.wind;
+    if (kind === 'silver')
+      cabPanel(
+        g,
+        s,
+        L,
+        N * a - 0.16,
+        N * b + 0.19,
+        w0 + 0.17,
+        w1 + 0.15,
+        material('#d52b35', 0.25, 0.34),
+        0.027,
+      );
     cabPanel(g, s, L, N * a - 0.035, N * b + 0.04, w0 + 0.045, w1 + 0.045, seal, 0.037);
     cabPanel(g, s, L, N * a, N * b, w0, w1, glass, 0.052);
     const split = kind === 'fr500' || kind === 'ic';
@@ -5741,6 +5888,14 @@ try {
       rod(g, elbow, tip, 0.019, seal);
     }
     cabSideGlass(g, s, L, kind);
+    if (kind === 'agv') {
+      cabPanel(g, s, L, N * 0.36, N * 0.44, 0.29, 0.25, mask, 0.045);
+      for (let row = 0; row < 5; row++)
+        for (let col = 0; col < 6; col++) {
+          const p = upperPoint(s, L, N * (0.373 + row * 0.013), (col - 2.5) * 0.073, 0.062);
+          mesh(g, sphereGeometry, seal, p[0], p[1], p[2], 0.018, 0.008, 0.018);
+        }
+    }
     const markerD = N * (kind === 'ic' ? 0.79 : kind === 'rock' ? 0.81 : a - 0.065);
     cabPanel(g, s, L, markerD - 0.045, markerD + 0.075, 0.105, 0.095, seal, 0.04);
     hullLens(g, s, L, markerD, 0, 0.055, tail ? glass : lamp);
@@ -5761,8 +5916,8 @@ try {
                 ]
               : kind === 'agv'
                 ? [
-                    [0.025, -0.048, 0.065],
-                    [0.2, 0.045, 0.057],
+                    [0.02, -0.075, 0.09],
+                    [0.35, 0.055, 0.079],
                   ]
                 : [
                     [0.015, -0.062, 0.067],
@@ -5826,7 +5981,7 @@ try {
       const m = material('#542936', 0.18, 0.6),
         front = 0.025,
         back = N * 0.22,
-        width = kind === 'fr1000' ? 0.32 : 0.39;
+        width = kind === 'agv' ? 0.84 : kind === 'silver' ? 0.5 : kind === 'fr1000' ? 0.4 : 0.39;
       for (const side of [-1, 1]) {
         let prev;
         for (let i = 0; i <= 10; i++) {
@@ -5995,7 +6150,7 @@ try {
                 ? 3.4
                 : 4.4)
       : -L / 2 + 3.6;
-    if (kind === 'fr1000' || kind === 'evo' || kind === 'agv')
+    if (kind === 'fr1000' || kind === 'evo' || kind === 'agv' || kind === 'silver')
       for (const sign of [-1, 1]) {
         const skirt = material(
           kind === 'fr1000' ? '#666d73' : kind === 'evo' ? '#3a3037' : '#42252f',
@@ -6042,7 +6197,7 @@ try {
           ? index === 1 || index === count - 2
           : kind === 'fr1000'
             ? index === 2 || index === 5
-            : kind === 'evo'
+            : kind === 'evo' || kind === 'silver'
               ? index === 1 || index === 5
               : kind === 'rock'
                 ? index === 1
@@ -6279,7 +6434,7 @@ try {
     model = new T.Group();
     assembly.add(model);
     const kind = visualKind,
-      number = { fr1000: 8, evo: 7, agv: 11, ic: 7, rock: 4, fr500: 13 }[kind];
+      number = { fr1000: 8, evo: 7, agv: 11, ic: 7, rock: 4, fr500: 13, silver: 7 }[kind];
     const cars = [],
       lengths = [];
     let total = 0;
