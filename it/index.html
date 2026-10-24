@@ -5959,6 +5959,23 @@ try {
             d = b + n;
           idx.push(a, c, b, b, c, d);
         }
+      // Double-sided shading still needs face winding to agree with the outward normals.
+      for (let i = 0; i < idx.length; i += 3) {
+        const a = idx[i] * 3,
+          b = idx[i + 1] * 3,
+          c = idx[i + 2] * 3;
+        const ux = p[b] - p[a],
+          uy = p[b + 1] - p[a + 1],
+          uz = p[b + 2] - p[a + 2];
+        const vx = p[c] - p[a],
+          vy = p[c + 1] - p[a + 1],
+          vz = p[c + 2] - p[a + 2];
+        const dot =
+          (uy * vz - uz * vy) * (normals[a] + normals[b] + normals[c]) +
+          (uz * vx - ux * vz) * (normals[a + 1] + normals[b + 1] + normals[c + 1]) +
+          (ux * vy - uy * vx) * (normals[a + 2] + normals[b + 2] + normals[c + 2]);
+        if (dot < 0) [idx[i + 1], idx[i + 2]] = [idx[i + 2], idx[i + 1]];
+      }
       geo = new T.BufferGeometry();
       geo.setAttribute('position', new T.Float32BufferAttribute(p, 3));
       geo.setAttribute('uv', new T.Float32BufferAttribute(uv, 2));
