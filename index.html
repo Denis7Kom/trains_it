@@ -401,17 +401,67 @@ function baseTrainArt(kind){
  out+='<path d="M23 114l10-3" stroke="#ffefd2" stroke-width="3"/>';return out+'</svg>';
 }
 
-function trainArt(kind){
- if(kind==='agv'){
-  const a=baseTrainArt('agv'),b=baseTrainArt('evo');
-  return '<svg viewBox="0 0 520 230" aria-hidden="true"><text x="18" y="18" fill="#e0bd7c" font-size="12" font-family="Arial,sans-serif">AGV 575</text><svg x="0" y="5" width="520" height="110" viewBox="0 0 500 170">'+a.replace(/^<svg[^>]*>|<\/svg>$/g,'')+'</svg><text x="18" y="132" fill="#e0bd7c" font-size="12" font-family="Arial,sans-serif">EVO 675</text><svg x="0" y="119" width="520" height="110" viewBox="0 0 500 170">'+b.replace(/^<svg[^>]*>|<\/svg>$/g,'')+'</svg></svg>';
+
+function referenceTrainArt(kind){
+ referenceTrainArt.n=(referenceTrainArt.n||0)+1;const id='ref-train-'+referenceTrainArt.n;
+ const cfg={
+ fr1000:{color:'#c9cdd0',accent:'#cc2339',end:237,top:63,path:'M14 132Q17 123 35 116L93 77Q111 63 132 63H237V134H14Z',face:'M14 132Q17 123 35 116L93 77Q111 63 132 63H159L139 134Z',glass:'M57 105L103 72H128L97 105Z',logo:'FRECCIAROSSA 1000'},
+ fr500:{color:'#c3c9cd',accent:'#bc2538',end:161,top:59,path:'M20 133V114Q21 97 39 90L64 67Q73 59 88 59H161V134H20Z',face:'M20 133V114Q21 97 39 90L64 67Q73 59 88 59H161V114H20Z',glass:'M38 95L71 66H91L73 96Z',loco:true,logo:'FRECCIAROSSA'},
+ white:{color:'#e7e9e6',accent:'#c62840',end:229,top:66,path:'M18 133L26 113L67 76Q77 66 95 66H229V134H18Z',face:'M29 109L69 73Q79 66 95 66H121L99 107Z',glass:'M35 104L74 73H96L70 104Z',logo:'FRECCIABIANCA'},
+ agv:{color:'#87192e',accent:'#d0b078',end:216,top:67,path:'M18 133Q10 121 23 105L50 77Q59 67 80 67H216V134H18Z',face:'M21 115L51 77Q61 67 81 67H116L78 117Z',glass:'M28 103L56 73H81L62 104Z',logo:'.italo'},
+ evo:{color:'#a82336',accent:'#d0b078',end:233,top:56,path:'M18 133Q10 123 18 108Q35 82 66 63Q81 56 99 56H233V134H18Z',face:'M21 110Q40 80 71 62Q85 56 100 56H130L96 112Z',glass:'M35 99Q54 72 81 63H103L77 102Z',logo:'.italo'},
+ ic:{color:'#e8eced',accent:'#349dcc',end:159,top:53,path:'M21 134V80L39 53H159V134Z',face:'M23 81L41 56H70L61 82Z',glass:'M28 77L44 58H62L55 78Z',loco:true,logo:'interCity'},
+ night:{color:'#205181',accent:'#62b4da',end:159,top:53,path:'M21 134V90Q22 69 42 56Q47 53 58 53H159V134Z',face:'M25 88Q27 69 45 58H72L62 89Q46 101 25 88Z',glass:'M30 80Q35 66 47 60H63L56 81Z',loco:true,logo:'interCity notte'},
+ rock:{color:'#b5bec5',accent:'#e2ba36',end:221,top:37,path:'M22 134V90L42 42Q47 37 61 37H221V134Z',face:'M24 125V89L44 43H79L67 126Z',glass:'M30 87L49 48H69L57 88Z',logo:'ROCK'},
+ pop:{color:'#c0cbd1',accent:'#dfba38',end:219,top:58,path:'M21 134V106L44 66Q49 58 63 58H219V134Z',face:'M23 129V106L47 65H84L65 130Z',glass:'M29 100L51 69H73L59 101Z',logo:'POP'},
+ freight:{color:'#9eaab2',accent:'#d33140',end:157,top:53,path:'M21 134V77L39 53H157V134Z',face:'M24 79L41 57H68L59 81Z',glass:'M29 76L44 59H61L55 77Z',loco:true,logo:'MERCITALIA'}
+ }[kind];if(!cfg)return baseTrainArt(kind);
+ const p=cfg,regional=kind==='rock'||kind==='pop',italo=kind==='agv'||kind==='evo',deck=kind==='rock';
+ let out='<svg viewBox="0 0 520 190" aria-hidden="true"><defs><linearGradient id="'+id+'" x2="0" y2="1"><stop stop-color="'+p.color+'"/><stop offset=".42" stop-color="'+p.color+'"/><stop offset="1" stop-color="'+(italo?'#531e2b':'#697c8a')+'"/></linearGradient></defs><path d="M8 156H512M8 162H512" stroke="#7d908a" stroke-width="1.5"/><ellipse cx="262" cy="150" rx="246" ry="6" fill="#000" opacity=".24"/>';
+ const fill='url(#'+id+')',face=regional?'#1b3f5a':kind==='white'||italo?'#29313b':p.accent;
+ out+='<path d="'+p.path+'" fill="'+fill+'" stroke="#b6c1c4" stroke-width=".6"/><path d="'+p.face+'" fill="'+face+'"'+(regional?' stroke="'+p.accent+'" stroke-width="4"':'')+'/><path d="'+p.glass+'" fill="#183442" stroke="#15222b" stroke-width="1.2"/>';
+ if(kind==='evo')out+='<path d="M17 127Q15 116 26 110L64 109Q76 115 71 131Z" fill="#ad293c" stroke="#651c2c" stroke-width="1"/>';
+ if(p.loco){
+  if(kind==='night'){for(let y=74;y<=101;y+=5)out+='<path d="M79 '+y+'H151" stroke="#142f4b" stroke-width="2"/>'}else for(let x=83;x<p.end-14;x+=5)out+='<path d="M'+x+' 72v30" stroke="'+(kind==='night'?'#163852':'#485d69')+'" stroke-width="2"/>';
+  out+='<path d="M22 117H'+p.end+'" stroke="'+p.accent+'" stroke-width="17"/>';
+  if(kind==='ic'||kind==='night')out+='<path d="M70 107L97 57H127L98 107Z" fill="'+(kind==='ic'?'#309dd1':'#3787b6')+'"/>';
+ }else{
+  if(kind==='white')out+='<path d="M99 82H229V103H81Z" fill="#343c45"/>';
+  out+='<path d="M'+(kind==='fr1000'?45:78)+' '+(italo?119:125)+'H'+p.end+'" stroke="'+p.accent+'" stroke-width="'+(kind==='white'?8:italo?2:5)+'"/>';
+  for(let x=kind==='fr1000'?158:101;x<p.end-28;x+=23)out+='<rect x="'+x+'" y="'+(deck?53:81)+'" width="16" height="'+(deck?16:18)+'" rx="3" fill="#17333f"/>'+(deck?'<rect x="'+x+'" y="104" width="16" height="14" rx="2" fill="#17333f"/>':'');
  }
- let svg=baseTrainArt(kind);
- if(kind==='ic')svg=svg.replace('fill="#24868b"','fill="#24868b"');
- if(kind==='night')svg=svg.replace('</svg>','<g fill="#dce7f2"><circle cx="360" cy="25" r="1.3"/><circle cx="386" cy="43" r="1"/><circle cx="462" cy="16" r="1.4"/></g></svg>');
- if(kind==='rock')svg=svg.replace('</svg>','<path d="M70 19H489M155 19v16M380 19v16" fill="none" stroke="#728b90" stroke-width="1"/></svg>');
- if(kind==='pop')svg=svg.replace('</svg>','<path d="M25 154H490" stroke="#c7b46b" stroke-width="3"/><path d="M25 159H490" stroke="#5a6c66" stroke-width="5"/></svg>');
- return svg;
+ const cw=kind==='agv'?86:p.loco?164:128,start=p.end+8;
+ for(let x=start;x<508;x+=cw+7){
+  const w=Math.min(cw,513-x);out+='<path d="M'+(x-4)+' '+(deck?48:76)+'v54" stroke="#15232c" stroke-width="5"/><rect x="'+x+'" y="'+(deck?37:65)+'" width="'+w+'" height="'+(deck?97:69)+'" rx="4" fill="'+fill+'"/>';
+  if(kind==='freight'){
+   out+='<rect x="'+(x+3)+'" y="63" width="'+(w-6)+'" height="65" rx="1" fill="'+(x<340?'#a95d41':'#687e74')+'"/>';
+   for(let q=x+10;q<x+w-5;q+=9)out+='<path d="M'+q+' 67v57" stroke="#233d39" stroke-opacity=".6"/>';
+  }else{
+   if(regional)out+='<path d="M'+x+' 86h'+w+'v13h-'+w+'Z" fill="#214c6d"/>';
+   if(kind==='white')out+='<path d="M'+x+' 82h'+w+'v21h-'+w+'Z" fill="#343c45"/>';
+   out+='<path d="M'+x+' '+(italo?119:125)+'h'+w+'" stroke="'+p.accent+'" stroke-width="'+(italo?2:kind==='white'?8:5)+'"/>';
+   for(let q=x+10;q<x+w-15;q+=kind==='night'?28:23)out+='<rect x="'+q+'" y="'+(deck?53:81)+'" width="'+(kind==='night'?12:16)+'" height="'+(deck?16:kind==='night'?13:18)+'" rx="2" fill="'+(kind==='night'?'#d6bd8a':'#17333f')+'"/>'+(deck?'<rect x="'+q+'" y="104" width="16" height="14" rx="2" fill="#17333f"/>':'');
+  }
+  out+='<path d="M'+x+' 136h'+w+'" stroke="#263641" stroke-width="6"/>';
+ }
+ if(regional)for(const x of [84,190,247,335,385,477])out+='<rect x="'+x+'" y="'+(deck?43:70)+'" width="13" height="'+(deck?90:63)+'" rx="2" fill="'+(deck?p.accent:'#224c68')+'" stroke="'+p.accent+'" stroke-width="2"/><rect x="'+(x+3)+'" y="'+(deck?63:81)+'" width="7" height="25" rx="1" fill="#122d3a"/>';
+ for(const x of [63,p.end-27,start+24,start+cw-26,440,484])out+='<path d="M'+(x-5)+' 142h29" stroke="#273b45" stroke-width="6"/><g fill="#14212a" stroke="#7e939c" stroke-width="1"><circle cx="'+x+'" cy="146" r="6.5"/><circle cx="'+(x+14)+'" cy="146" r="6.5"/></g>';
+ if(kind==='agv')out+='<path d="M224 138h20M317 138h20M410 138h20" stroke="#162934" stroke-width="7"/>';
+ const px=p.loco?115:regional?293:kind==='fr1000'?289:177,py=deck?35:p.top-2;
+ out+='<path d="M'+(px-10)+' '+py+'l14-19h17l-12 19m-11-19h27" fill="none" stroke="#9eaeb3" stroke-width="2"/>';
+ if(!regional)out+='<text x="'+(p.loco?195:kind==='freight'?194:274)+'" y="115" font-family="Arial,sans-serif" font-style="italic" font-weight="600" font-size="'+(italo?15:kind==='night'?9:8)+'" fill="'+(italo?'#d7ba79':kind==='night'?'#e4edf4':p.accent)+'">'+p.logo+'</text>';
+ if(regional)out+='<text x="116" y="'+(deck?92:119)+'" font-family="Arial,sans-serif" font-size="9" fill="#e3e9e9">'+p.logo+'</text>';
+ out+='<path d="M25 118l8-2" stroke="#ffefc9" stroke-width="3" stroke-linecap="round"/>';
+ if(kind==='night')out+='<path d="M449 18a12 12 0 1 0 13 17 13 13 0 0 1-13-17Z" fill="#d9c997"/>';
+ return out+'</svg>';
+}
+function trainArt(kind){
+ if(kind==='silver')return baseTrainArt(kind);
+ if(kind==='agv'){
+  const a=referenceTrainArt('agv'),b=referenceTrainArt('evo');
+  return '<svg viewBox="0 0 520 240" aria-hidden="true"><text x="18" y="16" fill="#dfbf80" font-family="Arial,sans-serif" font-size="12">AGV 575</text><svg y="5" width="520" height="112" viewBox="0 0 520 190">'+a.replace(/^<svg[^>]*>|<\/svg>$/g,'')+'</svg><text x="18" y="135" fill="#dfbf80" font-family="Arial,sans-serif" font-size="12">EVO 675</text><svg y="124" width="520" height="112" viewBox="0 0 520 190">'+b.replace(/^<svg[^>]*>|<\/svg>$/g,'')+'</svg></svg>';
+ }
+ return referenceTrainArt(kind);
 }
 $('#train-grid').innerHTML=cardData.map(d=>'<article class="train-card reveal" data-category="'+d.tag+'"'+(d.identity?' data-family="'+d.kind+'"':'')+'><div class="train-art" data-illustration="'+d.kind+'">'+trainArt(d.kind)+'</div><div class="train-body"><h3>'+d.title+'</h3>'+frecciaIdentity(d)+'<p>'+d.desc+'</p><div class="mini-stats"><div><b>'+d.speed+'</b><br><span>'+d.unit+'</span></div><div style="text-align:right"><b style="font-size:13px">'+d.seat+'</b></div></div><details><summary>Конструкция, комфорт и маршруты</summary><p><b>Конструкция.</b> '+d.tech+'</p><p><b>Для пассажира.</b> '+d.pass+'</p><p><b>Направления.</b> '+d.route+'</p><p><a href="'+d.source+'" target="_blank" rel="noopener noreferrer">Источник ↗</a></p></details></div></article>').join('');
 function updateFleet(key){
