@@ -4515,12 +4515,30 @@ try {
   });
   renderer.outputColorSpace = T.SRGBColorSpace;
   renderer.toneMapping = T.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.08;
+  renderer.toneMappingExposure = 1.02;
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.autoUpdate = false;
+  renderer.shadowMap.type = T.PCFSoftShadowMap;
   const scene = new T.Scene(),
     camera = new T.PerspectiveCamera(33, 1, 0.1, 1500);
-  scene.add(new T.HemisphereLight(0xe5efff, 0x34352c, 1.8));
+  scene.add(new T.HemisphereLight(0xe5efff, 0x34352c, 1.15));
   const sun = new T.DirectionalLight(0xfff3df, 3.0);
   sun.position.set(-30, 45, 30);
+  sun.castShadow = true;
+  sun.target.position.set(-13.5, 0, 0);
+  scene.add(sun.target);
+  sun.shadow.mapSize.set(innerWidth < 740 ? 512 : 1024, innerWidth < 740 ? 512 : 1024);
+  Object.assign(sun.shadow.camera, {
+    left: -11,
+    right: 11,
+    top: 9,
+    bottom: -9,
+    near: 0.1,
+    far: 160,
+  });
+  sun.shadow.camera.updateProjectionMatrix();
+  sun.shadow.normalBias = 0.018;
+  sun.shadow.bias = -0.00015;
   scene.add(sun);
   const rim = new T.DirectionalLight(0xc9dcff, 2.4);
   rim.position.set(20, 16, -25);
@@ -4592,7 +4610,14 @@ try {
   const metal = material('#808992', 0.78, 0.3),
     darkMetal = material('#252d34', 0.65, 0.49),
     rubber = material('#121719', 0.04, 0.92);
-  const glass = material('#152b37', 0.22, 0.09),
+  const glass = new T.MeshPhysicalMaterial({
+      color: '#172d3a',
+      metalness: 0.12,
+      roughness: 0.11,
+      clearcoat: 1,
+      clearcoatRoughness: 0.065,
+      envMapIntensity: 1.2,
+    }),
     chrome = material('#d2dbe2', 0.85, 0.2);
   const lamp = new T.MeshStandardMaterial({
     color: '#fff1c4',
@@ -4605,7 +4630,7 @@ try {
     emissive: '#ed1727',
     emissiveIntensity: 0.8,
   });
-  const fixedMaterials = new Set([...materialCache.values(), lamp, tailLamp]);
+  const fixedMaterials = new Set([...materialCache.values(), lamp, tailLamp, glass]);
   function mesh(g, geo, m, x = 0, y = 0, z = 0, sx = 1, sy = 1, sz = 1) {
     const o = new T.Mesh(geo, m);
     o.position.set(x, y, z);
@@ -4616,6 +4641,51 @@ try {
   function box(g, x, y, z, l, h, w, m) {
     return mesh(g, boxGeometry, m, x, y, z, l, h, w);
   }
+
+  // Small, reused bevels catch highlights without subdividing entire car bodies.
+  function equipmentBox(g, x, y, z, l, h, w, m) {
+    const radius = Math.min(0.085, l * 0.12, h * 0.22, w * 0.12);
+    const key = ['bevel', l, h, w, radius].join('/');
+    let geo = geometryCache.get(key);
+    if (!geo) {
+      geo = new T.BoxGeometry(l, h, w, 4, 4, 4);
+      const p = geo.attributes.position,
+        n = geo.attributes.normal;
+      const half = [l / 2, h / 2, w / 2];
+      const coordinates = half.map((a) => [-a, -a + radius, 0, a - radius, a]);
+      for (let i = 0; i < p.count; i++) {
+        const old = [p.getX(i), p.getY(i), p.getZ(i)];
+        const point = old.map((v, k) => coordinates[k][Math.round((v / half[k] + 1) * 2)]);
+        const core = point.map((v, k) =>
+          Math.max(-half[k] + radius, Math.min(half[k] - radius, v)),
+        );
+        const d = new T.Vector3(...point).sub(new T.Vector3(...core)).normalize();
+        p.setXYZ(i, core[0] + d.x * radius, core[1] + d.y * radius, core[2] + d.z * radius);
+        n.setXYZ(i, d.x, d.y, d.z);
+      }
+      geo.computeBoundingSphere();
+      geometryCache.set(key, geo);
+      ownedGeometries.add(geo);
+    }
+    return mesh(g, geo, m, x, y, z);
+  }
+  function suspensionSpring(g, x, y, z) {
+    const key = 'suspension-coil';
+    let geo = geometryCache.get(key);
+    if (!geo) {
+      const points = [];
+      for (let i = 0; i <= 64; i++) {
+        const t = i / 64,
+          a = t * Math.PI * 8;
+        points.push(new T.Vector3(Math.cos(a) * 0.105, (t - 0.5) * 0.28, Math.sin(a) * 0.105));
+      }
+      geo = new T.TubeGeometry(new T.CatmullRomCurve3(points), 64, 0.022, 5, false);
+      geometryCache.set(key, geo);
+      ownedGeometries.add(geo);
+    }
+    mesh(g, geo, metal, x, y, z);
+  }
+
   function cylinder(g, x, y, z, r, l, m) {
     const o = mesh(g, cylinderGeometry, m, x, y, z, r, l, r);
     o.rotation.x = Math.PI / 2;
@@ -5234,7 +5304,7 @@ try {
       map: texture,
       metalness: kind === 'evo' || kind === 'agv' ? 0.22 : 0.34,
       roughness: 0.3,
-      clearcoat: 0.48,
+      clearcoat: 0.72,
       clearcoatRoughness: 0.23,
     });
     textureCache.set(key, m);
@@ -5253,11 +5323,12 @@ try {
         cylinder(g, x + dx, 0.46, s * 0.88, 0.39, 0.026, darkMetal);
         cylinder(g, x + dx, 0.46, s * 0.9, 0.2, 0.034, metal);
         cylinder(g, x + dx, 0.46, s * 0.93, 0.09, 0.06, chrome);
-        box(g, x + dx, 0.52, s * 1.02, 0.32, 0.3, 0.16, metal);
+        equipmentBox(g, x + dx, 0.52, s * 1.02, 0.32, 0.3, 0.16, metal);
         box(g, x + dx + 0.27, 0.53, s * 0.79, 0.15, 0.3, 0.12, darkMetal);
       }
       for (const dx of [-0.49, 0.49]) {
         cylinder(g, x + dx, 0.86, s * 0.72, 0.19, 0.28, rubber);
+        suspensionSpring(g, x + dx, 0.82, s * 1.03);
         box(g, x + dx, 0.9, s * 0.92, 0.21, 0.24, 0.12, darkMetal);
       }
     }
@@ -5820,7 +5891,7 @@ try {
           const geoKey = 'door-leaf/' + width + '/' + split + '/' + leaf;
           let geo = geometryCache.get(geoKey);
           if (!geo) {
-            geo = new T.PlaneGeometry(width / split, height);
+            geo = new T.BoxGeometry(width / split, height, 0.035);
             const uv = geo.attributes.uv;
             for (let i = 0; i < uv.count; i++) uv.setX(i, (uv.getX(i) + leaf) / split);
             geometryCache.set(geoKey, geo);
@@ -5845,6 +5916,7 @@ try {
   function applyDoors(amount) {
     if (amount === appliedDoorAmount) return;
     appliedDoorAmount = amount;
+    renderer.shadowMap.needsUpdate = true;
     const slide = Math.max(0, (amount - 0.12) / 0.88),
       plug = Math.min(1, amount / 0.12) * 0.075;
     for (const door of animatedDoors) {
@@ -5907,7 +5979,7 @@ try {
         [0.06, 2.9],
         [0.27, 1.6],
       ])
-        box(g, bodyCenter + offset * bodyLength, 0.91, 0, length, 0.46, 1.7, darkMetal);
+        equipmentBox(g, bodyCenter + offset * bodyLength, 0.91, 0, length, 0.46, 1.7, darkMetal);
     } else {
       box(g, 0.4, 1.02, 0, L - 6, 0.45, 2.2, darkMetal);
     }
@@ -5945,7 +6017,7 @@ try {
     const roofStart = -L / 2 + bodyStart + 1.0,
       roofEnd = L / 2 - 1.2;
     if (loco) {
-      box(g, 0.8, s.height + 0.04, 0, L * 0.56, 0.14, 1.65, metal);
+      equipmentBox(g, 0.8, s.height + 0.04, 0, L * 0.56, 0.14, 1.65, metal);
       pantograph(g, L * 0.23, s.height + 0.12);
       if (kind === 'ic' || kind === 'fr500') pantograph(g, -L * 0.12, s.height + 0.12);
       rod(
@@ -5959,9 +6031,11 @@ try {
         box(g, x, s.height + 0.17, 0, 0.07, 0.16, 1.32, darkMetal);
     } else {
       for (const x of [lerp(roofStart, roofEnd, 0.28), lerp(roofStart, roofEnd, 0.68)]) {
-        box(g, x, s.height + 0.04, 0, kind === 'rock' ? 2.6 : 2.2, 0.18, 1.4, metal);
-        for (const z of [-0.45, 0, 0.45])
-          box(g, x, s.height + 0.14, z, 1.6, 0.018, 0.13, darkMetal);
+        equipmentBox(g, x, s.height + 0.04, 0, kind === 'rock' ? 2.6 : 2.2, 0.18, 1.4, metal);
+        // Recessed intake bed with raised aluminium louvres catches alternating light and shade.
+        box(g, x, s.height + 0.139, 0, 1.62, 0.012, 1.12, darkMetal);
+        for (let fin = 0; fin < 11; fin++)
+          box(g, x - 0.72 + fin * 0.144, s.height + 0.152, 0, 0.028, 0.025, 1.08, metal);
       }
       const pantoCar =
         kind === 'agv'
@@ -6030,7 +6104,7 @@ try {
     }
     // Low-profile radio aerials only on cab roofs.
     if (cab) {
-      box(g, -L / 2 + s.nose + 1.3, s.height + 0.08, 0, 0.42, 0.12, 0.24, darkMetal);
+      equipmentBox(g, -L / 2 + s.nose + 1.3, s.height + 0.08, 0, 0.42, 0.12, 0.24, darkMetal);
       rod(
         g,
         [-L / 2 + s.nose + 1.3, s.height + 0.1, 0],
@@ -6250,6 +6324,27 @@ try {
       stationReady = true;
     }
     batch(model);
+    const shadowCenter = (-100 + total / 2) * 0.17,
+      shadowExtent = Math.max(11, total * 0.17 * 0.58);
+    sun.target.position.set(shadowCenter, 0, 0);
+    sun.position.set(shadowCenter - 30, 45, 30);
+    Object.assign(sun.shadow.camera, {
+      left: -shadowExtent,
+      right: shadowExtent,
+      top: shadowExtent,
+      bottom: -shadowExtent,
+    });
+    sun.shadow.camera.updateProjectionMatrix();
+    renderer.shadowMap.needsUpdate = true;
+    model.traverse((o) => {
+      if (o.isMesh) {
+        o.castShadow = true;
+        o.receiveShadow = true;
+      }
+    });
+    track.traverse((o) => {
+      if (o.isMesh) o.receiveShadow = true;
+    });
     $('#model-recognition').innerHTML = specs[visualKind].note
       .map((v, i) => '<div><span>0' + (i + 1) + '</span>' + v + '</div>')
       .join('');
@@ -6481,6 +6576,7 @@ try {
     if (model.position.x !== x) {
       model.position.x = x;
       model.updateMatrix();
+      renderer.shadowMap.needsUpdate = true;
       dirty = true;
     }
     if (appliedDoorAmount !== state.doors) {
