@@ -6812,7 +6812,7 @@ try {
     geometryCache.clear();
     for (const [key, m] of textureCache)
       if (!stationTextures.has(m)) {
-        m.map.dispose();
+        m.map?.dispose();
         m.dispose();
         textureCache.delete(key);
       }

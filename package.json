@@ -13,7 +13,8 @@
     "verify": "node scripts/verify.mjs",
     "baseline:record": "node scripts/verify.mjs --record",
     "lint": "prettier --check \"scripts/*.mjs\" \"*.json\" README.md \".github/workflows/*.yml\"",
-    "check": "npm run format:check && npm run lint && npm run verify"
+    "check": "npm run format:check && npm run lint && npm run verify && npm run test:viewer",
+    "test:viewer": "node scripts/test-viewer-lifecycle.mjs"
   },
   "devDependencies": {
     "prettier": "3.6.2"
