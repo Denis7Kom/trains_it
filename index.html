@@ -6517,27 +6517,56 @@ try {
       c.width = 128;
       c.height = 256;
       const ctx = c.getContext('2d');
-      ctx.fillStyle = kind === 'rock' ? '#e9b732' : s.color;
+      // Door finishes and glazing vary with each train family.
+      const finish = {
+        fr1000: '#c8cbcd', silver: '#aeb4b8', evo: '#a91a30',
+        agv: '#8d102d', ic: '#dce0df', rock: '#e5b52f', fr500: '#cbd0d2',
+      }[kind] || s.color;
+      ctx.fillStyle = finish;
       ctx.fillRect(0, 0, 128, 256);
-      ctx.strokeStyle = '#303a42';
-      ctx.lineWidth = 5;
-      ctx.strokeRect(2, 2, 124, 252);
-      const pane = ctx.createLinearGradient(0, 35, 0, 132);
-      pane.addColorStop(0, '#506e7d');
-      pane.addColorStop(0.4, '#142a36');
-      pane.addColorStop(1, '#0a1620');
-      ctx.fillStyle = pane;
-      ctx.fillRect(23, 35, 82, 84);
-      ctx.fillStyle = '#c5d6df66';
-      ctx.fillRect(27, 39, 74, 3);
-      ctx.fillStyle = '#2a383c';
-      ctx.fillRect(108, 139, 5, 21);
-      ctx.fillStyle = '#b5bdba';
-      ctx.fillRect(5, 244, 118, 4);
-      if (kind === 'rock') {
-        ctx.fillStyle = '#665a3a';
-        ctx.fillRect(62, 3, 3, 248);
+      const shading = ctx.createLinearGradient(0, 0, 128, 0);
+      shading.addColorStop(0, '#00000026');
+      shading.addColorStop(0.18, '#ffffff10');
+      shading.addColorStop(0.8, '#ffffff05');
+      shading.addColorStop(1, '#00000030');
+      ctx.fillStyle = shading;
+      ctx.fillRect(0, 0, 128, 256);
+      ctx.strokeStyle = '#263038';
+      ctx.lineWidth = 3;
+      ctx.strokeRect(1.5, 1.5, 125, 253);
+      function glazing(x, w, top, height) {
+        ctx.fillStyle = '#202c32';
+        rounded(ctx, x - 3, top - 3, w + 6, height + 6, 6);
+        const pane = ctx.createLinearGradient(x, top, x + w, top + height);
+        pane.addColorStop(0, '#576f7a');
+        pane.addColorStop(0.35, '#1b333d');
+        pane.addColorStop(1, '#0b1821');
+        ctx.fillStyle = pane;
+        rounded(ctx, x, top, w, height, 4);
+        ctx.fillStyle = '#c5d6df55';
+        ctx.fillRect(x + 3, top + 4, w - 6, 3);
       }
+      if (kind === 'rock') {
+        // Each sliding leaf has its own window and a central rubber seal.
+        glazing(14, 38, 27, 112);
+        glazing(76, 38, 27, 112);
+        ctx.fillStyle = '#343d3c';
+        ctx.fillRect(62, 2, 4, 252);
+        ctx.fillStyle = '#26343a';
+        ctx.fillRect(49, 150, 4, 20);
+        ctx.fillRect(75, 150, 4, 20);
+      } else {
+        const narrow = kind === 'ic' || kind === 'fr500';
+        glazing(narrow ? 34 : 27, narrow ? 60 : 74, 32, narrow ? 92 : 86);
+        ctx.fillStyle = '#2a383c';
+        ctx.fillRect(108, 139, 5, 21);
+      }
+      ctx.fillStyle = '#d6ddda';
+      ctx.beginPath(); ctx.arc(108, 128, 5, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#4d8f64';
+      ctx.beginPath(); ctx.arc(108, 128, 2.5, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#aab3b2';
+      ctx.fillRect(5, 244, 118, 4);
       const map = new T.CanvasTexture(c);
       map.colorSpace = T.SRGBColorSpace;
       m = new T.MeshStandardMaterial({ map, metalness: 0.34, roughness: 0.34, side: T.DoubleSide });
