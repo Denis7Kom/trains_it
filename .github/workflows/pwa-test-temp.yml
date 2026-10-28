@@ -29,7 +29,7 @@ jobs:
               const u = new URL(req.url, 'http://localhost');
               if (!u.pathname.startsWith('/trains_it/')) throw Error('outside scope');
               let p = resolve(root, '.' + u.pathname.slice('/trains_it'.length));
-              if (!p.startsWith(root + sep)) throw Error('outside root');
+              if (p !== root && !p.startsWith(root + sep)) throw Error('outside root');
               if ((await stat(p)).isDirectory()) p = resolve(p, 'index.html');
               const body = await readFile(p);
               res.writeHead(200, {'Content-Type': mime[extname(p)] || 'application/octet-stream'});
