@@ -6585,7 +6585,14 @@ try {
       c.width = 128;
       c.height = 256;
       const ctx = c.getContext('2d');
-      ctx.fillStyle = kind === 'rock' ? '#e9b732' : kind === 'jazz' ? '#a7c52b' : kind === 'ic' ? '#dce1e0' : s.color;
+      ctx.fillStyle =
+        kind === 'rock'
+          ? '#e9b732'
+          : kind === 'jazz'
+            ? '#a7c52b'
+            : kind === 'ic'
+              ? '#dce1e0'
+              : s.color;
       ctx.fillRect(0, 0, 128, 256);
       ctx.strokeStyle = '#303a42';
       ctx.lineWidth = 5;
