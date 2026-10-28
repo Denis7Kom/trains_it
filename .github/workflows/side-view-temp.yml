@@ -1,0 +1,26 @@
+name: Verify side view
+on:
+  push:
+    branches:
+      - codex/side-view-comfort-order
+permissions:
+  contents: write
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm run format && npm run baseline:record && npm run check
+      - name: Commit formatted sources
+        run: |
+          rm .github/workflows/side-view-temp.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html en/index.html it/index.html scripts/site-baseline.json .github/workflows/side-view-temp.yml
+          git commit -m "Format and verify side view"
+          git push
