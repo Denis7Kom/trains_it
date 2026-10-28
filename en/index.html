@@ -7061,7 +7061,10 @@ try {
   }
   function build() {
     const start = performance.now();
-    if (passengerGroup) { assembly.remove(passengerGroup); passengerGroup = null; }
+    if (passengerGroup) {
+      assembly.remove(passengerGroup);
+      passengerGroup = null;
+    }
     destroyAssembly();
     animatedDoors.length = 0;
     appliedDoorAmount = -1;
