@@ -5441,8 +5441,7 @@ try {
         }
       } else {
         if (kind !== 'ic')
-          for (let x = begin + 0.8; x < L - 1.8; x += 0.22)
-            rect(x, 2.77, 0.08, 0.85, '#3b3b42');
+          for (let x = begin + 0.8; x < L - 1.8; x += 0.22) rect(x, 2.77, 0.08, 0.85, '#3b3b42');
         if (cab) pane(s.nose + 0.15, 3.04, 1.0, 0.63);
         rect(L - 1.45, 2.1, 0.8, 1.85, s.color);
       }
@@ -6773,7 +6772,8 @@ try {
     if (loco) {
       equipmentBox(g, 0.8, s.height + 0.04, 0, L * 0.56, 0.14, 1.65, metal);
       pantograph(g, L * 0.23, s.height + 0.12);
-      if (kind === 'ic' || kind === 'fr500') pantograph(g, -L * 0.12, s.height + 0.12, kind === 'ic');
+      if (kind === 'ic' || kind === 'fr500')
+        pantograph(g, -L * 0.12, s.height + 0.12, kind === 'ic');
       rod(
         g,
         [-L * 0.12, s.height + 0.32, 0.25],
@@ -6848,7 +6848,16 @@ try {
           }
           const doorX = -L / 2 + 2.35;
           box(g, doorX, 2.11, side * (s.width / 2 + 0.015), 0.82, 1.95, 0.025, grilleFrame);
-          box(g, doorX, 2.12, side * (s.width / 2 + 0.032), 0.75, 1.87, 0.018, material('#ced8dc', 0.35, 0.4));
+          box(
+            g,
+            doorX,
+            2.12,
+            side * (s.width / 2 + 0.032),
+            0.75,
+            1.87,
+            0.018,
+            material('#ced8dc', 0.35, 0.4),
+          );
           box(g, doorX, 2.72, side * (s.width / 2 + 0.048), 0.48, 0.5, 0.015, glass);
           box(g, doorX + 0.25, 1.93, side * (s.width / 2 + 0.052), 0.05, 0.14, 0.025, darkMetal);
         } else {
