@@ -6939,6 +6939,63 @@ try {
     const sh = mesh(track, shadowGeo, shadowMaterial, 0, -0.36, 0);
     sh.rotation.x = -Math.PI / 2;
   }
+  // Passengers are attached to the station, so they do not move with the arriving train.
+  let passengerGroup = null;
+  let passengers = [];
+  function makePassengers() {
+    if (passengerGroup) assembly.remove(passengerGroup);
+    passengerGroup = new T.Group();
+    passengerGroup.visible = false;
+    passengers = [];
+    assembly.add(passengerGroup);
+    assembly.updateMatrixWorld(true);
+    const inverse = assembly.matrixWorld.clone().invert();
+    const targets = [];
+    for (const door of animatedDoors) {
+      const p = door.mesh.getWorldPosition(new T.Vector3()).applyMatrix4(inverse);
+      if (p.z < 0 || targets.some((x) => Math.abs(x - p.x) < 1.5)) continue;
+      targets.push(p.x);
+    }
+    targets.sort((a, b) => a - b);
+    const outfits = ['#48627a', '#9d624f', '#77815d'];
+    for (let i = 0; i < Math.min(3, targets.length); i++) {
+      const person = new T.Group();
+      const coat = material(outfits[i], 0.02, 0.85);
+      const trousers = material('#28343d', 0.02, 0.9);
+      const skin = material('#c89673', 0.02, 0.82);
+      mesh(person, sphereGeometry, skin, 0, 1.57, 0, 0.14, 0.17, 0.13);
+      box(person, 0, 1.2, 0, 0.39, 0.55, 0.23, coat);
+      box(person, -0.25, 1.19, 0, 0.1, 0.49, 0.11, coat);
+      box(person, 0.25, 1.19, 0, 0.1, 0.49, 0.11, coat);
+      const legs = [];
+      for (const side of [-1, 1]) {
+        const leg = new T.Group();
+        leg.position.set(side * 0.1, 0.93, 0);
+        box(leg, 0, -0.465, 0, 0.14, 0.93, 0.14, trousers);
+        person.add(leg);
+        legs.push(leg);
+      }
+      person.rotation.y = -Math.PI / 2;
+      passengerGroup.add(person);
+      passengers.push({ person, legs, target: targets[i], delay: i * 0.65 });
+    }
+  }
+  function updatePassengers(state) {
+    if (!passengerGroup) return false;
+    const visible = state.phase === 'open' && !noMotion && passengers.length > 0;
+    passengerGroup.visible = visible;
+    if (!visible) return false;
+    for (const p of passengers) {
+      const t = state.time - p.delay;
+      const progress = Math.max(0, Math.min(1, t / 3.2));
+      p.person.visible = t >= 0 && progress < 1;
+      p.person.position.set(p.target + 2.2 * (1 - progress), 1.01, 2.7 - 1.2 * progress);
+      p.person.position.y += progress < 0.9 ? 0.035 * Math.abs(Math.sin(t * 8)) : 0;
+      p.legs[0].rotation.z = 0.35 * Math.sin(t * 8);
+      p.legs[1].rotation.z = -0.35 * Math.sin(t * 8);
+    }
+    return true;
+  }
   function makeStation(length) {
     const stone = material('#7c8682', 0.05, 0.9),
       edge = material('#c8b980', 0.05, 0.8),
@@ -6946,9 +7003,9 @@ try {
       roof = material('#43585b', 0.6, 0.43);
     const platformLength = length * 1.1;
     box(track, 0, 0.35, -4.15, platformLength, 1.25, 4.5, stone);
-    // Keep the near platform below the rails so the wheels remain visible in profile.
-    box(track, 0, -0.46, 3.6, platformLength, 0.15, 3.1, stone);
-    box(track, 0, -0.37, 2.13, platformLength, 0.05, 0.22, edge);
+    // The near platform covers the wheels and provides a surface for boarding passengers.
+    box(track, 0, 0.35, 3.6, platformLength, 1.25, 3.1, stone);
+    box(track, 0, 1.01, 2.13, platformLength, 0.05, 0.22, edge);
     box(track, 0, 1.01, -2.0, platformLength, 0.05, 0.22, edge);
     box(track, 0, 1.025, -2.38, platformLength, 0.025, 0.32, material('#d6d2bd', 0.04, 0.8));
     // The canopy sits behind the train so the cab stays visible from the front side.
@@ -7004,6 +7061,10 @@ try {
   }
   function build() {
     const start = performance.now();
+    if (passengerGroup) {
+      assembly.remove(passengerGroup);
+      passengerGroup = null;
+    }
     destroyAssembly();
     animatedDoors.length = 0;
     appliedDoorAmount = -1;
@@ -7055,6 +7116,7 @@ try {
       stationReady = true;
     }
     batch(model);
+    makePassengers();
     const shadowCenter = (-100 + total / 2) * 0.17,
       shadowExtent = Math.max(11, total * 0.17 * 0.58);
     sun.target.position.set(shadowCenter, 0, 0);
@@ -7304,6 +7366,7 @@ try {
       applyDoors(state.doors);
       dirty = true;
     }
+    if (updatePassengers(state)) dirty = true;
     selectionCaption(state);
     const frameBudget = quality === 'eco' ? 1000 / 30 : 1000 / 45;
     if (now - lastPaint < frameBudget) {
