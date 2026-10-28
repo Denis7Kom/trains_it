@@ -6572,7 +6572,14 @@ try {
       c.width = 128;
       c.height = 256;
       const ctx = c.getContext('2d');
-      ctx.fillStyle = kind === 'rock' ? '#e9b732' : kind === 'jazz' ? '#a7c52b' : s.color;
+      ctx.fillStyle =
+        kind === 'rock'
+          ? '#e9b732'
+          : kind === 'jazz'
+            ? '#a7c52b'
+            : kind === 'ic'
+              ? '#dce1e0'
+              : s.color;
       ctx.fillRect(0, 0, 128, 256);
       ctx.strokeStyle = '#303a42';
       ctx.lineWidth = 5;
@@ -6582,9 +6589,18 @@ try {
       pane.addColorStop(0.4, '#142a36');
       pane.addColorStop(1, '#0a1620');
       ctx.fillStyle = pane;
-      ctx.fillRect(23, 35, 82, 84);
-      ctx.fillStyle = '#c5d6df66';
-      ctx.fillRect(27, 39, 74, 3);
+      if (kind === 'rock' || kind === 'jazz') {
+        // Each sliding leaf carries its own window.
+        rounded(ctx, 13, 30, 40, 105, 5);
+        rounded(ctx, 75, 30, 40, 105, 5);
+        ctx.fillStyle = '#c5d6df66';
+        ctx.fillRect(17, 34, 32, 3);
+        ctx.fillRect(79, 34, 32, 3);
+      } else {
+        rounded(ctx, 23, 35, 82, 84, 5);
+        ctx.fillStyle = '#c5d6df66';
+        ctx.fillRect(27, 39, 74, 3);
+      }
       ctx.fillStyle = '#2a383c';
       ctx.fillRect(108, 139, 5, 21);
       ctx.fillStyle = '#b5bdba';
@@ -6930,8 +6946,9 @@ try {
       roof = material('#43585b', 0.6, 0.43);
     const platformLength = length * 1.1;
     box(track, 0, 0.35, -4.15, platformLength, 1.25, 4.5, stone);
-    box(track, 0, 0.35, 3.6, platformLength, 1.25, 3.1, stone);
-    box(track, 0, 1.01, 2.13, platformLength, 0.05, 0.22, edge);
+    // Keep the near platform below the rails so the wheels remain visible in profile.
+    box(track, 0, -0.46, 3.6, platformLength, 0.15, 3.1, stone);
+    box(track, 0, -0.37, 2.13, platformLength, 0.05, 0.22, edge);
     box(track, 0, 1.01, -2.0, platformLength, 0.05, 0.22, edge);
     box(track, 0, 1.025, -2.38, platformLength, 0.025, 0.32, material('#d6d2bd', 0.04, 0.8));
     // The canopy sits behind the train so the cab stays visible from the front side.
@@ -6975,7 +6992,7 @@ try {
   }
   function fit() {
     const size = new T.Vector3(7.5, 1.05, 0.52);
-    aim.set(-17 + size.x * 0.43, 0.55, 0);
+    aim.set(-17 + size.x * 0.43, 0.42, 0);
     const vertical = T.MathUtils.degToRad(camera.fov),
       horizontal = 2 * Math.atan(Math.tan(vertical / 2) * camera.aspect);
     fitDistance =
