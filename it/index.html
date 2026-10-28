@@ -7198,10 +7198,7 @@ try {
     { passive: false },
   );
   canvas.addEventListener('keydown', (e) => {
-    if (
-      !['+', '=', '-', 'r', 'R'].includes(e.key)
-    )
-      return;
+    if (!['+', '=', '-', 'r', 'R'].includes(e.key)) return;
     e.preventDefault();
     if (e.key === 'r' || e.key === 'R') resetCamera();
     if (['+', '=', '-'].includes(e.key)) zoomBy(zoom + (e.key === '-' ? -10 : 10));
