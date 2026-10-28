@@ -387,10 +387,10 @@ header {
   position: relative;
   z-index: 1;
   touch-action: pan-y;
-  cursor: grab;
+  cursor: default;
 }
 .viewer-canvas:active {
-  cursor: grabbing;
+  cursor: default;
 }
 .viewer-label {
   position: absolute;
@@ -2684,7 +2684,7 @@ document.documentElement.classList.add('js');
 <div class="hero-top"><span class="mono">ITALIAN RAILWAY FIELD GUIDE / VOL. 01</span><span class="pill">Checked · 23 Oct 2026</span></div>
 <div class="hero-intro"><h1>All of Italy.<br>On <span>different tracks.</span></h1><div class="hero-desc"><p>From 300 km/h between major cities to a small station by the sea. Understand the trains, choose your travel class and avoid unwelcome surprises.</p><a class="button primary" href="#categories">Understand the basics in 5 minutes <span class="arrow">↗</span></a></div></div>
 <div class="depot" id="depot">
-<div class="depot-tabs" role="tablist" aria-label="Choose a 3D model"><span class="mono">DEPOT / 360°</span>
+<div class="depot-tabs" role="tablist" aria-label="Choose a 3D model"><span class="mono">DEPOT / SIDE VIEW</span>
 <button role="tab" aria-selected="true" aria-controls="fleet-panel" id="tab-fr1000" data-model="fr1000">Frecciarossa 1000</button>
 <button role="tab" aria-selected="false" aria-controls="fleet-panel" id="tab-fr500" data-model="fr500" tabindex="-1">ETR 500</button>
 <button role="tab" aria-selected="false" aria-controls="fleet-panel" id="tab-agv" data-model="agv" tabindex="-1">Italo AGV</button>
