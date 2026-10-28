@@ -2686,20 +2686,20 @@ document.documentElement.classList.add('js');
 <div class="depot" id="depot">
 <div class="depot-tabs" role="tablist" aria-label="Выбор 3D-модели"><span class="mono">ДЕПО / 360°</span>
 <button role="tab" aria-selected="true" aria-controls="fleet-panel" id="tab-fr1000" data-model="fr1000">Frecciarossa 1000</button>
-<button role="tab" aria-selected="false" aria-controls="fleet-panel" id="tab-silver" data-model="silver" tabindex="-1">Frecciargento</button>
-<button role="tab" aria-selected="false" aria-controls="fleet-panel" id="tab-evo" data-model="evo" tabindex="-1">Italo EVO</button>
+<button role="tab" aria-selected="false" aria-controls="fleet-panel" id="tab-fr500" data-model="fr500" tabindex="-1">ETR 500</button>
 <button role="tab" aria-selected="false" aria-controls="fleet-panel" id="tab-agv" data-model="agv" tabindex="-1">Italo AGV</button>
+<button role="tab" aria-selected="false" aria-controls="fleet-panel" id="tab-evo" data-model="evo" tabindex="-1">Italo EVO</button>
+<button role="tab" aria-selected="false" aria-controls="fleet-panel" id="tab-silver" data-model="silver" tabindex="-1">Frecciargento</button>
 <button role="tab" aria-selected="false" aria-controls="fleet-panel" id="tab-ic" data-model="ic" tabindex="-1">Intercity</button>
 <button role="tab" aria-selected="false" aria-controls="fleet-panel" id="tab-rock" data-model="rock" tabindex="-1">Regionale Rock</button>
 <button role="tab" aria-selected="false" aria-controls="fleet-panel" id="tab-jazz" data-model="jazz" tabindex="-1">Regionale Jazz</button>
-<button role="tab" aria-selected="false" aria-controls="fleet-panel" id="tab-fr500" data-model="fr500" tabindex="-1">ETR 500</button>
 </div>
 <div role="tabpanel" id="fleet-panel" aria-labelledby="tab-fr1000">
 <div class="viewport" id="viewport"><div class="viewer-label"><div hidden class="mono" id="model-code">TRENITALIA / ETR 1000</div><h2 id="model-title">Frecciarossa 1000</h2><span class="pill" id="model-type">Распределённая тяга · 8 вагонов</span></div><span hidden class="viewer-index" id="model-index" aria-hidden="true">01</span>
 <div class="model-fallback" id="model-fallback" aria-label="Схематичный силуэт Frecciarossa 1000"><svg viewBox="0 0 900 150" aria-hidden="true"><path d="M20 112 Q32 80 85 60 L125 45 H840 Q868 45 878 75 L887 112Z" fill="#d8dedc"/><path d="M20 112 Q32 80 85 60 L125 45H210V112Z" fill="#d12637"/><path d="M74 72L125 51H165L148 75Z" fill="#18292f"/><path d="M200 65H850V86H200Z" fill="#183038"/><path d="M190 98H880V107H190Z" fill="#c72538"/><path d="M55 119H850" stroke="#687b6a" stroke-width="3"/><g fill="#111b1c"><circle cx="136" cy="113" r="12"/><circle cx="176" cy="113" r="12"/><circle cx="380" cy="113" r="12"/><circle cx="420" cy="113" r="12"/><circle cx="650" cy="113" r="12"/><circle cx="690" cy="113" r="12"/></g></svg></div>
-<canvas class="viewer-canvas" id="train-canvas" tabindex="0" aria-label="3D-модель поезда. Один палец — вращение, два — приближение. Двойное касание — сброс. Клавиши: стрелки, плюс, минус и R."></canvas>
+<canvas class="viewer-canvas" id="train-canvas" tabindex="0" aria-label="3D-модель поезда сбоку. Два пальца или колесо мыши — масштаб. Двойное касание или R — сброс. Клавиши: плюс и минус."></canvas>
 <button id="viewer-expand" class="viewer-expand-single" aria-pressed="false">⤢ Развернуть</button>
-<output class="station-caption" id="station-caption"></output><span class="viewer-help">Один палец — поворот · два — масштаб · двойное касание — сброс</span><span class="viewer-status" id="viewer-status" role="status">Загрузка 3D…</span></div>
+<output class="station-caption" id="station-caption"></output><span class="viewer-help">Вид сбоку · два пальца или колесо — масштаб · двойное касание — сброс</span><span class="viewer-status" id="viewer-status" role="status">Загрузка 3D…</span></div>
 <div hidden class="recognition" id="model-recognition" aria-label="Как узнать этот поезд"></div>
 <div class="reference-row"><a id="photo-reference" href="https://www.trenitalia.com/it/frecciarossa/la-flotta.html" target="_blank" rel="noopener noreferrer">Фото и характеристики ↗</a></div>
 <div class="model-note">3D-реконструкция · детали приближённые</div></div></div>
@@ -4614,8 +4614,8 @@ try {
     track = new T.Group();
   scene.add(assembly);
   assembly.add(model, track);
-  let yaw = -0.78,
-    pitch = 0.23,
+  let yaw = 0,
+    pitch = 0,
     distance = 60,
     fitDistance = 60,
     aim = new T.Vector3(),
@@ -7094,8 +7094,8 @@ try {
   }
   new ResizeObserver(resize).observe(host);
   resetCamera = () => {
-    yaw = -0.72;
-    pitch = 0.22;
+    yaw = 0;
+    pitch = 0;
     zoom = 100;
     fit();
     dirty = true;
@@ -7144,9 +7144,6 @@ try {
         d = Math.hypot(a.x - b.x, a.y - b.y);
       if (pinch > 0) zoomBy((zoom * d) / pinch);
       pinch = d;
-    } else {
-      yaw -= (e.clientX - lastX) * 0.006;
-      pitch = Math.max(-0.16, Math.min(1.45, pitch + (e.clientY - lastY) * 0.004));
     }
     lastX = e.clientX;
     lastY = e.clientY;
@@ -7195,14 +7192,10 @@ try {
   );
   canvas.addEventListener('keydown', (e) => {
     if (
-      !['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', '+', '=', '-', 'r', 'R'].includes(e.key)
+      !['+', '=', '-', 'r', 'R'].includes(e.key)
     )
       return;
     e.preventDefault();
-    if (e.key === 'ArrowLeft') yaw -= 0.12;
-    if (e.key === 'ArrowRight') yaw += 0.12;
-    if (e.key === 'ArrowUp') pitch = Math.min(1.45, pitch + 0.07);
-    if (e.key === 'ArrowDown') pitch = Math.max(-0.16, pitch - 0.07);
     if (e.key === 'r' || e.key === 'R') resetCamera();
     if (['+', '=', '-'].includes(e.key)) zoomBy(zoom + (e.key === '-' ? -10 : 10));
     dirty = true;
