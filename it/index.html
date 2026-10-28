@@ -2691,6 +2691,7 @@ document.documentElement.classList.add('js');
 <button role="tab" aria-selected="false" aria-controls="fleet-panel" id="tab-agv" data-model="agv" tabindex="-1">Italo AGV</button>
 <button role="tab" aria-selected="false" aria-controls="fleet-panel" id="tab-ic" data-model="ic" tabindex="-1">Intercity</button>
 <button role="tab" aria-selected="false" aria-controls="fleet-panel" id="tab-rock" data-model="rock" tabindex="-1">Regionale Rock</button>
+<button role="tab" aria-selected="false" aria-controls="fleet-panel" id="tab-jazz" data-model="jazz" tabindex="-1">Regionale Jazz</button>
 <button role="tab" aria-selected="false" aria-controls="fleet-panel" id="tab-fr500" data-model="fr500" tabindex="-1">ETR 500</button>
 </div>
 <div role="tabpanel" id="fleet-panel" aria-labelledby="tab-fr1000">
@@ -2816,6 +2817,26 @@ let noMotion = reduced.matches,
   resetCamera = null,
   wakeViewer = null;
 const fleet = {
+  jazz: {
+    title: 'Regionale Jazz',
+    code: 'TRENITALIA / ETR 425',
+    type: 'Elettrotreno a un piano · 5 carrozze',
+    speed: 160,
+    cars: '5',
+    carLabel: 'carrozze',
+    length: 'Circa 88 m',
+    levels: 'Treno regionale · dotazioni secondo il servizio',
+    routes: 'Servizi regionali Trenitalia; le dotazioni variano secondo il treno.',
+    eng: '<strong>Costruzione.</strong> Jazz ETR 425 è un elettrotreno a un piano della famiglia Coradia Meridian. Il modello mostra una versione con porte chiare.',
+    plan: [
+      ['2', 'biz'],
+      ['2', ''],
+      ['2', ''],
+      ['2', ''],
+      ['2', ''],
+    ],
+    legend: 'Composizione indicativa; le dotazioni variano secondo il treno.',
+  },
   silver: {
     'title': 'Frecciargento',
     'code': 'TRENITALIA / ETR 600',
@@ -4728,6 +4749,35 @@ try {
     return o;
   }
   const specs = {
+    jazz: {
+      width: 2.9,
+      height: 3.94,
+      head: 20.5,
+      coach: 16.0,
+      nose: 2.5,
+      color: '#b7bec1',
+      accent: '#a7c52b',
+      window: 2.65,
+      windowH: 0.76,
+      spacing: 1.8,
+      roof: '#727b80',
+      bodyBottom: 0.94,
+      round: 0.3,
+      cabShape: [0.42, 0.52, 0.9, 0.96],
+      capDepth: 0.16,
+      noseRound: 0.6,
+      chin: 0.94,
+      crown: 0.91,
+      rings: [
+        [0, 0.8, 0.9, 2.35],
+        [0.15, 0.95, 0.88, 2.95],
+        [0.5, 1, 0.92, 3.75],
+        [0.82, 1, 0.94, 3.94],
+        [1, 1, 0.94, 3.94],
+      ],
+      note: ['ETR 425 Jazz', 'Single deck', 'Five-car example'],
+      ref: 'https://commons.wikimedia.org/wiki/Category:ETR_425',
+    },
     silver: {
       'width': 2.83,
       'height': 4.1,
@@ -5342,6 +5392,10 @@ try {
         rect(0, 1.25, L, 0.3, '#29282d');
         rect(begin, 1.83, end - begin, 0.055, s.accent);
         rect(begin, 3.17, end - begin, 0.025, '#ce5358');
+      } else if (kind === 'jazz') {
+        rect(0, 1.42, L, 0.38, '#12486c');
+        rect(0, 2.65, L, 0.96, '#293a45');
+        rect(0, 1.85, L, 0.1, '#a7c52b');
       } else if (kind === 'rock') {
         rect(0, 1.35, L, 0.72, '#244b70');
         rect(0, 2.48, L, 0.64, '#1a3e60');
@@ -5367,8 +5421,9 @@ try {
         rect(x, y, w, h, gr, 3);
         rect(x + 0.04, y + h * 0.33, w - 0.08, 0.018, '#a9bfcc77');
       }
-      const doorW = kind === 'rock' ? 1.45 : 0.93,
-        doors = kind === 'rock' ? [begin + 1.0, end - 2.5] : [begin + 0.25, end - 1.2];
+      const doorW = kind === 'rock' || kind === 'jazz' ? 1.45 : 0.93,
+        doors =
+          kind === 'rock' || kind === 'jazz' ? [begin + 1.0, end - 2.5] : [begin + 0.25, end - 1.2];
       if (!loco) {
         const spacing = s.spacing;
         for (let x = begin + 2.0; x < end - 1.5; x += spacing) {
@@ -5392,15 +5447,17 @@ try {
       const text =
         kind === 'evo' || kind === 'agv'
           ? 'italo'
-          : kind === 'rock'
-            ? 'ROCK'
-            : kind === 'ic'
-              ? 'INTERCITY'
-              : kind === 'silver'
-                ? 'FRECCIARGENTO'
-                : kind === 'fr1000'
-                  ? 'FRECCIAROSSA 1000'
-                  : 'FRECCIAROSSA';
+          : kind === 'jazz'
+            ? 'jazz'
+            : kind === 'rock'
+              ? 'ROCK'
+              : kind === 'ic'
+                ? 'INTERCITY'
+                : kind === 'silver'
+                  ? 'FRECCIARGENTO'
+                  : kind === 'fr1000'
+                    ? 'FRECCIAROSSA 1000'
+                    : 'FRECCIAROSSA';
       const tx = ((begin + end) / 2) * sx,
         ty = row(kind === 'rock' ? 2.55 : kind === 'ic' ? 1.99 : kind === 'silver' ? 2.12 : 2.02);
       ctx.save();
@@ -5630,8 +5687,9 @@ try {
     if (loco) return;
     const begin = cab ? s.nose + 0.45 : 0.55,
       end = L - 0.6,
-      doorW = kind === 'rock' ? 1.45 : 0.93;
-    const doors = kind === 'rock' ? [begin + 1, end - 2.5] : [begin + 0.25, end - 1.2];
+      doorW = kind === 'rock' || kind === 'jazz' ? 1.45 : 0.93;
+    const doors =
+      kind === 'rock' || kind === 'jazz' ? [begin + 1, end - 2.5] : [begin + 0.25, end - 1.2];
     function pane(x, y, w, h, side) {
       const key = ['glazing', kind, s.width, s.height, s.bodyBottom, s.round, y, w, h].join('/');
       let geo = geometryCache.get(key);
@@ -5727,7 +5785,7 @@ try {
       ctx.fillText(
         italo
           ? 'ntv'
-          : kind === 'rock'
+          : kind === 'rock' || kind === 'jazz'
             ? 'TRENITALIA'
             : kind === 'ic'
               ? 'FS'
@@ -5776,6 +5834,7 @@ try {
       agv: [0.18, 0.225, 0.54],
       fr500: [0.12, 0.2, 0.58],
       rock: [0.08, 0.17, 0.51],
+      jazz: [0.08, 0.17, 0.51],
       ic: [0.003, 0.055, 0.65],
     }[kind];
     cabPanel(g, s, L, s.nose * cfg[0], s.nose * cfg[1], cfg[2], cfg[2], m, 0.04);
@@ -6348,6 +6407,7 @@ try {
       },
       fr500: { wind: [0.32, 0.69, 1.07, 0.98], lamp: [0.19, 0.94, 0.32] },
       rock: { wind: [0.27, 0.71, 0.94, 0.81], mask: [0.035, 0.88, 1.08, 0.87] },
+      jazz: { wind: [0.22, 0.76, 1.0, 0.9], mask: [0.1, 0.86, 1.05, 0.97] },
       ic: { wind: [0.1, 0.67, 1.17, 1.08] },
     }[kind];
     if (kind === 'rock')
@@ -6446,7 +6506,7 @@ try {
           ),
         );
       }
-    if (kind === 'rock' || kind === 'ic') {
+    if (kind === 'rock' || kind === 'ic' || kind === 'jazz') {
       // The front cap is an ellipsoid. Place lamp clusters directly on that cap.
       for (const side of [-1, 1])
         for (const delta of [-0.075, 0.075]) {
@@ -6512,11 +6572,12 @@ try {
     cabBadge(g, s, L, kind);
   }
   function passengerDoors(g, s, L, cab, kind, tail) {
-    const width = kind === 'rock' ? 1.45 : 0.93,
+    const width = kind === 'rock' || kind === 'jazz' ? 1.45 : 0.93,
       height = 2.01;
     const begin = cab ? s.nose + 0.45 : 0.55,
       end = L - 0.6;
-    const positions = kind === 'rock' ? [begin + 1.0, end - 2.5] : [begin + 0.25, end - 1.2];
+    const positions =
+      kind === 'rock' || kind === 'jazz' ? [begin + 1.0, end - 2.5] : [begin + 0.25, end - 1.2];
     const key = 'door-material/' + kind;
     let m = textureCache.get(key);
     if (!m) {
@@ -6524,7 +6585,7 @@ try {
       c.width = 128;
       c.height = 256;
       const ctx = c.getContext('2d');
-      ctx.fillStyle = kind === 'rock' ? '#e9b732' : s.color;
+      ctx.fillStyle = kind === 'rock' ? '#e9b732' : kind === 'jazz' ? '#a7c52b' : s.color;
       ctx.fillRect(0, 0, 128, 256);
       ctx.strokeStyle = '#303a42';
       ctx.lineWidth = 5;
@@ -6541,7 +6602,7 @@ try {
       ctx.fillRect(108, 139, 5, 21);
       ctx.fillStyle = '#b5bdba';
       ctx.fillRect(5, 244, 118, 4);
-      if (kind === 'rock') {
+      if (kind === 'rock' || kind === 'jazz') {
         ctx.fillStyle = '#665a3a';
         ctx.fillRect(62, 3, 3, 248);
       }
@@ -6550,7 +6611,7 @@ try {
       m = new T.MeshStandardMaterial({ map, metalness: 0.34, roughness: 0.34, side: T.DoubleSide });
       textureCache.set(key, m);
     }
-    const split = kind === 'rock' ? 2 : 1;
+    const split = kind === 'rock' || kind === 'jazz' ? 2 : 1;
     for (const side of [-1, 1])
       for (const d of positions)
         for (let leaf = 0; leaf < split; leaf++) {
@@ -6710,7 +6771,7 @@ try {
             ? index === 2 || index === 5
             : kind === 'evo' || kind === 'silver'
               ? index === 1 || index === 5
-              : kind === 'rock'
+              : kind === 'rock' || kind === 'jazz'
                 ? index === 1
                 : false;
       if (pantoCar) pantograph(g, lerp(roofStart, roofEnd, 0.46), s.height + 0.12);
@@ -6945,7 +7006,7 @@ try {
     model = new T.Group();
     assembly.add(model);
     const kind = visualKind,
-      number = { fr1000: 8, evo: 7, agv: 11, ic: 7, rock: 4, fr500: 13, silver: 7 }[kind];
+      number = { fr1000: 8, evo: 7, agv: 11, ic: 7, rock: 4, jazz: 5, fr500: 13, silver: 7 }[kind];
     const cars = [],
       lengths = [];
     let total = 0;
