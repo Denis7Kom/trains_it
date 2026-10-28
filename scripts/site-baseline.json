@@ -1,35 +1,35 @@
 {
   "index.html": {
-    "markup": "11b0f50ce74610cce08244aedbba61a72e74178d1f744c26a9d6cec3e8288d1d",
+    "markup": "a499604da1fcfc9e7ca886f514d24b6aebbfd7bb5b1bee974651e646883c08f5",
     "scripts": [
       "c4bdd4d2a97598fbcc5ff7aca4264d5f3afc9cee0ecd5431181df66a2b523ee8",
       "9ddfb4acff323274eefa89caf031b7c669688f4c6b053a251207656aaed1baf8",
-      "b1d0eb37c4e251cb31c581f4cff830a5b3e9309fd8922de2331520a5dd472c65"
+      "ba2640d96d1402853e6dd122a03f5603bd3c1fce744faf5dc669c3697cc467c3"
     ],
     "styles": [
-      "46c35f79ec0e97d7de2b0047b42735ef9ed01f47010ef61b20468dbebba1e5cb"
+      "8f635dfc5e941492c38d149d02c9b31bd557825c1cd3db62cdcdef3510ef4d49"
     ]
   },
   "en/index.html": {
-    "markup": "fce93c0ca0c2223ba17676ffbff197badc6308fca4ec6bcc98bb22bd947eb22c",
+    "markup": "f0d573697bb5e41fcb49e9568c56dea10bb2371c416ce1843712e6e71f19b482",
     "scripts": [
       "b1bcd1fabe0583a41c053390ad5856357bbc6cce8c9308e5aad001319b67e89a",
       "9ddfb4acff323274eefa89caf031b7c669688f4c6b053a251207656aaed1baf8",
-      "a35c984e04d8bee521bb0ab4ca018f81f2c7cb6b34d2fdd6cc1be4050749db60"
+      "d5637fbd1ebc24598bf4c3ad99c37fec090bb70fb6a5f7c5a8953db49f0006ad"
     ],
     "styles": [
-      "46c35f79ec0e97d7de2b0047b42735ef9ed01f47010ef61b20468dbebba1e5cb"
+      "8f635dfc5e941492c38d149d02c9b31bd557825c1cd3db62cdcdef3510ef4d49"
     ]
   },
   "it/index.html": {
-    "markup": "8b7d4166edc6eb089786dd298d5139d67f8f1f85c89bdb00e6d1bae47262b02e",
+    "markup": "e06d741bcb5324995bc8fd0f14973fc3bcf29cca8896b9966ce54ba95972f814",
     "scripts": [
       "58081b1f6d90e7f887cb595aa4e6cce857f87a1e4196c79192b738855deed11a",
       "9ddfb4acff323274eefa89caf031b7c669688f4c6b053a251207656aaed1baf8",
-      "7f281442330dd06cd2bf799c71251a5ffe507a150040f89456b38f3e40cc2678"
+      "904a9f13e4b22c719f7f07250ee07211cd257e3f07c825576fb18ba0d997bba9"
     ],
     "styles": [
-      "46c35f79ec0e97d7de2b0047b42735ef9ed01f47010ef61b20468dbebba1e5cb"
+      "8f635dfc5e941492c38d149d02c9b31bd557825c1cd3db62cdcdef3510ef4d49"
     ]
   }
 }
