@@ -387,10 +387,10 @@ header {
   position: relative;
   z-index: 1;
   touch-action: pan-y;
-  cursor: grab;
+  cursor: default;
 }
 .viewer-canvas:active {
-  cursor: grabbing;
+  cursor: default;
 }
 .viewer-label {
   position: absolute;
@@ -2684,7 +2684,7 @@ document.documentElement.classList.add('js');
 <div class="hero-top"><span class="mono">GUIDA ALLE FERROVIE ITALIANE / VOL. 01</span><span class="pill">Verificato · 23.10.2026</span></div>
 <div class="hero-intro"><h1>Tutta l’Italia.<br>Su <span>binari diversi.</span></h1><div class="hero-desc"><p>Dai 300 km/h tra le grandi città alla piccola stazione sul mare. Scopri le differenze tra i treni, scegli il tuo posto e viaggia senza brutte sorprese.</p><a class="button primary" href="#categories">Capisci le basi in 5 minuti <span class="arrow">↗</span></a></div></div>
 <div class="depot" id="depot">
-<div class="depot-tabs" role="tablist" aria-label="Scegli un modello 3D"><span class="mono">DEPOSITO / 360°</span>
+<div class="depot-tabs" role="tablist" aria-label="Scegli un modello 3D"><span class="mono">DEPOSITO / VISTA LATERALE</span>
 <button role="tab" aria-selected="true" aria-controls="fleet-panel" id="tab-fr1000" data-model="fr1000">Frecciarossa 1000</button>
 <button role="tab" aria-selected="false" aria-controls="fleet-panel" id="tab-fr500" data-model="fr500" tabindex="-1">ETR 500</button>
 <button role="tab" aria-selected="false" aria-controls="fleet-panel" id="tab-agv" data-model="agv" tabindex="-1">Italo AGV</button>
