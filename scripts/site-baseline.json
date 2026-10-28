@@ -1,7 +1,8 @@
 {
   "index.html": {
-    "markup": "a499604da1fcfc9e7ca886f514d24b6aebbfd7bb5b1bee974651e646883c08f5",
+    "markup": "10aa215ef4ea28e4db4fdacd5f4a0bdaa354f6374839fbc21daf167b3388d0b1",
     "scripts": [
+      "e78043db366feca32e6577bb1984c9f4be098d2ce959a43c30866ecd2a5418a0",
       "c4bdd4d2a97598fbcc5ff7aca4264d5f3afc9cee0ecd5431181df66a2b523ee8",
       "9ddfb4acff323274eefa89caf031b7c669688f4c6b053a251207656aaed1baf8",
       "a90715d43dab40949597b182db46155357491242abbc3902932b0f792b726a98"
@@ -11,8 +12,9 @@
     ]
   },
   "en/index.html": {
-    "markup": "f0d573697bb5e41fcb49e9568c56dea10bb2371c416ce1843712e6e71f19b482",
+    "markup": "ca255fb700956aa2cbc983309d38a0ce45a4a48734435cd909f5c51df94dc432",
     "scripts": [
+      "e78043db366feca32e6577bb1984c9f4be098d2ce959a43c30866ecd2a5418a0",
       "b1bcd1fabe0583a41c053390ad5856357bbc6cce8c9308e5aad001319b67e89a",
       "9ddfb4acff323274eefa89caf031b7c669688f4c6b053a251207656aaed1baf8",
       "824b95d7ebc3a5bdd9c0ee092a88be06eec50d4288749ddc27ec23462c350968"
@@ -22,8 +24,9 @@
     ]
   },
   "it/index.html": {
-    "markup": "e06d741bcb5324995bc8fd0f14973fc3bcf29cca8896b9966ce54ba95972f814",
+    "markup": "f67ec49341327eda0a8a9e4008ee864b2d3a01115080559f7b71d33558afbcd6",
     "scripts": [
+      "e78043db366feca32e6577bb1984c9f4be098d2ce959a43c30866ecd2a5418a0",
       "58081b1f6d90e7f887cb595aa4e6cce857f87a1e4196c79192b738855deed11a",
       "9ddfb4acff323274eefa89caf031b7c669688f4c6b053a251207656aaed1baf8",
       "2a2ede35501eb2983effbf1b3a4819a135ebfe238bcf6fe1568fb600f92818df"
