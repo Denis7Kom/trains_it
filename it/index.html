@@ -5402,9 +5402,17 @@ try {
         rect(0, 3.45, L, 0.72, '#263b4f');
         rect(0, 1.95, L, 0.16, s.accent);
       } else if (kind === 'ic') {
-        rect(0, 2.75, L, 1.0, '#353f4b');
-        rect(0, 1.38, L, 0.3, '#286578');
-        rect(0, 1.7, L, 0.12, '#55a0a4');
+        if (loco) {
+          // E.401 in the blue and white Intercity livery.
+          rect(0, 2.57, L, 1.42, '#536e7d');
+          rect(0, 1.48, L, 0.38, '#34596f');
+          rect(0, 1.83, L, 0.1, '#8cc2cf');
+          rect(0, 3.65, L, 0.13, '#d9dfe0');
+        } else {
+          rect(0, 2.75, L, 1.0, '#353f4b');
+          rect(0, 1.38, L, 0.3, '#286578');
+          rect(0, 1.7, L, 0.12, '#55a0a4');
+        }
       } else if (kind === 'fr500') {
         rect(0, 1.32, L, 0.56, '#b11c31');
         rect(0, 1.72, L, 0.065, '#fcfcf8');
@@ -5439,8 +5447,9 @@ try {
           rect(x + 0.17, 1.35, doorW - 0.26, 0.18, '#8b8271');
         }
       } else {
-        for (let x = begin + 0.8; x < L - 1.8; x += 0.22)
-          rect(x, 2.77, 0.08, kind === 'ic' ? 1.12 : 0.85, '#3b3b42');
+        if (kind !== 'ic')
+          for (let x = begin + 0.8; x < L - 1.8; x += 0.22)
+            rect(x, 2.77, 0.08, 0.85, '#3b3b42');
         if (cab) pane(s.nose + 0.15, 3.04, 1.0, 0.63);
         rect(L - 1.45, 2.1, 0.8, 1.85, s.color);
       }
@@ -5540,8 +5549,17 @@ try {
     }
     for (const dx of [-0.93, 0.93]) cylinder(g, x + dx, 0.46, 0, 0.1, 1.55, metal);
   }
-  function pantograph(g, x, y) {
+  function pantograph(g, x, y, folded = false) {
     box(g, x, y + 0.08, 0, 1.6, 0.16, 1.0, darkMetal);
+    if (folded) {
+      const arm = material('#923b35', 0.52, 0.42);
+      for (const z of [-0.37, 0.37]) {
+        rod(g, [x - 0.65, y + 0.22, z], [x + 0.55, y + 0.4, z], 0.03, arm);
+        rod(g, [x + 0.55, y + 0.4, z], [x - 0.35, y + 0.51, z], 0.025, arm);
+      }
+      box(g, x - 0.35, y + 0.53, 0, 0.2, 0.045, 1.85, darkMetal);
+      return;
+    }
     for (const z of [-0.37, 0.37]) {
       const i = mesh(
         g,
@@ -6762,7 +6780,7 @@ try {
     if (loco) {
       equipmentBox(g, 0.8, s.height + 0.04, 0, L * 0.56, 0.14, 1.65, metal);
       pantograph(g, L * 0.23, s.height + 0.12);
-      if (kind === 'ic' || kind === 'fr500') pantograph(g, -L * 0.12, s.height + 0.12);
+      if (kind === 'ic' || kind === 'fr500') pantograph(g, -L * 0.12, s.height + 0.12, kind === 'ic');
       rod(
         g,
         [-L * 0.12, s.height + 0.32, 0.25],
@@ -6827,10 +6845,25 @@ try {
         box(g, d - L / 2 + 0.1, 1.28, side * (s.width / 2 + 0.017), 0.11, 0.026, 0.018, rim);
       }
       if (loco) {
-        for (let d = begin + 1; d < end - 1.6; d += 1.65) {
-          box(g, d - L / 2, 2.78, z, 1.28, 0.84, 0.035, darkMetal);
-          for (let y = 2.45; y < 3.16; y += 0.09)
-            box(g, d - L / 2, y, side * (s.width / 2 + 0.01), 1.22, 0.024, 0.018, rim);
+        if (kind === 'ic') {
+          // Separate ventilation panels and cab service door on E.401.
+          const grilleFrame = material('#424f57', 0.38, 0.62);
+          for (const d of [4.3, 6.0, 9.1, 10.8, 13.8, 15.5]) {
+            box(g, d - L / 2, 2.82, side * (s.width / 2 + 0.012), 1.28, 0.82, 0.025, grilleFrame);
+            for (let y = 2.48; y <= 3.16; y += 0.085)
+              box(g, d - L / 2, y, side * (s.width / 2 + 0.03), 1.16, 0.025, 0.016, darkMetal);
+          }
+          const doorX = -L / 2 + 2.35;
+          box(g, doorX, 2.11, side * (s.width / 2 + 0.015), 0.82, 1.95, 0.025, grilleFrame);
+          box(g, doorX, 2.12, side * (s.width / 2 + 0.032), 0.75, 1.87, 0.018, material('#ced8dc', 0.35, 0.4));
+          box(g, doorX, 2.72, side * (s.width / 2 + 0.048), 0.48, 0.5, 0.015, glass);
+          box(g, doorX + 0.25, 1.93, side * (s.width / 2 + 0.052), 0.05, 0.14, 0.025, darkMetal);
+        } else {
+          for (let d = begin + 1; d < end - 1.6; d += 1.65) {
+            box(g, d - L / 2, 2.78, z, 1.28, 0.84, 0.035, darkMetal);
+            for (let y = 2.45; y < 3.16; y += 0.09)
+              box(g, d - L / 2, y, side * (s.width / 2 + 0.01), 1.22, 0.024, 0.018, rim);
+          }
         }
         for (let y = 1.05; y < 1.9; y += 0.23)
           box(g, L / 2 - 1.05, y, side * (s.width / 2 + 0.06), 0.64, 0.035, 0.16, metal);
