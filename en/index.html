@@ -2818,13 +2818,24 @@ let noMotion = reduced.matches,
   wakeViewer = null;
 const fleet = {
   jazz: {
-    title: 'Regionale Jazz', code: 'TRENITALIA / ETR 425',
-    type: "Single-deck electric train · 5 cars", speed: 160, cars: '5',
-    carLabel: "cars", length: "Approx. 88 m",
-    levels: "Regional train · check the service", routes: "Trenitalia regional services; facilities vary by train.",
-    eng: "<strong>Design.</strong> Jazz ETR 425 is a single-deck Coradia Meridian electric train. This model shows a version with bright doors.",
-    plan: [['2', 'biz'], ['2', ''], ['2', ''], ['2', ''], ['2', '']],
-    legend: "Illustrative formation; facilities vary by train.",
+    title: 'Regionale Jazz',
+    code: 'TRENITALIA / ETR 425',
+    type: 'Single-deck electric train · 5 cars',
+    speed: 160,
+    cars: '5',
+    carLabel: 'cars',
+    length: 'Approx. 88 m',
+    levels: 'Regional train · check the service',
+    routes: 'Trenitalia regional services; facilities vary by train.',
+    eng: '<strong>Design.</strong> Jazz ETR 425 is a single-deck Coradia Meridian electric train. This model shows a version with bright doors.',
+    plan: [
+      ['2', 'biz'],
+      ['2', ''],
+      ['2', ''],
+      ['2', ''],
+      ['2', ''],
+    ],
+    legend: 'Illustrative formation; facilities vary by train.',
   },
   silver: {
     'title': 'Frecciargento',
@@ -4734,13 +4745,31 @@ try {
   }
   const specs = {
     jazz: {
-      width: 2.9, height: 3.94, head: 20.5, coach: 16.0, nose: 2.5,
-      color: '#b7bec1', accent: '#a7c52b', window: 2.65, windowH: 0.76,
-      spacing: 1.8, roof: '#727b80', bodyBottom: 0.94, round: 0.3,
-      cabShape: [0.42, 0.52, 0.9, 0.96], capDepth: 0.16,
-      noseRound: 0.6, chin: 0.94, crown: 0.91,
-      rings: [[0, 0.8, 0.9, 2.35], [0.15, 0.95, 0.88, 2.95],
-        [0.5, 1, 0.92, 3.75], [0.82, 1, 0.94, 3.94], [1, 1, 0.94, 3.94]],
+      width: 2.9,
+      height: 3.94,
+      head: 20.5,
+      coach: 16.0,
+      nose: 2.5,
+      color: '#b7bec1',
+      accent: '#a7c52b',
+      window: 2.65,
+      windowH: 0.76,
+      spacing: 1.8,
+      roof: '#727b80',
+      bodyBottom: 0.94,
+      round: 0.3,
+      cabShape: [0.42, 0.52, 0.9, 0.96],
+      capDepth: 0.16,
+      noseRound: 0.6,
+      chin: 0.94,
+      crown: 0.91,
+      rings: [
+        [0, 0.8, 0.9, 2.35],
+        [0.15, 0.95, 0.88, 2.95],
+        [0.5, 1, 0.92, 3.75],
+        [0.82, 1, 0.94, 3.94],
+        [1, 1, 0.94, 3.94],
+      ],
       note: ['ETR 425 Jazz', 'Single deck', 'Five-car example'],
       ref: 'https://commons.wikimedia.org/wiki/Category:ETR_425',
     },
@@ -5353,7 +5382,7 @@ try {
       } else if (kind === 'jazz') {
         rect(0, 1.42, L, 0.38, '#12486c');
         rect(0, 2.65, L, 0.96, '#293a45');
-        rect(0, 1.85, L, 0.10, '#a7c52b');
+        rect(0, 1.85, L, 0.1, '#a7c52b');
       } else if (kind === 'rock') {
         rect(0, 1.35, L, 0.72, '#244b70');
         rect(0, 2.48, L, 0.64, '#1a3e60');
@@ -5380,7 +5409,8 @@ try {
         rect(x + 0.04, y + h * 0.33, w - 0.08, 0.018, '#a9bfcc77');
       }
       const doorW = kind === 'rock' || kind === 'jazz' ? 1.45 : 0.93,
-        doors = kind === 'rock' || kind === 'jazz' ? [begin + 1.0, end - 2.5] : [begin + 0.25, end - 1.2];
+        doors =
+          kind === 'rock' || kind === 'jazz' ? [begin + 1.0, end - 2.5] : [begin + 0.25, end - 1.2];
       if (!loco) {
         const spacing = s.spacing;
         for (let x = begin + 2.0; x < end - 1.5; x += spacing) {
@@ -5406,15 +5436,15 @@ try {
           ? 'italo'
           : kind === 'jazz'
             ? 'jazz'
-          : kind === 'rock'
-            ? 'ROCK'
-            : kind === 'ic'
-              ? 'INTERCITY'
-              : kind === 'silver'
-                ? 'FRECCIARGENTO'
-                : kind === 'fr1000'
-                  ? 'FRECCIAROSSA 1000'
-                  : 'FRECCIAROSSA';
+            : kind === 'rock'
+              ? 'ROCK'
+              : kind === 'ic'
+                ? 'INTERCITY'
+                : kind === 'silver'
+                  ? 'FRECCIARGENTO'
+                  : kind === 'fr1000'
+                    ? 'FRECCIAROSSA 1000'
+                    : 'FRECCIAROSSA';
       const tx = ((begin + end) / 2) * sx,
         ty = row(kind === 'rock' ? 2.55 : kind === 'ic' ? 1.99 : kind === 'silver' ? 2.12 : 2.02);
       ctx.save();
@@ -5645,7 +5675,8 @@ try {
     const begin = cab ? s.nose + 0.45 : 0.55,
       end = L - 0.6,
       doorW = kind === 'rock' || kind === 'jazz' ? 1.45 : 0.93;
-    const doors = kind === 'rock' || kind === 'jazz' ? [begin + 1, end - 2.5] : [begin + 0.25, end - 1.2];
+    const doors =
+      kind === 'rock' || kind === 'jazz' ? [begin + 1, end - 2.5] : [begin + 0.25, end - 1.2];
     function pane(x, y, w, h, side) {
       const key = ['glazing', kind, s.width, s.height, s.bodyBottom, s.round, y, w, h].join('/');
       let geo = geometryCache.get(key);
@@ -6532,7 +6563,8 @@ try {
       height = 2.01;
     const begin = cab ? s.nose + 0.45 : 0.55,
       end = L - 0.6;
-    const positions = kind === 'rock' || kind === 'jazz' ? [begin + 1.0, end - 2.5] : [begin + 0.25, end - 1.2];
+    const positions =
+      kind === 'rock' || kind === 'jazz' ? [begin + 1.0, end - 2.5] : [begin + 0.25, end - 1.2];
     const key = 'door-material/' + kind;
     let m = textureCache.get(key);
     if (!m) {
