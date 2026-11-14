@@ -64,11 +64,6 @@ export async function formatPage(source, options) {
 }
 
 export async function fingerprint(source, options) {
-  // The release badge is maintained independently of the application baseline.
-  source = source.replace(
-    /<script type="module" src="(?:\.\/|\.\.\/)version-badge\.js"><\/script>(?=<\/body>)/,
-    '',
-  );
   const scripts = [];
   const styles = [];
   let shell = '';

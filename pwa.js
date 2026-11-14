@@ -1,3 +1,5 @@
+void import(new URL('version-badge.js', document.currentScript.src).href);
+
 (() => {
   if (!('serviceWorker' in navigator)) return;
   const script = document.currentScript;
