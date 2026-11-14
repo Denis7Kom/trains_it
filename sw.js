@@ -1,4 +1,4 @@
-const CACHE = 'binario-pwa-0.3.1-beta';
+const CACHE = 'binario-pwa-0.3.2-beta';
 const scopeUrl = new URL(self.registration.scope);
 const core = ['./', './index.html', './en/', './it/', './manifest.webmanifest',
   './pwa.js', './version-badge.js', './icons/icon-192.png', './icons/icon-512.png'];
