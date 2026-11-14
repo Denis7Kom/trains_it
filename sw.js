@@ -1,7 +1,7 @@
-const CACHE = 'binario-pwa-v1';
+const CACHE = 'binario-pwa-0.3.0-beta';
 const scopeUrl = new URL(self.registration.scope);
 const core = ['./', './index.html', './en/', './it/', './manifest.webmanifest',
-  './pwa.js', './icons/icon-192.png', './icons/icon-512.png'];
+  './pwa.js', './version-badge.js', './icons/icon-192.png', './icons/icon-512.png'];
 const optional = [
   'https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js',
   'https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.core.js',
